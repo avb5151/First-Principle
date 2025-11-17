@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | First Principle Asset Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">First Principle</a>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TEAM SECTION -->
+        <section class="team-section-new">
+            <div class="container">
+                <h2 class="section-title fade-on-scroll">Leadership Team</h2>
+                <div class="team-grid-new">
+                    <div class="team-panel-clickable fade-on-scroll" data-bio="habitz">
+                        <div class="avatar-new"></div>
+                        <h3 class="team-name">Christian Habitz</h3>
+                        <p class="team-role-new">Managing Partner</p>
+                    </div>
+                    <div class="team-panel-clickable fade-on-scroll delay-1" data-bio="bower">
+                        <div class="avatar-new"></div>
+                        <h3 class="team-name">Robert Bower</h3>
+                        <p class="team-role-new">Head of Portfolio Construction</p>
+                    </div>
+                    <div class="team-panel-clickable fade-on-scroll delay-2" data-bio="mckenna">
+                        <div class="avatar-new"></div>
+                        <h3 class="team-name">Colleen McKenna</h3>
+                        <p class="team-role-new">Director of Operations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="about-section-new">
+            <div class="container">
+                <div class="about-content-new">
+                    <div class="about-text-new fade-on-scroll">
+                        <h2 class="about-title">Born from Institutional Expertise</h2>
+                        <p class="about-paragraph-white">First Principle Asset Management was created by The Invictus Collective, one of the world's most exclusive multi-family offices serving ultra-high-net-worth families. We extend that same structured-product discipline, research-driven methodology, and institutional execution to the broader advisory market through a scalable SMA platform.</p>
+                        <p class="about-paragraph-white">Invictus serves UHNW families exclusively. First Principle is designed solely for advisors, eliminating channel conflict and aligning incentives around stable, long-term, research-driven outcomes. Our approach reflects the analytical rigor and institutional investment committee standards that define multi-family office structured product implementation.</p>
+                    </div>
+                    <div class="infrastructure-panel fade-on-scroll delay-1">
+                        <h3 class="infrastructure-title">Institutional Infrastructure</h3>
+                        <ul class="infrastructure-list">
+                            <li class="infrastructure-item">
+                                <div class="infrastructure-item-header">
+                                    <span>Compliance & Oversight</span>
+                                    <span class="dropdown-caret">▼</span>
+                                </div>
+                                <div class="infrastructure-dropdown">TBU</div>
+                            </li>
+                            <li class="infrastructure-item">
+                                <div class="infrastructure-item-header">
+                                    <span>Legal Counsel</span>
+                                    <span class="dropdown-caret">▼</span>
+                                </div>
+                                <div class="infrastructure-dropdown">TBU</div>
+                            </li>
+                            <li class="infrastructure-item">
+                                <div class="infrastructure-item-header">
+                                    <span>Accounting & Tax</span>
+                                    <span class="dropdown-caret">▼</span>
+                                </div>
+                                <div class="infrastructure-dropdown">TBU</div>
+                            </li>
+                            <li class="infrastructure-item">
+                                <div class="infrastructure-item-header">
+                                    <span>Insurance & Risk Management</span>
+                                    <span class="dropdown-caret">▼</span>
+                                </div>
+                                <div class="infrastructure-dropdown">TBU</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BIO MODAL -->
+    <div id="bioModal" class="bio-modal">
+        <div class="bio-modal-overlay"></div>
+        <div class="bio-modal-content">
+            <button class="bio-modal-close" aria-label="Close modal">&times;</button>
+            <div class="bio-modal-header">
+                <h2 class="bio-modal-name" id="modalName"></h2>
+                <p class="bio-modal-role" id="modalRole"></p>
+            </div>
+            <div class="bio-modal-body">
+                <p class="bio-modal-text" id="modalBio"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+        </div>
+    </footer>
+
+    <script>
+        // Team bios data
+        const teamBios = {
+            habitz: {
+                name: 'Christian Habitz',
+                role: 'Managing Partner',
+                bio: 'With over two decades of institutional investment experience, Christian Habitz leads First Principle\'s strategic direction and structured products research. His background includes senior investment committee roles at leading multi-family offices and deep expertise in options theory and structured solutions. Christian\'s research-driven approach to portfolio construction reflects the analytical rigor of institutional investment management.'
+            },
+            bower: {
+                name: 'Robert Bower',
+                role: 'Head of Portfolio Construction',
+                bio: 'Robert Bower brings extensive structured products expertise and institutional investment discipline to First Principle\'s portfolio construction process. With a background in quantitative finance and options-based strategies, he has spent over fifteen years developing and implementing structured solutions for institutional clients. His work emphasizes rigorous risk modeling, precise downside protection frameworks, and the systematic application of options theory to portfolio design.'
+            },
+            mckenna: {
+                name: 'Colleen McKenna',
+                role: 'Director of Operations',
+                bio: 'Colleen McKenna oversees First Principle\'s operational infrastructure and execution framework, ensuring institutional-grade standards across all aspects of the platform. With multi-decade experience in investment operations and compliance at leading institutional firms, she has built operational systems that support scalable, policy-driven implementation of structured products. Her work maintains the precision and oversight required for institutional investment management.'
+            }
+        };
+
+        // Modal elements
+        const modal = document.getElementById('bioModal');
+        const modalName = document.getElementById('modalName');
+        const modalRole = document.getElementById('modalRole');
+        const modalBio = document.getElementById('modalBio');
+        const modalClose = document.querySelector('.bio-modal-close');
+        const modalOverlay = document.querySelector('.bio-modal-overlay');
+
+        // Open modal
+        function openModal(bioKey) {
+            const bio = teamBios[bioKey];
+            modalName.textContent = bio.name;
+            modalRole.textContent = bio.role;
+            modalBio.textContent = bio.bio;
+            modal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        document.querySelectorAll('.team-panel-clickable').forEach(panel => {
+            panel.addEventListener('click', () => {
+                const bioKey = panel.getAttribute('data-bio');
+                openModal(bioKey);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Infrastructure dropdown functionality
+        document.querySelectorAll('.infrastructure-item-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.closest('.infrastructure-item');
+                item.classList.toggle('is-open');
+            });
+        });
+    </script>
+</body>
+</html>

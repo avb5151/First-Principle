@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | First Principle Asset Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">First Principle</a>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- RESOURCES SECTION -->
+        <section class="resources-section-new">
+            <div class="container">
+                <h2 class="section-title fade-on-scroll">Resources for Advisors</h2>
+                <p class="resources-subtitle fade-on-scroll delay-1">Analytical frameworks and implementation guidance for structured SMA solutions. Our resources provide the technical depth and institutional perspective required to understand and deploy structured products within an advisory practice.</p>
+                <div class="whitepapers-grid">
+                    <div class="whitepaper-card fade-on-scroll">
+                        <h3 class="whitepaper-title">Structured Products 101</h3>
+                        <p class="whitepaper-description">A comprehensive introduction to structured products, covering fundamental concepts, building blocks, and institutional implementation frameworks. Essential reading for advisors evaluating structured solutions.</p>
+                        <a href="#" class="whitepaper-link">Download PDF</a>
+                    </div>
+                    <div class="whitepaper-card fade-on-scroll delay-1">
+                        <h3 class="whitepaper-title">The Role of Bespoke ETFs</h3>
+                        <p class="whitepaper-description">An analysis of how bespoke exchange-traded funds integrate with structured product strategies, providing scalable access and operational efficiency for advisory practices.</p>
+                        <a href="#" class="whitepaper-link">Download PDF</a>
+                    </div>
+                    <div class="whitepaper-card fade-on-scroll delay-2">
+                        <h3 class="whitepaper-title">Partnering with First Principle</h3>
+                        <p class="whitepaper-description">A guide to integrating First Principle's structured solutions into your advisory practice, covering implementation workflows, compliance considerations, and best practices for client communication.</p>
+                        <a href="#" class="whitepaper-link">Download PDF</a>
+                    </div>
+                    <div class="whitepaper-card fade-on-scroll delay-3">
+                        <h3 class="whitepaper-title">Volatility in the Modern Economy</h3>
+                        <p class="whitepaper-description">An examination of volatility dynamics and how structured products can be used to manage portfolio risk, enhance returns, and provide downside protection in uncertain market environments.</p>
+                        <a href="#" class="whitepaper-link">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

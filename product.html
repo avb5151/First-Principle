@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structured Solutions | First Principle Asset Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">First Principle</a>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- INTRO SECTION -->
+        <section class="product-101-intro">
+            <div class="container">
+                <div class="intro-101-content-new">
+                    <h1 class="intro-title-new">Structured Products 101</h1>
+                    <p class="intro-text-new">Structured products are <span class="text-emphasis">hybrid investment instruments</span> that combine fixed income securities with derivatives to create customizable payoff profiles. These instruments are designed to provide <span class="text-emphasis">downside protection, yield enhancement, or targeted exposures</span> to underlying assets while maintaining institutional-grade risk management. <span class="text-emphasis">First Principle implements structured products through SMA-based platforms</span>, enabling advisors to access these sophisticated strategies within a policy-driven, scalable framework.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- KEY BUILDING BLOCKS -->
+        <section class="building-blocks-section scroll-gated">
+            <div class="container">
+                <div class="section-header-with-icon">
+                    <div class="section-icon icon-building-blocks"></div>
+                    <h2 class="section-title-101 fade-on-scroll">Key Building Blocks</h2>
+                </div>
+                <div class="building-blocks-grid">
+                    <div class="block-card fade-on-scroll">
+                        <h3 class="block-title">Underlying Assets</h3>
+                        <p class="block-text">The reference assets that determine the structured product's performance, which may include equities, indices, commodities, or fixed income instruments. The selection of underlying assets defines the risk-return profile and exposure characteristics.</p>
+                    </div>
+                    <div class="block-card fade-on-scroll delay-1">
+                        <h3 class="block-title">Protection / Barriers</h3>
+                        <p class="block-text">Downside protection mechanisms that limit capital exposure through barrier levels or principal protection features. These structures are engineered to provide controlled risk parameters while maintaining participation in upside performance.</p>
+                    </div>
+                    <div class="block-card fade-on-scroll delay-2">
+                        <h3 class="block-title">Coupons / Income</h3>
+                        <p class="block-text">Periodic income payments or coupon structures that provide yield enhancement relative to traditional fixed income. These payments are typically linked to the performance of underlying assets and may be conditional on barrier levels.</p>
+                    </div>
+                    <div class="block-card fade-on-scroll delay-3">
+                        <h3 class="block-title">Maturity & Liquidity</h3>
+                        <p class="block-text">The term structure and liquidity provisions that define the investment horizon and exit options. First Principle's SMA platform provides continuous access and policy-driven implementation, eliminating calendar-based issuance constraints.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USE CASES -->
+        <section class="use-cases-section">
+            <div class="container">
+                <div class="section-header-with-icon">
+                    <div class="section-icon icon-use-cases"></div>
+                    <h2 class="section-title-101 fade-on-scroll">Use Cases for Advisors</h2>
+                </div>
+                <div class="use-cases-grid">
+                    <div class="use-case-card fade-on-scroll">
+                        <h3 class="use-case-title">Capital Preservation</h3>
+                        <p class="use-case-text">Structured products can be designed to protect principal while providing participation in market upside, making them suitable for clients seeking downside protection with growth potential.</p>
+                    </div>
+                    <div class="use-case-card fade-on-scroll delay-1">
+                        <h3 class="use-case-title">Yield Enhancement</h3>
+                        <p class="use-case-text">Through structured coupon payments and income generation, these instruments can provide enhanced yield relative to traditional fixed income, particularly in low-rate environments.</p>
+                    </div>
+                    <div class="use-case-card fade-on-scroll delay-2">
+                        <h3 class="use-case-title">Volatility Management</h3>
+                        <p class="use-case-text">Structured products offer systematic approaches to managing portfolio volatility through defined risk parameters and engineered exposure profiles that align with client risk tolerance.</p>
+                    </div>
+                    <div class="use-case-card fade-on-scroll delay-3">
+                        <h3 class="use-case-title">Portfolio Diversification</h3>
+                        <p class="use-case-text">By providing exposure to alternative risk-return profiles and non-correlated payoffs, structured products can enhance portfolio diversification and risk-adjusted returns.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll gating for Building Blocks section
+        const buildingBlocksSection = document.querySelector('.building-blocks-section.scroll-gated');
+        const introSection = document.querySelector('.product-101-intro');
+        
+        function checkScrollGate() {
+            if (!buildingBlocksSection || !introSection) return;
+            
+            const introBottom = introSection.offsetTop + introSection.offsetHeight;
+            const scrollPosition = window.scrollY + window.innerHeight;
+            
+            // Show Building Blocks only after scrolling past most of the intro section
+            if (scrollPosition > introBottom - 200) {
+                buildingBlocksSection.classList.add('is-visible');
+            }
+        }
+        
+        // Check on scroll and initial load
+        window.addEventListener('scroll', checkScrollGate);
+        window.addEventListener('resize', checkScrollGate);
+        checkScrollGate();
+        
+        // Fade-on-scroll observer for other elements
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

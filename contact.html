@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | First Principle Asset Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">First Principle</a>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- CONTACT SECTION -->
+        <section class="contact-section-new">
+            <div class="container">
+                <div class="contact-content-new">
+                    <div class="contact-text-new fade-on-scroll">
+                        <h2 class="contact-title">Partner With First Principle</h2>
+                        <p class="contact-subtitle">We collaborate with advisors who value institutional-grade structured solutions. Share a few details and our team will follow up.</p>
+                    </div>
+                    <div class="contact-form-panel fade-on-scroll delay-1">
+                        <form class="contact-form-new">
+                            <div class="form-group-new">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group-new">
+                                <label for="firm">Firm</label>
+                                <input type="text" id="firm" name="firm" required>
+                            </div>
+                            <div class="form-group-new">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group-new">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-contact">Submit Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
