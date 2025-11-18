@@ -3,8 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structured Solutions | First Principle Asset Management</title>
+    <title>Strategy | First Principle Asset Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .strategy-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .strategy-card {
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .strategy-card.strategy-flagship {
+            background: linear-gradient(135deg, rgba(200, 166, 120, 0.2) 0%, rgba(200, 166, 120, 0.1) 100%);
+            border: 2px solid #C8A678;
+            box-shadow: 0 5px 20px rgba(200, 166, 120, 0.3);
+        }
+
+        .strategy-card.strategy-flagship:hover {
+            box-shadow: 0 15px 40px rgba(200, 166, 120, 0.4);
+            background: linear-gradient(135deg, rgba(200, 166, 120, 0.25) 0%, rgba(200, 166, 120, 0.15) 100%);
+        }
+
+        .flagship-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #C8A678;
+            color: #1E2A39;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .strategy-name {
+            color: #F8F9FA;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .strategy-card.strategy-flagship .strategy-name {
+            color: #C8A678;
+        }
+
+        .strategy-tagline {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .strategy-body {
+            color: #E0E0E0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .strategy-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .strategy-bullets li {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .strategy-bullets li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #C8A678;
+            font-weight: bold;
+        }
+
+        .strategy-toggle {
+            background: transparent;
+            border: 1px solid #C8A678;
+            color: #C8A678;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .strategy-toggle:hover {
+            background-color: #C8A678;
+            color: #1E2A39;
+        }
+
+        .strategy-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .strategy-details.is-open {
+            max-height: 500px;
+        }
+
+        .strategy-details p {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .regime-matrix {
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+        .regime-matrix table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .regime-matrix thead {
+            background-color: #1A2532;
+        }
+
+        .regime-matrix th {
+            color: #F8F9FA;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #C8A678;
+        }
+
+        .regime-matrix td {
+            padding: 1rem 1.5rem;
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-bottom: 1px solid #E8E8E8;
+        }
+
+        .regime-matrix tbody tr:hover {
+            background-color: #F8F9FA;
+        }
+
+        .regime-matrix tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 968px) {
+            .strategy-strip {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- HEADER / NAV -->
@@ -13,7 +201,7 @@
             <a href="index.html" class="logo">First Principle</a>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
-                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="product.html">Strategy</a></li>
                 <li><a href="simulator.html">Portfolio Simulator</a></li>
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -24,66 +212,249 @@
 
     <main>
         <!-- INTRO SECTION -->
-        <section class="product-101-intro">
+        <section class="section" style="padding-top: 4rem; padding-bottom: 2rem;">
             <div class="container">
-                <div class="intro-101-content-new">
-                    <h1 class="intro-title-new">Structured Products 101</h1>
-                    <p class="intro-text-new">Structured products are <span class="text-emphasis">hybrid investment instruments</span> that combine fixed income securities with derivatives to create customizable payoff profiles. These instruments are designed to provide <span class="text-emphasis">downside protection, yield enhancement, or targeted exposures</span> to underlying assets while maintaining institutional-grade risk management. <span class="text-emphasis">First Principle implements structured products through SMA-based platforms</span>, enabling advisors to access these sophisticated strategies within a policy-driven, scalable framework.</p>
+                <h1 style="font-size: 2.5rem; color: #1E2A39; margin-bottom: 1.5rem; font-weight: 400; text-align: left;">A Research-Driven Framework for Structured Products</h1>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #666; max-width: 900px; margin-bottom: 0;">
+                    First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income.
+                </p>
+            </div>
+        </section>
+
+        <!-- CORE PORTFOLIO STRATEGIES -->
+        <section id="core-strategies" class="section dark-bg">
+            <div class="container">
+                <h2 class="section-header">Core Portfolio Strategies: A Spectrum of Risk</h2>
+                <p class="section-subheader">
+                    Each strategy is a diversified portfolio of structured notes implemented as a sleeve or AMC. Together, they create a spectrum from income and capital preservation to higher-growth, higher-risk exposures. All targets are illustrative and not guaranteed.
+                </p>
+
+                <div class="strategy-strip">
+                    <!-- The Tortoise -->
+                    <article class="strategy-card">
+                        <h3 class="strategy-name">The Tortoise</h3>
+                        <p class="strategy-tagline">Income &amp; capital preservation</p>
+                        <p class="strategy-body">
+                            A conservative sleeve of high-buffer income notes on broad equity indices and diversified baskets. The Tortoise is designed for clients who prioritize principal stability and recurring cash flow.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li>Illustrative objective: 5–7% annualized cash yield from coupons.</li>
+                            <li>Typical structures: buffered income notes with 30–40% downside protection levels.</li>
+                            <li>Intended fit: complement to core fixed income and defensive equity allocations.</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Tortoise primarily uses short- to intermediate-term notes on diversified indices, laddered across issuers and maturities. Barriers are calibrated to withstand routine equity drawdowns, with issuer diversification and size limits designed to keep the sleeve aligned with capital-preservation objectives.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Albert Einstein Genius Fund -->
+                    <article class="strategy-card strategy-flagship">
+                        <div class="flagship-badge">Flagship</div>
+                        <h3 class="strategy-name">The Albert Einstein Genius Fund</h3>
+                        <p class="strategy-tagline">Flagship balanced structured portfolio</p>
+                        <p class="strategy-body">
+                            Our flagship program blends income, growth, and defensive structures into a single, rules-based sleeve. It is designed to replace a portion of traditional equity exposure while targeting improved risk-adjusted returns over a full cycle.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li>Illustrative objective: 7–9% long-term annualized return profile.</li>
+                            <li>Typical structures: mix of buffered income, enhanced participation, and range-bound notes.</li>
+                            <li>Intended fit: replacement for part of core equity allocation in balanced portfolios.</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Albert Einstein Genius Fund combines diversified underlyings, staggered maturities, and multiple payoff types. Portfolios are constructed with 40–50% downside protection levels on broad indices at maturity, while using volatility premia and conditional upside to pursue equity-like returns with more defined downside frameworks.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- The Hare -->
+                    <article class="strategy-card">
+                        <h3 class="strategy-name">The Hare</h3>
+                        <p class="strategy-tagline">Growth with defined risk</p>
+                        <p class="strategy-body">
+                            A higher-octane sleeve for clients willing to accept greater market sensitivity and lower protection in exchange for higher upside potential. The Hare uses growth-oriented notes with conditional protection and accelerated coupons.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li>Illustrative objective: 10–13% annualized return potential in favorable markets.</li>
+                            <li>Typical structures: autocallable growth notes with 20–30% downside protection levels.</li>
+                            <li>Intended fit: satellite allocation for risk-tolerant clients within an overall plan.</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Hare leans into structures with higher participation rates and conditional coupons, concentrated in broad indices and liquid sector baskets. Protection levels are shallower and more path-dependent, making this strategy appropriate only as a modest sleeve for clients with higher risk tolerance and long time horizons.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="strategy-disclaimer" style="text-align: center; color: #E0E0E0; font-size: 0.85rem; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    All objectives, ranges, and characterizations above are illustrative only and do not represent guarantees or projections. Actual results will vary, and structured products involve risks, including the potential loss of principal.
+                </p>
+            </div>
+        </section>
+
+        <!-- WHERE STRUCTURED PRODUCTS FIT -->
+        <section class="section alt-bg">
+            <div class="container">
+                <h2 class="section-header">Where Structured Products Fit in a Portfolio</h2>
+                <p class="section-subheader">
+                    We do not treat structured notes as standalone trades. We design diversified sleeves that sit alongside traditional equity and fixed income, with clearly defined roles in income generation, drawdown management, and diversification.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Income Enhancement</h3>
+                        <p>
+                            Use volatility to generate repeatable cash flows through buffered income and coupon notes, rather than relying solely on dividends or bond yields.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Drawdown Shaping</h3>
+                        <p>
+                            Employ barriers and buffers to soften downside participation in adverse markets, while maintaining participation in moderate equity growth.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Diversification of Payoffs</h3>
+                        <p>
+                            Introduce payoff profiles that are not linear with the underlying market, helping diversify outcomes relative to long-only equity and credit.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- KEY BUILDING BLOCKS -->
-        <section class="building-blocks-section scroll-gated">
+        <!-- THE FIRST PRINCIPLE FRAMEWORK -->
+        <section class="section dark-bg">
             <div class="container">
-                <div class="section-header-with-icon">
-                    <div class="section-icon icon-building-blocks"></div>
-                    <h2 class="section-title-101 fade-on-scroll">Key Building Blocks</h2>
-                </div>
-                <div class="building-blocks-grid">
-                    <div class="block-card fade-on-scroll">
-                        <h3 class="block-title">Underlying Assets</h3>
-                        <p class="block-text">The reference assets that determine the structured product's performance, which may include equities, indices, commodities, or fixed income instruments. The selection of underlying assets defines the risk-return profile and exposure characteristics.</p>
+                <h2 class="section-header">The First Principle Framework</h2>
+                <p class="section-subheader">
+                    Our strategies are built as institutional sleeves, not tactical trades. We follow a repeatable process that links client objectives to payoff design, issuer selection, and ongoing risk management.
+                </p>
+                <div class="framework-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
+                    <div class="framework-step">
+                        <h3>1. Define the Risk Budget</h3>
+                        <p>
+                            We begin with portfolio objectives, volatility tolerance, drawdown limits, and income targets. Structured sleeves are sized and slotted into the broader allocation, not layered on top.
+                        </p>
                     </div>
-                    <div class="block-card fade-on-scroll delay-1">
-                        <h3 class="block-title">Protection / Barriers</h3>
-                        <p class="block-text">Downside protection mechanisms that limit capital exposure through barrier levels or principal protection features. These structures are engineered to provide controlled risk parameters while maintaining participation in upside performance.</p>
+                    <div class="framework-step">
+                        <h3>2. Engineer the Payoff Library</h3>
+                        <p>
+                            We design a menu of allowed payoff types, barriers, tenors, and underlyings for each strategy, creating a rules-based architecture instead of ad hoc trades.
+                        </p>
                     </div>
-                    <div class="block-card fade-on-scroll delay-2">
-                        <h3 class="block-title">Coupons / Income</h3>
-                        <p class="block-text">Periodic income payments or coupon structures that provide yield enhancement relative to traditional fixed income. These payments are typically linked to the performance of underlying assets and may be conditional on barrier levels.</p>
+                    <div class="framework-step">
+                        <h3>3. Construct Diversified Sleeves</h3>
+                        <p>
+                            Portfolios are built across issuers, maturities, and underlyings, with constraints on concentration and correlation. Structured sleeves are managed as programs, not individual notes.
+                        </p>
                     </div>
-                    <div class="block-card fade-on-scroll delay-3">
-                        <h3 class="block-title">Maturity & Liquidity</h3>
-                        <p class="block-text">The term structure and liquidity provisions that define the investment horizon and exit options. First Principle's SMA platform provides continuous access and policy-driven implementation, eliminating calendar-based issuance constraints.</p>
+                    <div class="framework-step">
+                        <h3>4. Monitor &amp; Rebalance</h3>
+                        <p>
+                            We maintain ongoing oversight of barriers, issuer risk, and market regimes, rolling maturing notes into new opportunities while keeping the sleeve aligned with its defined risk budget.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- USE CASES -->
-        <section class="use-cases-section">
+        <!-- REGIME BEHAVIOR SECTION -->
+        <section class="section alt-bg">
             <div class="container">
-                <div class="section-header-with-icon">
-                    <div class="section-icon icon-use-cases"></div>
-                    <h2 class="section-title-101 fade-on-scroll">Use Cases for Advisors</h2>
+                <h2 class="section-header">How the Strategies Behave Across Market Regimes</h2>
+                <p class="section-subheader">
+                    Structured-note portfolios are designed to respond differently to market regimes than long-only equities or bonds. The table below summarizes the intended behavior of each sleeve in common scenarios.
+                </p>
+                <div class="regime-matrix">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Market Regime</th>
+                                <th>The Tortoise</th>
+                                <th>Albert Einstein Genius Fund</th>
+                                <th>The Hare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rising markets</strong></td>
+                                <td>Collects coupons, may participate partially in upside depending on structure.</td>
+                                <td>Participates meaningfully in upside while still maintaining defined downside frameworks.</td>
+                                <td>High upside sensitivity; performance closely linked to equity path and call features.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sideways / range-bound markets</strong></td>
+                                <td>Coupons drive most of the return, potentially outperforming long-only equities.</td>
+                                <td>Income plus selective upside from range-bound and enhanced participation notes.</td>
+                                <td>Coupons and autocalls drive returns if indices remain within agreed corridors.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Moderate drawdowns</strong></td>
+                                <td>Buffers and protection levels aim to absorb routine drawdowns, helping preserve capital.</td>
+                                <td>Buffers mitigate part of the drawdown, with loss participation only beyond defined levels.</td>
+                                <td>More exposed to drawdowns; protection is shallower and more path-dependent.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Severe stress</strong></td>
+                                <td>Can experience losses, but diversified issuers and high buffers are intended to soften impact relative to pure equity.</td>
+                                <td>Losses may be realized beyond barrier levels; design focuses on recovery over the full cycle.</td>
+                                <td>Behaves more like an equity satellite; may experience material losses in severe bear markets.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="use-cases-grid">
-                    <div class="use-case-card fade-on-scroll">
-                        <h3 class="use-case-title">Capital Preservation</h3>
-                        <p class="use-case-text">Structured products can be designed to protect principal while providing participation in market upside, making them suitable for clients seeking downside protection with growth potential.</p>
+            </div>
+        </section>
+
+        <!-- IMPLEMENTATION & INFRASTRUCTURE -->
+        <section class="section dark-bg">
+            <div class="container">
+                <h2 class="section-header">Implementation for Advisors</h2>
+                <p class="section-subheader">
+                    First Principle strategies are delivered through SMAs and AMC structures, allowing advisors to plug institutional structured-product portfolios directly into existing models and custodial platforms.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Programmatic, Not Ad Hoc</h3>
+                        <p>
+                            Strategies are built as ongoing programs with defined rules, issuer lists, and risk limits, reducing dependence on one-off product pitches or opportunistic trades.
+                        </p>
                     </div>
-                    <div class="use-case-card fade-on-scroll delay-1">
-                        <h3 class="use-case-title">Yield Enhancement</h3>
-                        <p class="use-case-text">Through structured coupon payments and income generation, these instruments can provide enhanced yield relative to traditional fixed income, particularly in low-rate environments.</p>
+                    <div class="pillar-card">
+                        <h3>Institutional Infrastructure</h3>
+                        <p>
+                            We leverage institutional-grade partners for custody, administration, and execution, aligning our process with the standards of multi-family offices and institutional allocators.
+                        </p>
                     </div>
-                    <div class="use-case-card fade-on-scroll delay-2">
-                        <h3 class="use-case-title">Volatility Management</h3>
-                        <p class="use-case-text">Structured products offer systematic approaches to managing portfolio volatility through defined risk parameters and engineered exposure profiles that align with client risk tolerance.</p>
+                    <div class="pillar-card">
+                        <h3>Advisor-Centric Design</h3>
+                        <p>
+                            Sleeve-level reporting, model integration, and clear role definitions allow advisors to explain exactly how each strategy fits into client portfolios.
+                        </p>
                     </div>
-                    <div class="use-case-card fade-on-scroll delay-3">
-                        <h3 class="use-case-title">Portfolio Diversification</h3>
-                        <p class="use-case-text">By providing exposure to alternative risk-return profiles and non-correlated payoffs, structured products can enhance portfolio diversification and risk-adjusted returns.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="section">
+            <div class="container">
+                <div class="cta-inline" style="display: flex; justify-content: space-between; align-items: center; gap: 3rem;">
+                    <div style="flex: 1;">
+                        <h2 class="section-header">See How the Strategies Fit Your Portfolio</h2>
+                        <p class="section-subheader">
+                            Explore the impact of allocating to The Tortoise, The Albert Einstein Genius Fund, or The Hare using our interactive portfolio simulator, or connect with us to discuss implementation.
+                        </p>
+                    </div>
+                    <div class="cta-inline-buttons" style="display: flex; gap: 1rem; flex-shrink: 0;">
+                        <a href="simulator.html" class="btn btn-primary">Run the Simulator</a>
+                        <a href="contact.html" class="btn btn-secondary">Advisor Inquiry</a>
                     </div>
                 </div>
             </div>
@@ -99,38 +470,12 @@
     </footer>
 
     <script>
-        // Scroll gating for Building Blocks section
-        const buildingBlocksSection = document.querySelector('.building-blocks-section.scroll-gated');
-        const introSection = document.querySelector('.product-101-intro');
-        
-        function checkScrollGate() {
-            if (!buildingBlocksSection || !introSection) return;
-            
-            const introBottom = introSection.offsetTop + introSection.offsetHeight;
-            const scrollPosition = window.scrollY + window.innerHeight;
-            
-            // Show Building Blocks only after scrolling past most of the intro section
-            if (scrollPosition > introBottom - 200) {
-                buildingBlocksSection.classList.add('is-visible');
-            }
-        }
-        
-        // Check on scroll and initial load
-        window.addEventListener('scroll', checkScrollGate);
-        window.addEventListener('resize', checkScrollGate);
-        checkScrollGate();
-        
-        // Fade-on-scroll observer for other elements
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
+        document.querySelectorAll('.strategy-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const card = button.closest('.strategy-card');
+                const details = card.querySelector('.strategy-details');
+                details.classList.toggle('is-open');
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
-
-        document.querySelectorAll('.fade-on-scroll').forEach(el => {
-            observer.observe(el);
         });
     </script>
 </body>

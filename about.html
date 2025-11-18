@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | First Principle Asset Management</title>
+    <title>About & Leadership | First Principle Asset Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .team-section-new {
+            padding: 5rem 0 6rem 0;
+        }
+
+        .team-section-new .section-title {
+            margin-bottom: 2.5rem;
+        }
+
+        .avatar-new {
+            margin: 0 auto 1.25rem;
+        }
+
+        .team-grid-new {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <!-- HEADER / NAV -->
@@ -13,7 +35,7 @@
             <a href="index.html" class="logo">First Principle</a>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
-                <li><a href="product.html">Structured Solutions</a></li>
+                <li><a href="product.html">Strategy</a></li>
                 <li><a href="simulator.html">Portfolio Simulator</a></li>
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -27,21 +49,19 @@
         <section class="team-section-new">
             <div class="container">
                 <h2 class="section-title fade-on-scroll">Leadership Team</h2>
+                <p class="team-subtitle fade-on-scroll">Click a profile to see how our multi-family office work in structured portfolios translates into solutions for advisors.</p>
                 <div class="team-grid-new">
                     <div class="team-panel-clickable fade-on-scroll" data-bio="habitz">
                         <div class="avatar-new"></div>
                         <h3 class="team-name">Christian Habitz</h3>
                         <p class="team-role-new">Managing Partner</p>
+                        <p class="team-view-bio">View bio</p>
                     </div>
                     <div class="team-panel-clickable fade-on-scroll delay-1" data-bio="bower">
                         <div class="avatar-new"></div>
                         <h3 class="team-name">Robert Bower</h3>
                         <p class="team-role-new">Head of Portfolio Construction</p>
-                    </div>
-                    <div class="team-panel-clickable fade-on-scroll delay-2" data-bio="mckenna">
-                        <div class="avatar-new"></div>
-                        <h3 class="team-name">Colleen McKenna</h3>
-                        <p class="team-role-new">Director of Operations</p>
+                        <p class="team-view-bio">View bio</p>
                     </div>
                 </div>
             </div>
@@ -53,8 +73,9 @@
                 <div class="about-content-new">
                     <div class="about-text-new fade-on-scroll">
                         <h2 class="about-title">Born from Institutional Expertise</h2>
-                        <p class="about-paragraph-white">First Principle Asset Management was created by The Invictus Collective, one of the world's most exclusive multi-family offices serving ultra-high-net-worth families. We extend that same structured-product discipline, research-driven methodology, and institutional execution to the broader advisory market through a scalable SMA platform.</p>
-                        <p class="about-paragraph-white">Invictus serves UHNW families exclusively. First Principle is designed solely for advisors, eliminating channel conflict and aligning incentives around stable, long-term, research-driven outcomes. Our approach reflects the analytical rigor and institutional investment committee standards that define multi-family office structured product implementation.</p>
+                        <p class="about-paragraph-white">First Principle Asset Management was created by The Invictus Collective, a multi-family office serving ultra-high-net-worth families and institutional clients. For years, Christian Habitz and Rob Bower have used structured-note portfolios to engineer downside-aware income and custom exposures for a small number of private clients.</p>
+                        <p class="about-paragraph-white">Those portfolios were built one client at a time, with direct access to banks, structured-product desks, and institutional due diligence. The result was a set of repeatable frameworks for using structured notes as portfolio enhancements rather than one-off trades.</p>
+                        <p class="about-paragraph-white">First Principle exists to bring that same architecture to the advisory market. Instead of bespoke tickets, we design scalable SMAs and AMC portfolios that give advisors and their clients access to the same research, counterparties, and risk framework previously reserved for UHNW families—without channel conflict and with clear integration into existing 60/40 and model portfolios.</p>
                     </div>
                     <div class="infrastructure-panel fade-on-scroll delay-1">
                         <h3 class="infrastructure-title">Institutional Infrastructure</h3>
@@ -64,28 +85,28 @@
                                     <span>Compliance & Oversight</span>
                                     <span class="dropdown-caret">▼</span>
                                 </div>
-                                <div class="infrastructure-dropdown">TBU</div>
+                                <div class="infrastructure-dropdown">Independent RIA oversight, written investment policy, and ongoing monitoring of issuers, payoff structures, and portfolio guidelines.</div>
                             </li>
                             <li class="infrastructure-item">
                                 <div class="infrastructure-item-header">
                                     <span>Legal Counsel</span>
                                     <span class="dropdown-caret">▼</span>
                                 </div>
-                                <div class="infrastructure-dropdown">TBU</div>
+                                <div class="infrastructure-dropdown">Specialized counsel experienced in derivatives, structured notes, and cross-border offerings, supporting consistent documentation and investor protection.</div>
                             </li>
                             <li class="infrastructure-item">
                                 <div class="infrastructure-item-header">
                                     <span>Accounting & Tax</span>
                                     <span class="dropdown-caret">▼</span>
                                 </div>
-                                <div class="infrastructure-dropdown">TBU</div>
+                                <div class="infrastructure-dropdown">Reporting designed to align with custodians and provide clear treatment of coupons, maturity proceeds, and tax character where applicable.</div>
                             </li>
                             <li class="infrastructure-item">
                                 <div class="infrastructure-item-header">
                                     <span>Insurance & Risk Management</span>
                                     <span class="dropdown-caret">▼</span>
                                 </div>
-                                <div class="infrastructure-dropdown">TBU</div>
+                                <div class="infrastructure-dropdown">Frameworks for issuer diversification, concentration limits, and counterparties, focused on protecting client capital across market regimes.</div>
                             </li>
                         </ul>
                     </div>
@@ -122,17 +143,12 @@
             habitz: {
                 name: 'Christian Habitz',
                 role: 'Managing Partner',
-                bio: 'With over two decades of institutional investment experience, Christian Habitz leads First Principle\'s strategic direction and structured products research. His background includes senior investment committee roles at leading multi-family offices and deep expertise in options theory and structured solutions. Christian\'s research-driven approach to portfolio construction reflects the analytical rigor of institutional investment management.'
+                bio: 'Christian Habitz is the Managing Partner of The Invictus Collective and co-founder of First Principle. At Invictus, he helped build a structured-note and options program used by ultra-high-net-worth families and institutional clients to shape risk, generate income, and express non-linear views across global markets. First Principle is the extension of that work to the advisory channel, packaging institutional tools, bank relationships, and investment-committee discipline into scalable portfolios that fit directly alongside traditional 60/40 allocations.'
             },
             bower: {
                 name: 'Robert Bower',
                 role: 'Head of Portfolio Construction',
-                bio: 'Robert Bower brings extensive structured products expertise and institutional investment discipline to First Principle\'s portfolio construction process. With a background in quantitative finance and options-based strategies, he has spent over fifteen years developing and implementing structured solutions for institutional clients. His work emphasizes rigorous risk modeling, precise downside protection frameworks, and the systematic application of options theory to portfolio design.'
-            },
-            mckenna: {
-                name: 'Colleen McKenna',
-                role: 'Director of Operations',
-                bio: 'Colleen McKenna oversees First Principle\'s operational infrastructure and execution framework, ensuring institutional-grade standards across all aspects of the platform. With multi-decade experience in investment operations and compliance at leading institutional firms, she has built operational systems that support scalable, policy-driven implementation of structured products. Her work maintains the precision and oversight required for institutional investment management.'
+                bio: 'Robert Bower leads portfolio construction at First Principle. Over the past five years he has focused on designing and managing structured-note portfolios for UHNW families and institutional clients, with a particular emphasis on systematic, rules-based sleeves rather than one-off trades. His work centers on translating complex option payoffs into simple building blocks that advisors can plug into models, with clear risk budgets, defined barriers, and measurable outcomes across market regimes.'
             }
         };
 
