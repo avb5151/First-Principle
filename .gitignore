@@ -1,0 +1,15 @@
+# macOS junk
+.DS_Store
+
+# Node modules (if you ever add JS build tools)
+node_modules/
+
+# Vercel build output
+.vercel/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
