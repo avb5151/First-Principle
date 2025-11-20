@@ -6,9 +6,148 @@
     <title>Strategy | First Principle Asset Management</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Strategy Intro Section */
+        .strategy-intro-section {
+            background-color: #1A2532;
+        }
+
+        .strategy-intro-title {
+            font-size: 4rem;
+            color: #C8A678;
+            font-weight: 400;
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .strategy-intro-text-wrapper {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 2rem;
+        }
+
+        .strategy-intro-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #E0E0E0;
+            margin-bottom: 2rem;
+            max-width: 100%;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .strategy-intro-divider {
+            width: 100%;
+            height: 1px;
+            background-color: #C8A678;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .strategy-intro-title {
+                font-size: 3rem;
+                padding-left: 1rem;
+            }
+
+            .strategy-intro-text-wrapper {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .strategy-intro-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Framework Section Design */
+        .framework-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+
+        .framework-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .framework-step-number {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #1A2532;
+            border: 2px solid #C8A678;
+            color: #C8A678;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .framework-step-content {
+            flex: 1;
+            padding-top: 0.5rem;
+        }
+
+        .framework-step-content h3 {
+            color: #F8F9FA;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .framework-step-content p {
+            color: #E0E0E0;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .framework-connector {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #C8A678, rgba(200, 166, 120, 0.3));
+            margin-left: 29px;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+
+        .framework-step:last-child .framework-connector {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .framework-step {
+                gap: 1.5rem;
+            }
+
+            .framework-step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+
+            .framework-connector {
+                margin-left: 24px;
+            }
+
+            .framework-step-content h3 {
+                font-size: 1.25rem;
+            }
+        }
+
         .strategy-strip {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -212,12 +351,15 @@
 
     <main>
         <!-- INTRO SECTION -->
-        <section class="section" style="padding-top: 4rem; padding-bottom: 2rem;">
+        <section class="section strategy-intro-section" style="background-color: #1A2532; padding-top: 8rem; padding-bottom: 4rem;">
             <div class="container">
-                <h1 style="font-size: 2.5rem; color: #1E2A39; margin-bottom: 1.5rem; font-weight: 400; text-align: left;">A Research-Driven Framework for Structured Products</h1>
-                <p style="font-size: 1.1rem; line-height: 1.8; color: #666; max-width: 900px; margin-bottom: 0;">
-                    First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income.
-                </p>
+                <h1 class="strategy-intro-title">A Research-Driven Framework for Structured Products</h1>
+                <div class="strategy-intro-text-wrapper">
+                    <p class="strategy-intro-text">
+                        First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income. We leverage institutional-grade research, direct bank relationships, and a disciplined investment framework to deliver structured-note portfolios that complement traditional 60/40 allocations. Our approach transforms volatility into income, uses defined barriers to manage downside risk, and creates payoff profiles that behave differently from long-only equities and bonds across various market regimes.
+                    </p>
+                    <div class="strategy-intro-divider"></div>
+                </div>
             </div>
         </section>
 
@@ -225,11 +367,8 @@
         <section id="core-strategies" class="section dark-bg">
             <div class="container">
                 <h2 class="section-header">Core Portfolio Strategies: A Spectrum of Risk</h2>
-                <p class="section-subheader">
-                    Each strategy is a diversified portfolio of structured notes implemented as a sleeve or AMC. Together, they create a spectrum from income and capital preservation to higher-growth, higher-risk exposures. All targets are illustrative and not guaranteed.
-                </p>
 
-                <div class="strategy-strip">
+                <div class="strategy-strip" style="margin-top: 4rem;">
                     <!-- The Tortoise -->
                     <article class="strategy-card">
                         <h3 class="strategy-name">The Tortoise</h3>
@@ -335,30 +474,45 @@
                 <p class="section-subheader">
                     Our strategies are built as institutional sleeves, not tactical trades. We follow a repeatable process that links client objectives to payoff design, issuer selection, and ongoing risk management.
                 </p>
-                <div class="framework-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
+                <div class="framework-container">
                     <div class="framework-step">
-                        <h3>1. Define the Risk Budget</h3>
-                        <p>
-                            We begin with portfolio objectives, volatility tolerance, drawdown limits, and income targets. Structured sleeves are sized and slotted into the broader allocation, not layered on top.
-                        </p>
+                        <div class="framework-step-number">1</div>
+                        <div class="framework-step-content">
+                            <h3>Define the Risk Budget</h3>
+                            <p>
+                                We begin with portfolio objectives, volatility tolerance, drawdown limits, and income targets. Structured sleeves are sized and slotted into the broader allocation, not layered on top.
+                            </p>
+                        </div>
                     </div>
+                    <div class="framework-connector"></div>
                     <div class="framework-step">
-                        <h3>2. Engineer the Payoff Library</h3>
-                        <p>
-                            We design a menu of allowed payoff types, barriers, tenors, and underlyings for each strategy, creating a rules-based architecture instead of ad hoc trades.
-                        </p>
+                        <div class="framework-step-number">2</div>
+                        <div class="framework-step-content">
+                            <h3>Engineer the Payoff Library</h3>
+                            <p>
+                                We design a menu of allowed payoff types, barriers, tenors, and underlyings for each strategy, creating a rules-based architecture instead of ad hoc trades.
+                            </p>
+                        </div>
                     </div>
+                    <div class="framework-connector"></div>
                     <div class="framework-step">
-                        <h3>3. Construct Diversified Sleeves</h3>
-                        <p>
-                            Portfolios are built across issuers, maturities, and underlyings, with constraints on concentration and correlation. Structured sleeves are managed as programs, not individual notes.
-                        </p>
+                        <div class="framework-step-number">3</div>
+                        <div class="framework-step-content">
+                            <h3>Construct Diversified Sleeves</h3>
+                            <p>
+                                Portfolios are built across issuers, maturities, and underlyings, with constraints on concentration and correlation. Structured sleeves are managed as programs, not individual notes.
+                            </p>
+                        </div>
                     </div>
+                    <div class="framework-connector"></div>
                     <div class="framework-step">
-                        <h3>4. Monitor &amp; Rebalance</h3>
-                        <p>
-                            We maintain ongoing oversight of barriers, issuer risk, and market regimes, rolling maturing notes into new opportunities while keeping the sleeve aligned with its defined risk budget.
-                        </p>
+                        <div class="framework-step-number">4</div>
+                        <div class="framework-step-content">
+                            <h3>Monitor &amp; Rebalance</h3>
+                            <p>
+                                We maintain ongoing oversight of barriers, issuer risk, and market regimes, rolling maturing notes into new opportunities while keeping the sleeve aligned with its defined risk budget.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -437,24 +591,6 @@
                         <p>
                             Sleeve-level reporting, model integration, and clear role definitions allow advisors to explain exactly how each strategy fits into client portfolios.
                         </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FINAL CTA SECTION -->
-        <section class="section">
-            <div class="container">
-                <div class="cta-inline" style="display: flex; justify-content: space-between; align-items: center; gap: 3rem;">
-                    <div style="flex: 1;">
-                        <h2 class="section-header">See How the Strategies Fit Your Portfolio</h2>
-                        <p class="section-subheader">
-                            Explore the impact of allocating to The Tortoise, The Albert Einstein Genius Fund, or The Hare using our interactive portfolio simulator, or connect with us to discuss implementation.
-                        </p>
-                    </div>
-                    <div class="cta-inline-buttons" style="display: flex; gap: 1rem; flex-shrink: 0;">
-                        <a href="simulator.html" class="btn btn-primary">Run the Simulator</a>
-                        <a href="contact.html" class="btn btn-secondary">Advisor Inquiry</a>
                     </div>
                 </div>
             </div>
