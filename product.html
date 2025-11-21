@@ -364,17 +364,29 @@
             border-bottom: none;
         }
 
-        /* Strategy Column Backgrounds - Subtle Green Tints */
-        .regime-matrix .strategy-tortoise {
-            background-color: #F7F9F7; /* Very light, muted green - barely-tinted, almost off-white */
+        /* Regime Performance Color Scale - Subtle Institutional Palette */
+        .regime-matrix td.regime-pale-green {
+            background-color: #F0F5F0 !important; /* Pale green - neutral/modestly positive */
         }
 
+        .regime-matrix td.regime-mid-green {
+            background-color: #E0EDE0 !important; /* Mid green - clearly positive */
+        }
+
+        .regime-matrix td.regime-dark-green {
+            background-color: #D0E4D0 !important; /* Dark green - strongest performance */
+            color: #3A3A3A !important; /* Slightly darker text for better contrast */
+        }
+
+        .regime-matrix td.regime-light-red {
+            background-color: #F5F0F0 !important; /* Very light red - weak/negative, extremely subtle */
+        }
+
+        /* Override old strategy column backgrounds - now using performance-based colors */
+        .regime-matrix .strategy-tortoise,
+        .regime-matrix .strategy-einstein,
         .regime-matrix .strategy-hare {
-            background-color: #F0F4F0; /* Pale desaturated green - slightly more noticeable than Tortoise */
-        }
-
-        .regime-matrix .strategy-einstein {
-            background-color: #E5EDE5; /* Deeper, richer desaturated green - flagship/balanced feel */
+            background-color: transparent !important; /* Remove old column-based colors */
         }
 
         /* Enhanced Pillar Card Hover States */
@@ -632,27 +644,27 @@
                         <tbody>
                             <tr>
                                 <td><strong>Rising markets</strong></td>
-                                <td class="strategy-tortoise">Collects coupons, may participate partially in upside depending on structure.</td>
-                                <td class="strategy-einstein">Participates meaningfully in upside while still maintaining defined downside frameworks.</td>
-                                <td class="strategy-hare">High upside sensitivity; performance closely linked to equity path and call features.</td>
+                                <td class="strategy-tortoise regime-pale-green">Collects coupons, may participate partially in upside depending on structure.</td>
+                                <td class="strategy-einstein regime-mid-green">Participates meaningfully in upside while still maintaining defined downside frameworks.</td>
+                                <td class="strategy-hare regime-dark-green">High upside sensitivity; performance closely linked to equity path and call features.</td>
                             </tr>
                             <tr>
                                 <td><strong>Sideways / range-bound markets</strong></td>
-                                <td class="strategy-tortoise">Coupons drive most of the return, potentially outperforming long-only equities.</td>
-                                <td class="strategy-einstein">Income plus selective upside from range-bound and enhanced participation notes.</td>
-                                <td class="strategy-hare">Coupons and autocalls drive returns if indices remain within agreed corridors.</td>
+                                <td class="strategy-tortoise regime-dark-green">Coupons drive most of the return, potentially outperforming long-only equities.</td>
+                                <td class="strategy-einstein regime-mid-green">Income plus selective upside from range-bound and enhanced participation notes.</td>
+                                <td class="strategy-hare regime-pale-green">Coupons and autocalls drive returns if indices remain within agreed corridors.</td>
                             </tr>
                             <tr>
                                 <td><strong>Moderate drawdowns</strong></td>
-                                <td class="strategy-tortoise">Buffers and protection levels aim to absorb routine drawdowns, helping preserve capital.</td>
-                                <td class="strategy-einstein">Buffers mitigate part of the drawdown, with loss participation only beyond defined levels.</td>
-                                <td class="strategy-hare">More exposed to drawdowns; protection is shallower and more path-dependent.</td>
+                                <td class="strategy-tortoise regime-mid-green">Buffers and protection levels aim to absorb routine drawdowns, helping preserve capital.</td>
+                                <td class="strategy-einstein regime-pale-green">Buffers mitigate part of the drawdown, with loss participation only beyond defined levels.</td>
+                                <td class="strategy-hare regime-light-red">More exposed to drawdowns; protection is shallower and more path-dependent.</td>
                             </tr>
                             <tr>
                                 <td><strong>Severe stress</strong></td>
-                                <td class="strategy-tortoise">Can experience losses, but diversified issuers and high buffers are intended to soften impact relative to pure equity.</td>
-                                <td class="strategy-einstein">Losses may be realized beyond barrier levels; design focuses on recovery over the full cycle.</td>
-                                <td class="strategy-hare">Behaves more like an equity satellite; may experience material losses in severe bear markets.</td>
+                                <td class="strategy-tortoise regime-pale-green">Can experience losses, but diversified issuers and high buffers are intended to soften impact relative to pure equity.</td>
+                                <td class="strategy-einstein regime-light-red">Losses may be realized beyond barrier levels; design focuses on recovery over the full cycle.</td>
+                                <td class="strategy-hare regime-light-red">Behaves more like an equity satellite; may experience material losses in severe bear markets.</td>
                             </tr>
                         </tbody>
                     </table>
