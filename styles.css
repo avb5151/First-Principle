@@ -198,6 +198,88 @@ section {
     transform: scaleX(1);
 }
 
+/* Navigation Dropdown */
+.nav-item-with-dropdown {
+    position: relative;
+}
+
+.nav-item-with-dropdown > a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    line-height: inherit;
+}
+
+.nav-item-with-dropdown > a::after {
+    content: "▼";
+    font-size: 0.5rem;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+    line-height: 1;
+    vertical-align: middle;
+    margin-left: 0.2rem;
+    position: relative;
+    top: -0.1em;
+}
+
+.nav-item-with-dropdown:hover > a::after {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    background-color: #1A2532;
+    border: 1px solid rgba(200, 166, 120, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    list-style: none;
+    padding: 0.75rem 0;
+    min-width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1001;
+}
+
+.nav-item-with-dropdown:hover .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown li {
+    margin: 0;
+}
+
+.nav-dropdown a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: #F8F9FA;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-bottom: none;
+}
+
+.nav-dropdown a::after {
+    display: none;
+}
+
+.nav-dropdown a:hover {
+    background-color: rgba(200, 166, 120, 0.1);
+    color: #C8A678;
+    opacity: 1;
+}
+
+.nav-dropdown li:last-child a {
+    border-bottom: none;
+}
+
 .cta-button {
     background-color: #C8A678;
     color: #1E2A39;
@@ -1457,6 +1539,35 @@ section {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
+    }
+
+    /* Mobile: Show dropdown as nested list */
+    .nav-item-with-dropdown > a::after {
+        content: "▶";
+        transform: rotate(0deg);
+    }
+
+    .nav-dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: none;
+        border: none;
+        background-color: transparent;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+        padding: 0.5rem 0;
+        min-width: auto;
+    }
+
+    .nav-item-with-dropdown:hover .nav-dropdown {
+        transform: none;
+    }
+
+    .nav-dropdown a {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 
     .stats-grid {
@@ -3242,3 +3353,321 @@ section {
     }
 }
 
+
+/* ============================================
+   APPROACH NARRATIVE - SCROLL-DRIVEN SECTION
+   ============================================ */
+
+.approach-narrative {
+    position: relative;
+    background-color: #F8F9FA;
+    padding: 100px 0 80px;
+}
+
+/* Sticky Header */
+.approach-narrative-header {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    background-color: #F8F9FA;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(30, 42, 57, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.approach-narrative-header.sticky-active {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.approach-narrative-title {
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #1E2A39;
+    text-align: center;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.accent-new {
+    color: #C8A678;
+    font-style: italic;
+}
+
+/* Slide Base Styles */
+.approach-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.approach-slide.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.approach-slide-content {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Intro Slide */
+.approach-slide--intro {
+    padding: 100px 0;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.approach-intro-text {
+    text-align: left;
+    position: relative;
+    z-index: 2;
+}
+
+.approach-intro-paragraph {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.9;
+    color: #1E2A39;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* New Approach Points - 3 Bullet Layout */
+.new-approach-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.approach-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+}
+
+.approach-point-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.2rem;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.approach-point:hover .approach-point-icon {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.approach-point-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.approach-point-text {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.9;
+    color: #1E2A39;
+    margin: 0;
+    flex: 1;
+}
+
+.approach-intro-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(200, 166, 120, 0.03) 0%, rgba(30, 42, 57, 0.02) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Content Slides (2-4) */
+.approach-slide-accent {
+    width: 120px;
+    height: 2px;
+    background-color: #C8A678;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transition: opacity 0.4s ease-out 0.1s;
+}
+
+.approach-slide.is-active .approach-slide-accent {
+    opacity: 1;
+}
+
+.approach-slide-heading {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1E2A39;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.approach-slide-summary {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+}
+
+.approach-slide-body {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    max-width: 700px;
+}
+
+.approach-slide-response {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #C8A678;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(200, 166, 120, 0.2);
+    max-width: 700px;
+}
+
+/* Responsive Styles */
+@media (max-width: 968px) {
+    .approach-narrative {
+        padding: 80px 0 60px;
+    }
+
+    .approach-narrative-header {
+        top: 70px;
+        padding: 1.5rem 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .approach-narrative-title {
+        font-size: 2.5rem;
+    }
+
+    .approach-slide {
+        padding: 60px 0;
+    }
+
+    .approach-slide--intro {
+        padding: 80px 0;
+    }
+
+    .approach-slide-heading {
+        font-size: 2.25rem;
+    }
+
+    .approach-slide-summary {
+        font-size: 1.15rem;
+    }
+
+    .approach-slide-body {
+        font-size: 1rem;
+    }
+
+    .approach-intro-paragraph {
+        font-size: 1.1rem;
+    }
+
+    .new-approach-points {
+        gap: 1.25rem;
+    }
+
+    .approach-point-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .approach-narrative {
+        padding: 60px 0 50px;
+    }
+
+    .approach-narrative-header {
+        position: relative;
+        top: 0;
+        padding: 1.5rem 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .approach-narrative-title {
+        font-size: 2rem;
+    }
+
+    .approach-slide {
+        padding: 50px 0;
+    }
+
+    .approach-slide--intro {
+        padding: 60px 0;
+    }
+
+    .approach-slide-content {
+        padding: 0 1.5rem;
+    }
+
+    .approach-slide-heading {
+        font-size: 1.75rem;
+    }
+
+    .approach-slide-summary {
+        font-size: 1.05rem;
+    }
+
+    .approach-slide-body {
+        font-size: 0.95rem;
+    }
+
+    .approach-intro-paragraph {
+        font-size: 1rem;
+    }
+
+    .new-approach-points {
+        gap: 1rem;
+    }
+
+    .approach-point {
+        gap: 1rem;
+    }
+
+    .approach-point-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .approach-point-text {
+        font-size: 1rem;
+    }
+
+    .approach-slide-accent {
+        width: 80px;
+        margin-bottom: 2rem;
+    }
+}

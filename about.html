@@ -15,9 +15,10 @@
 
         .team-section-new .section-title {
             margin-bottom: 4rem;
-            color: #E0E0E0;
+            color: #C8A678;
             text-align: left;
-            font-size: 2.5rem;
+            font-style: italic;
+            font-size: 3.5rem;
         }
 
         .team-grid-new {
@@ -30,11 +31,14 @@
 
         .team-panel-clickable {
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
 
         .team-panel-clickable:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 10px 30px rgba(200, 166, 120, 0.3);
+            border-color: rgba(200, 166, 120, 0.4);
         }
 
         .avatar-new {
@@ -66,9 +70,7 @@
         }
 
         .team-panel-clickable[data-bio="mckenna"] .avatar-new img {
-            object-position: center 50%;
-            object-fit: contain;
-            background-color: #2A3542;
+            object-position: center 40%;
         }
 
         .team-panel-clickable:hover .avatar-new img {
@@ -83,6 +85,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-panel-clickable:hover .team-info-box {
+            background-color: #2F3D4E;
+            border-top: 2px solid rgba(200, 166, 120, 0.5);
         }
 
         .team-name {
@@ -121,9 +129,10 @@
         }
 
         .about-title {
-            color: #F8F9FA;
-            font-size: 2.25rem;
+            color: #C8A678;
+            font-size: 3rem;
             margin-bottom: 3rem;
+            font-style: italic;
             font-weight: 400;
         }
 
@@ -140,12 +149,87 @@
             margin: 0;
         }
 
+        /* Numbered Framework for Origin Story */
+        .origin-framework {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .origin-step {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(200, 166, 120, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .origin-step:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(200, 166, 120, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .origin-step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1A2532;
+            border: 2px solid #C8A678;
+            color: #C8A678;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .origin-step-content h3 {
+            color: #F8F9FA;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .origin-step-content p {
+            color: #E0E0E0;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
         /* Partners Logo Banner */
         .partners-banner {
             background-color: #1A2532;
             padding: 3rem 0;
             overflow: hidden;
             position: relative;
+        }
+
+        .partners-label {
+            color: #C8A678;
+            font-style: italic;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            font-weight: 400;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 2rem;
         }
 
         .partners-banner-container {
@@ -169,6 +253,7 @@
             color: #B0B0B0;
             font-size: 1.1rem;
             font-weight: 400;
+            font-family: 'Nunito Sans', sans-serif;
             white-space: nowrap;
             letter-spacing: 0.05em;
             transition: color 0.3s ease;
@@ -192,6 +277,11 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
+
+            .origin-framework {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
         }
 
         @media (max-width: 968px) {
@@ -210,6 +300,11 @@
             .avatar-new {
                 height: 350px;
             }
+
+            .partners-label {
+                padding: 0 1.5rem;
+                margin-bottom: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -220,7 +315,16 @@
             <a href="index.html" class="logo">First Principle</a>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
-                <li><a href="product.html">Strategy</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="product.html#core-strategies">Core Strategies</a></li>
+                        <li><a href="product.html#portfolio-optimization">Portfolio Optimization</a></li>
+                        <li><a href="product.html#first-principle-framework">The First Principle Framework</a></li>
+                        <li><a href="product.html#behavior-across-markets">Behavior Across Markets</a></li>
+                        <li><a href="product.html#implementation-for-advisors">Implementation for Advisors</a></li>
+                    </ul>
+                </li>
                 <li><a href="simulator.html">Portfolio Simulator</a></li>
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -271,10 +375,28 @@
             <div class="container">
                 <div class="about-text-new fade-on-scroll">
                     <h2 class="about-title">Born from Institutional Expertise</h2>
-                    <div class="about-paragraphs-horizontal">
-                        <p class="about-paragraph-white">First Principle Asset Management was created by The Invictus Collective, a multi-family office serving ultra-high-net-worth families and institutional clients. For years, Christian Habitz and Rob Bower have used structured-note portfolios to engineer downside-aware income and custom exposures for a small number of private clients.</p>
-                        <p class="about-paragraph-white">Those portfolios were built one client at a time, with direct access to banks, structured-product desks, and institutional due diligence. The result was a set of repeatable frameworks for using structured notes as portfolio enhancements rather than one-off trades.</p>
-                        <p class="about-paragraph-white">First Principle exists to bring that same architecture to the advisory market. Instead of bespoke tickets, we design scalable SMAs and AMC portfolios that give advisors and their clients access to the same research, counterparties, and risk framework previously reserved for UHNW families—without channel conflict and with clear integration into existing 60/40 and model portfolios.</p>
+                    <div class="origin-framework">
+                        <div class="origin-step">
+                            <div class="origin-step-number">1</div>
+                            <div class="origin-step-content">
+                                <h3>Institutional Foundation</h3>
+                                <p>First Principle was created by The Invictus Collective, a multi-family office serving ultra-high-net-worth families and institutional clients. For years, Christian Habitz and Rob Bower have used structured-note portfolios to engineer downside-aware income and custom exposures for a small number of private clients.</p>
+                            </div>
+                        </div>
+                        <div class="origin-step">
+                            <div class="origin-step-number">2</div>
+                            <div class="origin-step-content">
+                                <h3>Repeatable Frameworks</h3>
+                                <p>Those portfolios were built one client at a time, with direct access to banks, structured-product desks, and institutional due diligence. The result was a set of repeatable frameworks for using structured notes as portfolio enhancements rather than one-off trades.</p>
+                            </div>
+                        </div>
+                        <div class="origin-step">
+                            <div class="origin-step-number">3</div>
+                            <div class="origin-step-content">
+                                <h3>Scalable Architecture</h3>
+                                <p>First Principle exists to bring that same architecture to the advisory market. Instead of bespoke tickets, we design scalable SMAs and AMC portfolios that give advisors and their clients access to the same research, counterparties, and risk framework previously reserved for UHNW families—without channel conflict and with clear integration into existing 60/40 and model portfolios.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,6 +404,7 @@
 
         <!-- PARTNERS LOGO BANNER -->
         <section class="partners-banner">
+            <p class="partners-label">Our Institutional and Technology Partners:</p>
             <div class="partners-banner-container">
                 <div class="partners-logo-track">
                     <div class="partners-logo-item">
@@ -371,7 +494,7 @@
                 name: 'Colleen T. McKenna',
                 role: 'Director of Operations and Client Services',
                 bio: 'Colleen McKenna oversees operations and client services at First Principle, ensuring seamless implementation of structured-note portfolios and maintaining the highest standards of client experience. Her background in institutional operations and client relationship management supports First Principle\'s mission to deliver institutional-grade solutions to the advisory market.'
-            }
+            },
         };
 
         // Modal elements

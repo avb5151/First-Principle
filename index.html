@@ -16,7 +16,16 @@
             <a href="index.html" class="logo">First Principle</a>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
-                <li><a href="product.html">Strategy</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="product.html#core-strategies">Core Strategies</a></li>
+                        <li><a href="product.html#portfolio-optimization">Portfolio Optimization</a></li>
+                        <li><a href="product.html#first-principle-framework">The First Principle Framework</a></li>
+                        <li><a href="product.html#behavior-across-markets">Behavior Across Markets</a></li>
+                        <li><a href="product.html#implementation-for-advisors">Implementation for Advisors</a></li>
+                    </ul>
+                </li>
                 <li><a href="simulator.html">Portfolio Simulator</a></li>
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -44,24 +53,93 @@
         </section>
 
         <!-- WHY PORTFOLIOS NEED A NEW APPROACH -->
-        <section class="section problem alt-bg">
-            <div class="container">
-                <h2 class="section-header">Why Portfolios Need a New Approach</h2>
-                <p class="section-subheader">
-                    Forward-looking equity returns sit near decade lows, while volatility and macro uncertainty remain elevated. Traditional 60/40 portfolios face compressed return expectations, higher cross-asset correlation, and less reliable diversification.
-                </p>
-                <div class="pillars-grid">
-                    <div class="pillar-card">
-                        <h3>Lower Forward Returns</h3>
-                        <p>Sell-side capital market assumptions from JPMorgan, BlackRock, and Goldman Sachs project the weakest expected equity and 60/40 returns in more than a decade.</p>
+        <section class="approach-narrative">
+            <!-- Sticky Header -->
+            <div class="approach-narrative-header">
+                <div class="container">
+                    <h2 class="approach-narrative-title">Portfolios Need a <span class="accent-new">New</span> Approach</h2>
+                </div>
+            </div>
+
+            <!-- Intro Slide -->
+            <div class="approach-slide approach-slide--intro">
+                <div class="approach-intro-background"></div>
+                <div class="approach-slide-content">
+                    <div class="container">
+                        <div class="approach-intro-text">
+                            <div class="new-approach-points">
+                                <div class="approach-point">
+                                    <div class="approach-point-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="#C8A678" stroke-width="1.5" fill="none"/>
+                                            <path d="M6 18L10 12L14 14L18 6" stroke="#C8A678" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <p class="approach-point-text">Forward-looking equity returns sit near decade lows.</p>
+                                </div>
+                                <div class="approach-point">
+                                    <div class="approach-point-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 12L8 8L10 14L12 6L14 10L16 4L18 12" stroke="#C8A678" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M6 12L18 12" stroke="#C8A678" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+                                        </svg>
+                                    </div>
+                                    <p class="approach-point-text">Volatility and macro uncertainty remain elevated.</p>
+                                </div>
+                                <div class="approach-point">
+                                    <div class="approach-point-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="12" r="8" stroke="#C8A678" stroke-width="1.5" fill="none"/>
+                                            <path d="M8 12L10 10L12 12L14 10L16 12" stroke="#C8A678" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="1.5" fill="#C8A678"/>
+                                        </svg>
+                                    </div>
+                                    <p class="approach-point-text">Traditional 60/40 portfolios face compressed return expectations, higher cross-asset correlation, and less reliable diversification.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pillar-card">
-                        <h3>Persistent Volatility</h3>
-                        <p>Market volatility remains structurally elevated, driven by macro uncertainty, factor dispersion, and geopolitical instability.</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Lower Forward Returns -->
+            <div class="approach-slide approach-slide--returns">
+                <div class="approach-slide-content">
+                    <div class="container">
+                        <div class="approach-slide-accent"></div>
+                        <h3 class="approach-slide-heading">Lower Forward Returns</h3>
+                        <p class="approach-slide-body">
+                            Major sell-side houses such as JPMorgan, BlackRock, and Goldman Sachs now forecast the weakest forward equity and 60/40 portfolio returns in over a decade.
+                        </p>
+                        <p class="approach-slide-response">First Principle Response: Re-engineer core allocations with structured sleeves.</p>
                     </div>
-                    <div class="pillar-card">
-                        <h3>Crowded Income Sources</h3>
-                        <p>Income sources such as IG and HY credit are increasingly crowded and offer limited incremental yield, while correlations to equities continue to rise.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Persistent Volatility -->
+            <div class="approach-slide approach-slide--volatility">
+                <div class="approach-slide-content">
+                    <div class="container">
+                        <div class="approach-slide-accent"></div>
+                        <h3 class="approach-slide-heading">Persistent Volatility</h3>
+                        <p class="approach-slide-body">
+                            Market volatility remains structurally elevated, driven by macro uncertainty, factor dispersion, and geopolitical risk.
+                        </p>
+                        <p class="approach-slide-response">First Principle Response: Convert volatility into income through structured payoffs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Crowded Income Sources -->
+            <div class="approach-slide approach-slide--income">
+                <div class="approach-slide-content">
+                    <div class="container">
+                        <div class="approach-slide-accent"></div>
+                        <h3 class="approach-slide-heading">Crowded Income Sources</h3>
+                        <p class="approach-slide-body">
+                            Income sources such as IG and HY credit are increasingly crowded and offer limited incremental yield, while correlations to equities continue to rise.
+                        </p>
+                        <p class="approach-slide-response">First Principle Response: Access alternative income streams with defined risk parameters.</p>
                     </div>
                 </div>
             </div>
@@ -149,5 +227,90 @@
             <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
         </div>
     </footer>
+
+    <!-- Approach Narrative Scroll Animation -->
+    <script>
+        (function() {
+            'use strict';
+            
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initApproachNarrative);
+            } else {
+                initApproachNarrative();
+            }
+
+            function initApproachNarrative() {
+                const narrativeSection = document.querySelector('.approach-narrative');
+                if (!narrativeSection) return;
+
+                const slides = narrativeSection.querySelectorAll('.approach-slide');
+                const header = narrativeSection.querySelector('.approach-narrative-header');
+                
+                if (slides.length === 0) return;
+
+                // IntersectionObserver options for slide animations
+                const slideObserverOptions = {
+                    root: null,
+                    rootMargin: '-20% 0px -20% 0px', // Trigger when slide is 20% from top/bottom
+                    threshold: 0.3
+                };
+
+                // IntersectionObserver for sticky header shadow
+                const headerObserverOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0
+                };
+
+                // Create observer for slides
+                const slideObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-active');
+                        } else {
+                            // Optionally remove active class when scrolled past
+                            // entry.target.classList.remove('is-active');
+                        }
+                    });
+                }, slideObserverOptions);
+
+                // Create observer for sticky header
+                const headerObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            header.classList.remove('sticky-active');
+                        } else {
+                            header.classList.add('sticky-active');
+                        }
+                    });
+                }, headerObserverOptions);
+
+                // Observe all slides
+                slides.forEach(function(slide) {
+                    // Activate intro slide immediately if it's in view
+                    const rect = slide.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        slide.classList.add('is-active');
+                    }
+                    slideObserver.observe(slide);
+                });
+
+                // Observe header for sticky shadow effect
+                if (header) {
+                    // Create a sentinel element just before the header
+                    const sentinel = document.createElement('div');
+                    sentinel.style.position = 'absolute';
+                    sentinel.style.top = '0';
+                    sentinel.style.height = '1px';
+                    sentinel.style.width = '100%';
+                    sentinel.style.pointerEvents = 'none';
+                    narrativeSection.insertBefore(sentinel, header);
+                    
+                    headerObserver.observe(sentinel);
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
