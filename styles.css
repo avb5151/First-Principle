@@ -144,7 +144,7 @@ section {
 
 .logo {
     font-family: "Franklin Gothic", "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif !important;
-    font-size: 1.5rem;
+    font-size: 2.25rem;
     color: #C8A678;
     font-weight: 400;
     display: inline-block;
@@ -166,7 +166,7 @@ section {
 .nav-links a {
     font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
     color: #F8F9FA;
-    font-size: 0.9rem;
+    font-size: 1rem;
     letter-spacing: 0.1em;
     opacity: 0.85;
     position: relative;
@@ -344,6 +344,8 @@ section {
     max-width: 700px;
     text-align: left;
     padding-left: 2rem;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .hero-title-new {
@@ -3361,7 +3363,7 @@ section {
 .approach-narrative {
     position: relative;
     background-color: #F8F9FA;
-    padding: 100px 0 80px;
+    padding: 60px 0 60px;
 }
 
 /* Sticky Header */
@@ -3421,7 +3423,7 @@ section {
 
 /* Intro Slide */
 .approach-slide--intro {
-    padding: 100px 0;
+    padding: 60px 0;
     opacity: 1;
     transform: translateY(0);
 }
@@ -3459,8 +3461,8 @@ section {
 
 .approach-point-icon {
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3545,15 +3547,16 @@ section {
 
 .approach-slide-response {
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1.9rem;
     font-weight: 600;
-    color: #C8A678;
+    color: #B89668;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(200, 166, 120, 0.2);
     max-width: 700px;
+    line-height: 1.4;
 }
 
 /* Responsive Styles */
@@ -3590,6 +3593,10 @@ section {
 
     .approach-slide-body {
         font-size: 1rem;
+    }
+
+    .approach-slide-response {
+        font-size: 1.5rem;
     }
 
     .approach-intro-paragraph {
@@ -3645,6 +3652,10 @@ section {
         font-size: 0.95rem;
     }
 
+    .approach-slide-response {
+        font-size: 1.2rem;
+    }
+
     .approach-intro-paragraph {
         font-size: 1rem;
     }
@@ -3658,8 +3669,8 @@ section {
     }
 
     .approach-point-icon {
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
     }
 
     .approach-point-text {
