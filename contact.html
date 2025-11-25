@@ -12,24 +12,29 @@
     <!-- HEADER / NAV -->
     <header class="header">
         <nav class="nav container">
-            <a href="index.html" class="logo">First Principle</a>
+            <div class="nav-left">
+                <a href="index.html" class="logo">First Principle</a>
+            </div>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
                 <li class="nav-item-with-dropdown">
-                    <a href="product.html">Strategy</a>
+                    <a href="#" id="strategy-link">Strategy</a>
                     <ul class="nav-dropdown">
-                        <li><a href="product.html#core-strategies">Core Strategies</a></li>
-                        <li><a href="product.html#portfolio-optimization">Portfolio Optimization</a></li>
-                        <li><a href="product.html#first-principle-framework">The First Principle Framework</a></li>
-                        <li><a href="product.html#behavior-across-markets">Behavior Across Markets</a></li>
-                        <li><a href="product.html#implementation-for-advisors">Implementation for Advisors</a></li>
+                        <li><a href="#" id="strategy-link-core">Core Strategies</a></li>
+                        <li><a href="#" id="strategy-link-opt">Portfolio Optimization</a></li>
+                        <li><a href="#" id="strategy-link-framework">The First Principle Framework</a></li>
+                        <li><a href="#" id="strategy-link-behavior">Behavior Across Markets</a></li>
+                        <li><a href="#" id="strategy-link-impl">Implementation for Advisors</a></li>
                     </ul>
                 </li>
-                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="#" id="simulator-link">Portfolio Simulator</a></li>
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
-            <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+            <div class="nav-right">
+                <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+                <span id="investor-type-indicator" class="investor-type-indicator" style="cursor: pointer;"></span>
+            </div>
         </nav>
     </header>
 
@@ -258,6 +263,34 @@
                 e.target.classList.remove('error');
             });
         })();
+    </script>
+    <script src="js/investor-type.js"></script>
+    <script>
+        // Update navigation links based on investor type
+        document.addEventListener('DOMContentLoaded', function() {
+            const userType = window.FPInvestorType.getUserType();
+            const basePath = userType === 'institutional' ? 'institutional/' : 'retail/';
+            
+            // Update strategy links
+            document.getElementById('strategy-link').href = basePath + 'product.html';
+            document.getElementById('strategy-link-core').href = basePath + 'product.html#core-strategies';
+            document.getElementById('strategy-link-opt').href = basePath + 'product.html#portfolio-optimization';
+            document.getElementById('strategy-link-framework').href = basePath + 'product.html#first-principle-framework';
+            document.getElementById('strategy-link-behavior').href = basePath + 'product.html#behavior-across-markets';
+            document.getElementById('strategy-link-impl').href = basePath + 'product.html#implementation-for-advisors';
+            document.getElementById('simulator-link').href = basePath + 'simulator.html';
+            
+            // Set up investor type toggle
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+            
+            // Update indicator
+            window.FPInvestorType.updateInvestorTypeIndicator();
+        });
     </script>
 </body>
 </html>

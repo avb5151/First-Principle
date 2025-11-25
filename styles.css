@@ -137,9 +137,31 @@ section {
 
 .nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 1.25rem 2rem;
+    gap: 3rem;
+}
+
+.nav-left {
+    flex-shrink: 0;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .logo {
@@ -154,13 +176,6 @@ section {
 .logo:hover {
     opacity: 1;
     color: #D4B589;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 3rem;
-    align-items: center;
 }
 
 .nav-links a {
@@ -1445,6 +1460,151 @@ section {
 }
 
 /* ============================================
+   INVESTOR TYPE GATE MODAL
+   ============================================ */
+
+#investor-gate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 37, 50, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+}
+
+.investor-gate-content {
+    background: #F8F9FA;
+    border-radius: 16px;
+    padding: 3rem 4rem;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4);
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.investor-gate-title {
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+    font-size: 2.5rem;
+    color: #1A2532;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.investor-gate-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.investor-gate-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.investor-gate-button {
+    flex: 1;
+    min-width: 200px;
+    padding: 1.5rem 2.5rem;
+    font-size: 1.1rem;
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+    border: 2px solid #C8A678;
+    background: transparent;
+    color: #1A2532;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 400;
+}
+
+.investor-gate-button:hover {
+    background: #C8A678;
+    color: #F8F9FA;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(200, 166, 120, 0.3);
+}
+
+.investor-gate-button:active {
+    transform: translateY(0);
+}
+
+/* Investor Type Indicator in Nav */
+.investor-type-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(200, 166, 120, 0.3);
+    white-space: nowrap;
+    margin: 0;
+}
+
+.investor-type-indicator.retail {
+    background: rgba(200, 166, 120, 0.1);
+    color: #C8A678;
+}
+
+.investor-type-indicator.institutional {
+    background: rgba(200, 166, 120, 0.2);
+    color: #D4B589;
+    border-color: #C8A678;
+}
+
+.investor-type-indicator:hover {
+    background: rgba(200, 166, 120, 0.25);
+    border-color: #C8A678;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .investor-gate-content {
+        padding: 2rem 2.5rem;
+    }
+
+    .investor-gate-title {
+        font-size: 2rem;
+    }
+
+    .investor-gate-buttons {
+        flex-direction: column;
+    }
+
+    .investor-gate-button {
+        min-width: 100%;
+    }
+
+    .investor-type-indicator {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
@@ -1460,6 +1620,15 @@ section {
     .nav {
         flex-wrap: wrap;
         gap: 1rem;
+    }
+
+    .nav-left {
+        order: 1;
+    }
+
+    .nav-right {
+        order: 2;
+        margin-left: 0;
     }
 
     .nav-links {
@@ -1537,10 +1706,22 @@ section {
         padding: 1rem 1.5rem;
     }
 
+    .nav-left {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-right {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+    }
+
     .nav-links {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
+        width: 100%;
     }
 
     /* Mobile: Show dropdown as nested list */

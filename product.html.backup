@@ -434,7 +434,9 @@
     <!-- HEADER / NAV -->
     <header class="header">
         <nav class="nav container">
+            <div class="nav-left">
             <a href="index.html" class="logo">First Principle</a>
+            </div>
             <ul class="nav-links">
                 <li><a href="about.html">About</a></li>
                 <li class="nav-item-with-dropdown">
@@ -451,7 +453,10 @@
                 <li><a href="resources.html">Resources</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
+            <div class="nav-right">
             <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+                <span id="investor-type-indicator" class="investor-type-indicator" style="cursor: pointer;"></span>
+            </div>
         </nav>
     </header>
 
@@ -669,7 +674,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+                    </div>
         </section>
 
         <!-- IMPLEMENTATION & INFRASTRUCTURE -->

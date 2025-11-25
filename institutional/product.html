@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy | First Principle Asset Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .instrument-detail {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 3px solid #C8A678;
+        }
+
+        .instrument-detail h4 {
+            color: #C8A678;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .risk-return-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .risk-return-table th,
+        .risk-return-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .risk-return-table th {
+            color: #C8A678;
+            font-weight: 600;
+            background: rgba(200, 166, 120, 0.1);
+        }
+
+        .risk-return-table td {
+            color: #E0E0E0;
+        }
+
+        .construction-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .construction-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 2px solid #C8A678;
+        }
+
+        .construction-card h4 {
+            color: #C8A678;
+            margin-bottom: 1rem;
+        }
+
+        .construction-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .construction-card li {
+            color: #E0E0E0;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .construction-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #C8A678;
+        }
+
+        @media (max-width: 968px) {
+            .construction-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-left">
+                <a href="index.html" class="logo">First Principle</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../about.html">About</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="product.html#instruments-mechanics">Instruments & Mechanics</a></li>
+                        <li><a href="product.html#risk-return">Risk & Return Drivers</a></li>
+                        <li><a href="product.html#portfolio-construction">Portfolio Construction</a></li>
+                        <li><a href="product.html#implementation">Implementation</a></li>
+                    </ul>
+                </li>
+                <li><a href="simulator.html">Portfolio Simulator</a></li>
+                <li><a href="../resources.html">Resources</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="../contact.html" class="cta-button">Schedule a Call</a>
+                <span id="investor-type-indicator" class="investor-type-indicator institutional" style="cursor: pointer;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- STRATEGY INTRO -->
+        <section class="section strategy-intro-section">
+            <div class="container">
+                <h1 class="strategy-intro-title">A Research-Driven Framework for Structured Products</h1>
+                <div class="strategy-intro-text-wrapper">
+                    <p class="strategy-intro-text">
+                        First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income. We employ rigorous analytics, scenario testing, and institutional-grade portfolio construction to deliver structured-note portfolios that integrate seamlessly into existing policy allocations.
+                    </p>
+                    <div class="strategy-intro-divider"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSTRUMENTS & MECHANICS -->
+        <section id="instruments-mechanics" class="section alt-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Instruments & Payoff Mechanics</h2>
+                <p class="section-subheader">
+                    Our portfolios are constructed from diversified baskets of structured notes on major equity indices. Understanding the instruments and their payoff mechanics is fundamental to evaluating how these sleeves behave across market regimes.
+                </p>
+
+                <div class="instrument-detail">
+                    <h4>Underlying Indices</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        We primarily use broad-based equity indices as underlyings: S&P 500 (SPX), NASDAQ-100 (NDX), Russell 2000 (RUT), and Euro Stoxx 50 (SX5E). These indices provide liquidity, transparency, and diversification. We also employ worst-of baskets across multiple indices to enhance yield while maintaining diversification.
+                    </p>
+                </div>
+
+                <div class="instrument-detail">
+                    <h4>Barrier Levels & Downside Protection</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        Structured notes employ barrier levels that define downside participation. For example, a note with a 70% barrier means that if the underlying index falls below 70% of its initial level at maturity, the investor participates in the loss from that barrier level. Barrier levels typically range from 50% to 80%, depending on the strategy's risk budget and income objectives. Higher barriers provide more protection but generally result in lower coupon rates.
+                    </p>
+                </div>
+
+                <div class="instrument-detail">
+                    <h4>Coupon Structures</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        Notes pay periodic coupons (typically quarterly or semi-annual) that are funded by the option premium embedded in the structure. Coupon rates vary based on volatility assumptions, barrier levels, and tenor. In range-bound or moderately rising markets, coupons drive most of the return. Coupons may be conditional (only paid if the index remains above a certain level) or unconditional, depending on the structure type.
+                    </p>
+                </div>
+
+                <div class="instrument-detail">
+                    <h4>Autocall Features</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        Many structures include autocall features that allow early redemption if the underlying index reaches a predefined level (typically 100–110% of initial) on specified observation dates. Autocalls can accelerate returns in favorable markets and reduce time to maturity, improving portfolio turnover and reinvestment opportunities.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RISK/RETURN DRIVERS -->
+        <section id="risk-return" class="section dark-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Risk & Return Drivers</h2>
+                <p class="section-subheader">
+                    Understanding the drivers of risk and return in structured-note portfolios is essential for portfolio construction and risk management. Returns are primarily driven by volatility pricing, not directional market forecasts.
+                </p>
+
+                <div class="instrument-detail">
+                    <h4>Theta Decay / Carry from Sold Options</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        Structured notes effectively sell options (puts, calls, or combinations) to generate income. The option premium received funds coupon payments. As time passes, all else equal, the value of sold options decays (theta), which is captured as income. This creates a positive carry component that is independent of market direction, as long as the underlying remains within certain bounds.
+                    </p>
+                </div>
+
+                <div class="instrument-detail">
+                    <h4>Volatility & Correlation Regimes</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        Option values are sensitive to volatility. Higher implied volatility increases option premiums, which can enhance coupon rates. However, realized volatility that exceeds assumptions can lead to more frequent barrier breaches. We model volatility regimes (low vol QE era vs. elevated vol post-2020) and adjust portfolio construction accordingly. Correlation across underlyings also affects basket structures—lower correlation can enhance diversification benefits but may reduce worst-of basket yields.
+                    </p>
+                </div>
+
+                <div class="instrument-detail">
+                    <h4>Tail-Risk Scenarios & Management</h4>
+                    <p style="color: #E0E0E0; line-height: 1.8;">
+                        In severe market stress (e.g., 2008, 2020), structured notes can experience losses beyond barrier levels. We manage tail risk through: (1) diversification across issuers and underlyings, (2) conservative barrier levels for core strategies, (3) scenario stress testing, and (4) ongoing monitoring of barrier proximity. While structured notes provide downside protection relative to long-only equity, they are not risk-free and can experience material losses in extreme scenarios.
+                    </p>
+                </div>
+
+                <table class="risk-return-table">
+                    <thead>
+                        <tr>
+                            <th>Risk Factor</th>
+                            <th>Impact on Returns</th>
+                            <th>Mitigation Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Volatility Regime Shift</td>
+                            <td>Higher realized vol can increase barrier breach frequency; lower vol reduces coupon rates</td>
+                            <td>Regime-aware portfolio construction; dynamic barrier calibration</td>
+                        </tr>
+                        <tr>
+                            <td>Correlation Breakdown</td>
+                            <td>Reduced diversification benefits in stress; potential for simultaneous barrier breaches</td>
+                            <td>Diversification across uncorrelated underlyings; worst-of basket limits</td>
+                        </tr>
+                        <tr>
+                            <td>Issuer Credit Risk</td>
+                            <td>Potential loss of principal if issuer defaults</td>
+                            <td>Concentration limits; investment-grade issuer focus; ongoing credit monitoring</td>
+                        </tr>
+                        <tr>
+                            <td>Path Dependency</td>
+                            <td>Autocall and barrier features create path-dependent payoffs</td>
+                            <td>Scenario analysis; Monte Carlo simulation; transparent payoff documentation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO CONSTRUCTION -->
+        <section id="portfolio-construction" class="section alt-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Portfolio Construction Process</h2>
+                <p class="section-subheader">
+                    Our portfolios are constructed as systematic sleeves, not ad hoc trades. We follow a repeatable process that links client objectives to payoff design, issuer selection, and ongoing risk management.
+                </p>
+
+                <div class="construction-grid">
+                    <div class="construction-card">
+                        <h4>Laddering Maturities</h4>
+                        <ul>
+                            <li>Stagger maturities across 1–5 year tenors</li>
+                            <li>Ensures continuous coupon income</li>
+                            <li>Reduces reinvestment risk</li>
+                            <li>Allows for regime-aware roll management</li>
+                        </ul>
+                    </div>
+                    <div class="construction-card">
+                        <h4>Diversifying Across Underlyings</h4>
+                        <ul>
+                            <li>Allocate across SPX, NDX, RUT, SX5E</li>
+                            <li>Limit concentration in any single index</li>
+                            <li>Use worst-of baskets for yield enhancement</li>
+                            <li>Monitor correlation structure</li>
+                        </ul>
+                    </div>
+                    <div class="construction-card">
+                        <h4>Managing Issuer Risk</h4>
+                        <ul>
+                            <li>Focus on investment-grade issuers</li>
+                            <li>Set concentration limits per issuer</li>
+                            <li>Ongoing credit monitoring</li>
+                            <li>Diversify across multiple financial institutions</li>
+                        </ul>
+                    </div>
+                    <div class="construction-card">
+                        <h4>Risk Budget Adherence</h4>
+                        <ul>
+                            <li>Size sleeves to fit within overall portfolio risk budget</li>
+                            <li>Maintain target volatility and drawdown limits</li>
+                            <li>Regular rebalancing and barrier monitoring</li>
+                            <li>Scenario testing against policy benchmarks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMPLEMENTATION -->
+        <section id="implementation" class="section dark-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Implementation for Institutional Allocators</h2>
+                <p class="section-subheader">
+                    First Principle strategies are delivered through SMAs and AMC structures, allowing institutional allocators to integrate structured-product portfolios directly into existing models and custodial platforms.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Programmatic, Not Ad Hoc</h3>
+                        <p>Strategies are built as ongoing programs with defined rules, issuer lists, and risk limits, reducing dependence on one-off product pitches or opportunistic trades.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Institutional Infrastructure</h3>
+                        <p>We leverage institutional-grade partners for custody, administration, and execution, aligning our process with the standards of multi-family offices and institutional allocators.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Transparent Reporting</h3>
+                        <p>Sleeve-level reporting, barrier monitoring, and clear role definitions allow allocators to explain exactly how each strategy fits into client portfolios and policy frameworks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+        </div>
+    </footer>
+
+    <script src="../js/investor-type.js"></script>
+    <script>
+        // Set up investor type toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
