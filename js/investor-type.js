@@ -72,18 +72,35 @@
     function updateNavigationLinks() {
         const type = getUserType();
         const basePath = getBasePath();
+        const currentPath = window.location.pathname;
+        const isInstitutionalPage = currentPath.includes('/institutional/');
+        const isRetailPage = currentPath.includes('/retail/');
         
-        // Update all navigation links
-        const navLinks = document.querySelectorAll('a[href^="index.html"], a[href^="product.html"], a[href^="simulator.html"]');
+        // Update all navigation links that point to index.html, product.html, or simulator.html
+        const navLinks = document.querySelectorAll('a[href="index.html"], a[href="product.html"], a[href="simulator.html"], a[href^="index.html#"], a[href^="product.html#"], a[href^="simulator.html#"]');
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
-            if (href === 'index.html') {
-                link.href = basePath + 'index.html';
-            } else if (href === 'product.html') {
-                link.href = basePath + 'product.html';
-            } else if (href === 'simulator.html') {
-                link.href = basePath + 'simulator.html';
+            // Only update if we're not already in the correct directory
+            if (type === USER_TYPES.INSTITUTIONAL && !isInstitutionalPage) {
+                // User is institutional but on retail/root page - update to institutional paths
+                if (href === 'index.html' || href.startsWith('index.html')) {
+                    link.href = 'institutional/' + href;
+                } else if (href === 'product.html' || href.startsWith('product.html')) {
+                    link.href = 'institutional/' + href;
+                } else if (href === 'simulator.html' || href.startsWith('simulator.html')) {
+                    link.href = 'institutional/' + href;
+                }
+            } else if (type === USER_TYPES.RETAIL && !isRetailPage && !isInstitutionalPage) {
+                // User is retail but on root page - update to retail paths
+                if (href === 'index.html' || href.startsWith('index.html')) {
+                    link.href = 'retail/' + href;
+                } else if (href === 'product.html' || href.startsWith('product.html')) {
+                    link.href = 'retail/' + href;
+                } else if (href === 'simulator.html' || href.startsWith('simulator.html')) {
+                    link.href = 'retail/' + href;
+                }
             }
+            // If already in correct directory, links are already correct (relative paths work)
         });
     }
 
