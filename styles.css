@@ -454,6 +454,86 @@ section {
     opacity: 1;
 }
 
+/* Regime label styles */
+.regime-label-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+}
+
+.regime-label {
+    text-align: center;
+    opacity: 0.55;
+}
+
+.regime-label--current {
+    color: #f6e1bf;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.regime-label--future {
+    color: #fde9c5;
+    opacity: 1;
+    font-weight: 600;
+}
+
+@media (max-width: 968px) {
+    .regime-label-row {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+}
+
+/* Use case action buttons */
+.use-case-actions {
+    margin-top: 1.25rem;
+}
+
+.use-case-need {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #1A2532;
+}
+
+.use-case-how {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.btn-outline-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid #C8A678;
+    background: transparent;
+    color: #1A2532;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-outline-gold:hover {
+    background: #C8A678;
+    color: #111827;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-gold.btn-small {
+    font-size: 0.85rem;
+    padding: 0.45rem 1.2rem;
+}
+
 .hero-card {
     background: linear-gradient(135deg, #2A3A4A 0%, #1E2A39 100%);
     border: 1px solid #3A4A5A;

@@ -8,6 +8,217 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../styles.css">
     <style>
+        /* ------------------------------
+           Shared Strategy Intro Styling
+        -------------------------------*/
+        .strategy-intro-section {
+            background-color: #1A2532;
+        }
+
+        .strategy-intro-title {
+            font-size: 4rem;
+            color: #C8A678;
+            font-weight: 400;
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .strategy-intro-text-wrapper {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 2rem;
+        }
+
+        .strategy-intro-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #E0E0E0;
+            margin-bottom: 2rem;
+            max-width: 100%;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .strategy-intro-divider {
+            width: 100%;
+            height: 1px;
+            background-color: #C8A678;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .strategy-intro-title {
+                font-size: 3rem;
+                padding-left: 1rem;
+            }
+
+            .strategy-intro-text-wrapper {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .strategy-intro-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* ---------------------------------
+           Implementation Role Cards (Inst)
+        ----------------------------------*/
+        .implementation-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .implementation-card {
+            display: flex;
+            flex-direction: column;
+            padding: 2.25rem 2rem;
+            background-color: #1E2937; /* solid dark card for contrast */
+            border-radius: 12px;
+            border: 1px solid rgba(200, 166, 120, 0.45);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+            position: relative;
+        }
+
+        /* Make sure all text inside the card is fully opaque and legible */
+        .implementation-card,
+        .implementation-card * {
+            color: #E0E0E0;
+        }
+
+        .implementation-card.is-core {
+            background: linear-gradient(135deg, #273549 0%, #1E2937 100%);
+            border: 2px solid #C8A678;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .implementation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(200, 166, 120, 0.8);
+            background-color: #111827;
+        }
+
+        .implementation-card.is-core:hover {
+            background: linear-gradient(135deg, #2f3f55 0%, #111827 100%);
+        }
+
+        .implementation-role-label {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+            color: #A0AEC0;
+            margin-bottom: 0.4rem;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        .implementation-name {
+            color: #F9FAFB;
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .implementation-card.is-core .implementation-name {
+            color: #FDF5E6;
+        }
+
+        .implementation-tagline {
+            color: #E2E8F0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 300;
+        }
+
+        .implementation-body {
+            color: #E5E7EB;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .implementation-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .implementation-bullets li {
+            color: #E5E7EB;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.7rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .implementation-bullets li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #C8A678;
+            font-weight: bold;
+        }
+
+        .implementation-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: auto;
+            font-size: 0.85rem;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #C8A678;
+            text-decoration: none;
+            border-radius: 999px;
+            border: 1px solid #C8A678;
+            padding: 0.55rem 1.3rem;
+            background: transparent;
+            transition: all 0.25s ease;
+        }
+
+        .implementation-link span.icon {
+            font-size: 0.95rem;
+            transform: translateY(1px);
+        }
+
+        .implementation-link:hover {
+            background-color: #C8A678;
+            color: #1F2933;
+        }
+
+        .implementation-link:hover span.icon {
+            transform: translate(2px, 1px);
+        }
+
+        @media (max-width: 968px) {
+            .implementation-strip {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* -------------------------------
+           Instrument / Risk Detail Cards
+        --------------------------------*/
         .instrument-detail {
             background: rgba(255, 255, 255, 0.05);
             padding: 2rem;
@@ -18,50 +229,295 @@
 
         .instrument-detail h4 {
             color: #C8A678;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'Nunito Sans', sans-serif;
         }
 
-        .risk-return-table {
+        .instrument-detail p {
+            color: #E0E0E0;
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        /* ----------------------
+           Regime Matrix Styling
+        -----------------------*/
+        .regime-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .regime-toggle-label {
+            font-size: 0.85rem;
+            color: #A0AEC0;
+            font-family: 'Nunito Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .regime-toggle {
+            display: inline-flex;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+        .regime-toggle button {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: #E2E8F0;
+            cursor: pointer;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .regime-toggle button.active {
+            background: rgba(200, 166, 120, 0.18);
+            color: #F9FAFB;
+        }
+
+        .regime-matrix {
+            margin-top: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .regime-matrix table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .risk-return-table th,
-        .risk-return-table td {
-            padding: 1rem;
+        .regime-matrix thead {
+            background-color: #1A2532;
+        }
+
+        .regime-matrix th {
+            color: #F8F9FA;
+            padding: 1rem 1.5rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .risk-return-table th {
-            color: #C8A678;
             font-weight: 600;
-            background: rgba(200, 166, 120, 0.1);
+            font-size: 0.95rem;
+            font-family: 'Nunito Sans', sans-serif;
+            border-bottom: 2px solid #C8A678;
+            letter-spacing: 0.3px;
         }
 
-        .risk-return-table td {
+        .regime-matrix td {
+            padding: 1rem 1.5rem;
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-bottom: 1px solid #E8E8E8;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .regime-matrix tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Performance color scale */
+        .regime-pale-green {
+            background-color: #F0F5F0 !important;
+        }
+
+        .regime-mid-green {
+            background-color: #E0EDE0 !important;
+        }
+
+        .regime-dark-green {
+            background-color: #D0E4D0 !important;
+            color: #2F3B2F !important;
+        }
+
+        .regime-light-red {
+            background-color: #F5F0F0 !important;
+        }
+
+        .regime-legend {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: #A0AEC0;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .regime-legend span.swatch {
+            display: inline-block;
+            width: 12px;
+            height: 10px;
+            border-radius: 3px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        .swatch-dark {
+            background-color: #D0E4D0;
+        }
+
+        .swatch-mid {
+            background-color: #E0EDE0;
+        }
+
+        .swatch-pale {
+            background-color: #F0F5F0;
+        }
+
+        .swatch-red {
+            background-color: #F5F0F0;
+        }
+
+        /* -------------------------
+           Framework / Process Steps
+        --------------------------*/
+        .framework-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+
+        .framework-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .framework-step:hover .framework-step-number {
+            background-color: rgba(200, 166, 120, 0.1);
+            box-shadow: 0 0 20px rgba(200, 166, 120, 0.4);
+            transform: scale(1.05);
+        }
+
+        .framework-step-number {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #1A2532;
+            border: 2px solid #C8A678;
+            color: #C8A678;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            transition: all 0.3s ease;
+        }
+
+        .framework-step-content {
+            flex: 1;
+            padding-top: 0.5rem;
+        }
+
+        .framework-step-content h3 {
+            color: #F8F9FA;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .framework-step-content p {
             color: #E0E0E0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
         }
 
+        .framework-connector {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #C8A678, rgba(200, 166, 120, 0.3));
+            margin-left: 29px;
+            margin-top: -10px;
+            margin-bottom: -10px;
+            transition: all 0.3s ease;
+        }
+
+        .framework-step:last-of-type + .framework-connector {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .framework-step {
+                gap: 1.5rem;
+            }
+
+            .framework-step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+
+            .framework-connector {
+                margin-left: 24px;
+            }
+
+            .framework-step-content h3 {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* -------------------------
+           Construction Pillar Cards
+        --------------------------*/
         .construction-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 2rem;
-            margin: 2rem 0;
+            margin: 2.5rem 0 0;
         }
 
         .construction-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             padding: 2rem;
             border-radius: 8px;
             border-top: 2px solid #C8A678;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .construction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #C8A678, rgba(200, 166, 120, 0.45));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .construction-card:hover::before {
+            transform: scaleX(1);
         }
 
         .construction-card h4 {
-            color: #C8A678;
-            margin-bottom: 1rem;
+            color: #F8F9FA;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            font-family: 'Nunito Sans', sans-serif;
         }
 
         .construction-card ul {
@@ -72,12 +528,15 @@
 
         .construction-card li {
             color: #E0E0E0;
-            padding: 0.5rem 0;
+            padding: 0.45rem 0;
             padding-left: 1.5rem;
             position: relative;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-family: 'Nunito Sans', sans-serif;
         }
 
-        .construction-card li:before {
+        .construction-card li::before {
             content: "▸";
             position: absolute;
             left: 0;
@@ -103,8 +562,9 @@
                 <li class="nav-item-with-dropdown">
                     <a href="product.html">Strategy</a>
                     <ul class="nav-dropdown">
-                        <li><a href="product.html#instruments-mechanics">Instruments & Mechanics</a></li>
-                        <li><a href="product.html#risk-return">Risk & Return Drivers</a></li>
+                        <li><a href="product.html#implementation-roles">Implementation Roles</a></li>
+                        <li><a href="product.html#instruments-mechanics">Instruments &amp; Mechanics</a></li>
+                        <li><a href="product.html#regime-behavior">Behavior Across Regimes</a></li>
                         <li><a href="product.html#portfolio-construction">Portfolio Construction</a></li>
                         <li><a href="product.html#implementation">Implementation</a></li>
                     </ul>
@@ -121,188 +581,428 @@
     </header>
 
     <main>
-        <!-- STRATEGY INTRO -->
-        <section class="section strategy-intro-section">
+        <!-- INTRO SECTION -->
+        <section class="section strategy-intro-section" style="padding-top: 8rem; padding-bottom: 4rem;">
             <div class="container">
-                <h1 class="strategy-intro-title">A Research-Driven Framework for Structured Products</h1>
+                <h1 class="strategy-intro-title">Structured-Note Sleeves for Policy Portfolios</h1>
                 <div class="strategy-intro-text-wrapper">
                     <p class="strategy-intro-text">
-                        First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income. We employ rigorous analytics, scenario testing, and institutional-grade portfolio construction to deliver structured-note portfolios that integrate seamlessly into existing policy allocations.
+                        First Principle Asset Management designs structured-note sleeves as regime-aware overlays for institutional portfolios. 
+                        Rather than one-off trades, we build diversified programs that harvest volatility premia, define downside participation, and 
+                        remain anchored to the client's benchmark and risk budget. The goal is not to replace core equity or fixed income, but to 
+                        reshape the path of returns, compress drawdowns, and fund higher cash flow from existing allocations.
+                    </p>
+                    <p class="strategy-intro-text">
+                        This page summarizes how our sleeves are positioned in institutional portfolios, the instruments we use, how they behave 
+                        across regimes, and the portfolio construction process that links payoff engineering back to policy objectives.
                     </p>
                     <div class="strategy-intro-divider"></div>
                 </div>
             </div>
         </section>
 
+        <!-- IMPLEMENTATION ROLES -->
+        <section id="implementation-roles" class="section alt-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Implementation Roles Within a Policy Portfolio</h2>
+                <p class="section-subheader">
+                    Most allocators do not want "a structured product book." They want a predictable sleeve that improves the behavior of an existing 60/40 or 
+                    multi-asset allocation. We typically implement across three roles, funded from different parts of the portfolio.
+                </p>
+
+                <div class="implementation-strip">
+                    <!-- Enhance Core Fixed Income -->
+                    <article class="implementation-card is-core">
+                        <div class="implementation-role-label">Implementation Role</div>
+                        <h3 class="implementation-name">Enhance Core Fixed Income</h3>
+                        <p class="implementation-tagline">Income-oriented sleeve funded from IG/HY credit</p>
+                        <p class="implementation-body">
+                            High-buffer, income-focused notes designed to lift portfolio cash yield while preserving capital and duration characteristics 
+                            of the core bond allocation.
+                        </p>
+                        <ul class="implementation-bullets">
+                            <li><strong>Funding source:</strong> 10–25% carve-out from IG/HY credit sleeves.</li>
+                            <li><strong>Design:</strong> Short–intermediate tenors, 30–40% downside buffers, diversified investment-grade issuers.</li>
+                            <li><strong>Intended outcome:</strong> Higher carry with controlled participation in moderate credit and equity drawdowns.</li>
+                        </ul>
+                        <a class="implementation-link" href="simulator.html#bond-sleeve">
+                            View bond-sleeve example
+                            <span class="icon">↗</span>
+                        </a>
+                    </article>
+
+                    <!-- Reshape Equity Drawdowns -->
+                    <article class="implementation-card">
+                        <div class="implementation-role-label">Implementation Role</div>
+                        <h3 class="implementation-name">Reshape Equity Drawdowns</h3>
+                        <p class="implementation-tagline">Structured equity overlay funded from core equities</p>
+                        <p class="implementation-body">
+                            Balanced growth and defensive structures that seek equity-like long-run returns with more defined downside participation 
+                            and improved path characteristics.
+                        </p>
+                        <ul class="implementation-bullets">
+                            <li><strong>Funding source:</strong> 15–35% of core global equity allocation.</li>
+                            <li><strong>Design:</strong> Mix of buffered income and enhanced participation notes on broad indices.</li>
+                            <li><strong>Intended outcome:</strong> Compress drawdowns in stress regimes while preserving upside over a full cycle.</li>
+                        </ul>
+                        <a class="implementation-link" href="simulator.html#equity-carveout">
+                            View equity carve-out
+                            <span class="icon">↗</span>
+                        </a>
+                    </article>
+
+                    <!-- Simplify Alternative Credit / Opportunistic Yield -->
+                    <article class="implementation-card">
+                        <div class="implementation-role-label">Implementation Role</div>
+                        <h3 class="implementation-name">Simplify Alternative Credit</h3>
+                        <p class="implementation-tagline">Volatility premium as a liquid, rules-based sleeve</p>
+                        <p class="implementation-body">
+                            Higher-octane income and growth notes that target equity and credit risk premia in a transparent, parameterized framework, 
+                            as an alternative to more complex opportunistic credit or structured credit mandates.
+                        </p>
+                        <ul class="implementation-bullets">
+                            <li><strong>Funding source:</strong> Opportunistic credit / alternatives bucket (5–15% of portfolio).</li>
+                            <li><strong>Design:</strong> Higher coupons, shallower buffers, tighter constraints on size and reinvestment.</li>
+                            <li><strong>Intended outcome:</strong> Access to complexity premium with explicit payoff rules and daily transparency.</li>
+                        </ul>
+                        <a class="implementation-link" href="simulator.html#alt-credit">
+                            View alt-credit sleeve
+                            <span class="icon">↗</span>
+                        </a>
+                    </article>
+                </div>
+
+                <p style="text-align:center;color:#E0E0E0;font-size:0.85rem;margin-top:2rem;max-width:800px;margin-left:auto;margin-right:auto;font-family:'Nunito Sans',sans-serif;font-weight:300;">
+                    Implementation ranges are illustrative and will vary by client, benchmark, and mandate. All examples are hypothetical and for discussion purposes only.
+                </p>
+            </div>
+        </section>
+
         <!-- INSTRUMENTS & MECHANICS -->
-        <section id="instruments-mechanics" class="section alt-bg" style="scroll-margin-top: 80px;">
+        <section id="instruments-mechanics" class="section dark-bg" style="scroll-margin-top: 80px;">
             <div class="container">
-                <h2 class="section-header">Instruments & Payoff Mechanics</h2>
+                <h2 class="section-header">Instruments &amp; Payoff Mechanics</h2>
                 <p class="section-subheader">
-                    Our portfolios are constructed from diversified baskets of structured notes on major equity indices. Understanding the instruments and their payoff mechanics is fundamental to evaluating how these sleeves behave across market regimes.
+                    Portfolios are built from diversified baskets of bank-issued notes whose economics are driven by listed options on major equity indices. 
+                    The objective is to turn complex payoffs into transparent, parameterized sleeves that can be underwritten at the policy level.
                 </p>
 
                 <div class="instrument-detail">
-                    <h4>Underlying Indices</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        We primarily use broad-based equity indices as underlyings: S&P 500 (SPX), NASDAQ-100 (NDX), Russell 2000 (RUT), and Euro Stoxx 50 (SX5E). These indices provide liquidity, transparency, and diversification. We also employ worst-of baskets across multiple indices to enhance yield while maintaining diversification.
+                    <h4>Underlyings &amp; Index Selection</h4>
+                    <p>
+                        We focus on broad, liquid indices such as the S&amp;P 500 (SPX), NASDAQ-100 (NDX), Russell 2000 (RUT), and Euro Stoxx 50 (SX5E), 
+                        supplemented by sector or factor baskets when appropriate. Index selection is driven by benchmark alignment, liquidity, and 
+                        diversification objectives—not by single-name views.
                     </p>
                 </div>
 
                 <div class="instrument-detail">
-                    <h4>Barrier Levels & Downside Protection</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        Structured notes employ barrier levels that define downside participation. For example, a note with a 70% barrier means that if the underlying index falls below 70% of its initial level at maturity, the investor participates in the loss from that barrier level. Barrier levels typically range from 50% to 80%, depending on the strategy's risk budget and income objectives. Higher barriers provide more protection but generally result in lower coupon rates.
+                    <h4>Barrier Levels &amp; Downside Frameworks</h4>
+                    <p>
+                        Payoffs typically embed European-style barriers between 50–80% of the initial index level. For a 70% barrier, losses are absorbed 
+                        down to -30% at maturity; beyond that point, the sleeve participates in further downside from the barrier level. For core roles 
+                        (e.g., fixed-income enhancement), we favor deeper barriers and shorter tenors; for opportunistic roles, we may accept shallower 
+                        protection in exchange for higher coupons.
                     </p>
                 </div>
 
                 <div class="instrument-detail">
-                    <h4>Coupon Structures</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        Notes pay periodic coupons (typically quarterly or semi-annual) that are funded by the option premium embedded in the structure. Coupon rates vary based on volatility assumptions, barrier levels, and tenor. In range-bound or moderately rising markets, coupons drive most of the return. Coupons may be conditional (only paid if the index remains above a certain level) or unconditional, depending on the structure type.
+                    <h4>Coupon &amp; Autocall Structures</h4>
+                    <p>
+                        Income is generated via the sale of put and call options. Coupons may be unconditional or linked to the index remaining above 
+                        a reference level, and are typically paid quarterly. Autocall features allow early redemption if indices trade at or above 
+                        pre-defined levels, accelerating realized returns in benign regimes and creating natural roll opportunities.
                     </p>
                 </div>
 
                 <div class="instrument-detail">
-                    <h4>Autocall Features</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        Many structures include autocall features that allow early redemption if the underlying index reaches a predefined level (typically 100–110% of initial) on specified observation dates. Autocalls can accelerate returns in favorable markets and reduce time to maturity, improving portfolio turnover and reinvestment opportunities.
+                    <h4>Program Rules, Not One-Off Trades</h4>
+                    <p>
+                        Each sleeve is governed by a playbook: allowed underlyings, maturity ranges, barrier bands, coupon targets, issuer list, and risk limits. 
+                        New issuance and rolls are executed within this ruleset, creating repeatability and a clear mapping from policy decisions 
+                        to individual notes.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- RISK/RETURN DRIVERS -->
-        <section id="risk-return" class="section dark-bg" style="scroll-margin-top: 80px;">
+        <!-- REGIME BEHAVIOR & MATRIX -->
+        <section id="regime-behavior" class="section alt-bg" style="scroll-margin-top: 80px;">
             <div class="container">
-                <h2 class="section-header">Risk & Return Drivers</h2>
+                <h2 class="section-header">Behavior Across Market Regimes</h2>
                 <p class="section-subheader">
-                    Understanding the drivers of risk and return in structured-note portfolios is essential for portfolio construction and risk management. Returns are primarily driven by volatility pricing, not directional market forecasts.
+                    Structured-note sleeves are explicitly regime-aware. Their payoff is linked to both the path and the level of equities and rates. 
+                    The tables below summarize <em>illustrative</em> behavior of a 60/40 baseline and three implementation roles across common regimes.
                 </p>
 
-                <div class="instrument-detail">
-                    <h4>Theta Decay / Carry from Sold Options</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        Structured notes effectively sell options (puts, calls, or combinations) to generate income. The option premium received funds coupon payments. As time passes, all else equal, the value of sold options decays (theta), which is captured as income. This creates a positive carry component that is independent of market direction, as long as the underlying remains within certain bounds.
-                    </p>
+                <div class="regime-header-row">
+                    <div class="regime-toggle-label">View</div>
+                    <div class="regime-toggle">
+                        <button type="button" class="active" data-regime-view="qualitative">Qualitative behavior</button>
+                        <button type="button" data-regime-view="quantitative">Illustrative scenario numbers</button>
+                    </div>
                 </div>
 
-                <div class="instrument-detail">
-                    <h4>Volatility & Correlation Regimes</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        Option values are sensitive to volatility. Higher implied volatility increases option premiums, which can enhance coupon rates. However, realized volatility that exceeds assumptions can lead to more frequent barrier breaches. We model volatility regimes (low vol QE era vs. elevated vol post-2020) and adjust portfolio construction accordingly. Correlation across underlyings also affects basket structures—lower correlation can enhance diversification benefits but may reduce worst-of basket yields.
-                    </p>
+                <!-- Qualitative Matrix -->
+                <div id="regimeMatrixQualitative" class="regime-matrix">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Market Regime</th>
+                                <th>60/40 Baseline</th>
+                                <th>Enhance Core Fixed Income</th>
+                                <th>Reshape Equity Drawdowns</th>
+                                <th>Simplify Alternative Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rising, low-vol markets</strong></td>
+                                <td class="regime-mid-green">
+                                    Participates fully in equity upside; bond contribution modest.
+                                </td>
+                                <td class="regime-mid-green">
+                                    Coupons add incremental carry, modestly outperforming credit with similar drawdown profile.
+                                </td>
+                                <td class="regime-pale-green">
+                                    Participates in most equity upside; buffers slightly mute extreme rallies in exchange for higher income.
+                                </td>
+                                <td class="regime-dark-green">
+                                    Highest upside participation; coupons and calls benefit from benign path with limited stress on barriers.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sideways / range-bound markets</strong></td>
+                                <td class="regime-pale-green">
+                                    Equities contribute little; bonds clip coupons with limited real return after inflation.
+                                </td>
+                                <td class="regime-dark-green">
+                                    Coupons dominate returns; sleeve typically exceeds long-only credit income.
+                                </td>
+                                <td class="regime-mid-green">
+                                    Income plus selective upside from range-bound and buffered structures; potential outperformance vs. long-only equity.
+                                </td>
+                                <td class="regime-mid-green">
+                                    Elevated coupons and frequent autocalls drive returns; behaves like a high-carry sleeve.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Moderate equity drawdowns</strong></td>
+                                <td class="regime-light-red">
+                                    Equities transmit most of the drawdown; bonds cushion but do not eliminate losses.
+                                </td>
+                                <td class="regime-mid-green">
+                                    Deeper barriers absorb routine drawdowns, reducing participation vs. credit/equity beta.
+                                </td>
+                                <td class="regime-pale-green">
+                                    Buffers mitigate part of the drawdown; losses realized only beyond defined barrier levels.
+                                </td>
+                                <td class="regime-light-red">
+                                    More path-dependent; higher coupons offset some downside but sleeve remains risk-seeking.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Severe stress / correlated selloff</strong></td>
+                                <td class="regime-light-red">
+                                    Both equities and duration can struggle if rates and risk premia reprice simultaneously.
+                                </td>
+                                <td class="regime-pale-green">
+                                    Can experience mark-to-market and realized losses, but buffers and issuer diversification aim to soften impact.
+                                </td>
+                                <td class="regime-light-red">
+                                    Losses realized beyond barrier levels; focus shifts to recovery path and roll discipline.
+                                </td>
+                                <td class="regime-light-red">
+                                    Behaves like an opportunistic risk sleeve; appropriate only within a constrained alternatives bucket.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <div class="instrument-detail">
-                    <h4>Tail-Risk Scenarios & Management</h4>
-                    <p style="color: #E0E0E0; line-height: 1.8;">
-                        In severe market stress (e.g., 2008, 2020), structured notes can experience losses beyond barrier levels. We manage tail risk through: (1) diversification across issuers and underlyings, (2) conservative barrier levels for core strategies, (3) scenario stress testing, and (4) ongoing monitoring of barrier proximity. While structured notes provide downside protection relative to long-only equity, they are not risk-free and can experience material losses in extreme scenarios.
-                    </p>
+                <!-- Quantitative / Scenario Matrix -->
+                <div id="regimeMatrixQuantitative" class="regime-matrix" style="display:none; margin-top:1.5rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scenario (1-year)</th>
+                                <th>Assumed SPX / Agg Path</th>
+                                <th>60/40 Baseline<br>(Total Return)</th>
+                                <th>Bond Sleeve Replacement<br>(Excess vs 60/40)</th>
+                                <th>Equity Carve-Out<br>(Excess vs 60/40)</th>
+                                <th>Alt Credit Sleeve<br>(Excess vs 60/40)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Benign expansion</strong></td>
+                                <td>Equities +10%, Agg -2%</td>
+                                <td class="regime-mid-green">~+6.0%</td>
+                                <td class="regime-mid-green">+40–60 bps</td>
+                                <td class="regime-pale-green">+20–40 bps</td>
+                                <td class="regime-dark-green">+80–120 bps</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Range-bound</strong></td>
+                                <td>Equities 0%, Agg +2%</td>
+                                <td class="regime-pale-green">~+1.0%</td>
+                                <td class="regime-dark-green">+80–120 bps</td>
+                                <td class="regime-mid-green">+40–70 bps</td>
+                                <td class="regime-mid-green">+60–100 bps</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Equity drawdown</strong></td>
+                                <td>Equities -20%, Agg +3%</td>
+                                <td class="regime-light-red">~-9.0%</td>
+                                <td class="regime-mid-green">+150–250 bps (smaller drawdown)</td>
+                                <td class="regime-pale-green">+70–150 bps</td>
+                                <td class="regime-light-red">-50–0 bps (higher beta)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rate shock</strong></td>
+                                <td>Equities -10%, Agg -10%</td>
+                                <td class="regime-light-red">~-10.0%</td>
+                                <td class="regime-pale-green">+30–80 bps</td>
+                                <td class="regime-pale-green">+30–80 bps</td>
+                                <td class="regime-mid-green">+80–120 bps</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <table class="risk-return-table">
-                    <thead>
-                        <tr>
-                            <th>Risk Factor</th>
-                            <th>Impact on Returns</th>
-                            <th>Mitigation Strategy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Volatility Regime Shift</td>
-                            <td>Higher realized vol can increase barrier breach frequency; lower vol reduces coupon rates</td>
-                            <td>Regime-aware portfolio construction; dynamic barrier calibration</td>
-                        </tr>
-                        <tr>
-                            <td>Correlation Breakdown</td>
-                            <td>Reduced diversification benefits in stress; potential for simultaneous barrier breaches</td>
-                            <td>Diversification across uncorrelated underlyings; worst-of basket limits</td>
-                        </tr>
-                        <tr>
-                            <td>Issuer Credit Risk</td>
-                            <td>Potential loss of principal if issuer defaults</td>
-                            <td>Concentration limits; investment-grade issuer focus; ongoing credit monitoring</td>
-                        </tr>
-                        <tr>
-                            <td>Path Dependency</td>
-                            <td>Autocall and barrier features create path-dependent payoffs</td>
-                            <td>Scenario analysis; Monte Carlo simulation; transparent payoff documentation</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p class="regime-legend">
+                    <span class="swatch swatch-dark"></span> strongest relative outcome&nbsp;&nbsp;
+                    <span class="swatch swatch-mid"></span> clearly positive&nbsp;&nbsp;
+                    <span class="swatch swatch-pale"></span> modest / neutral&nbsp;&nbsp;
+                    <span class="swatch swatch-red"></span> weaker / higher risk.
+                    Scenario numbers are purely illustrative and do not represent guarantees or forecasts.
+                </p>
             </div>
         </section>
 
-        <!-- PORTFOLIO CONSTRUCTION -->
-        <section id="portfolio-construction" class="section alt-bg" style="scroll-margin-top: 80px;">
+        <!-- PORTFOLIO CONSTRUCTION PROCESS -->
+        <section id="portfolio-construction" class="section dark-bg" style="scroll-margin-top: 80px;">
             <div class="container">
-                <h2 class="section-header">Portfolio Construction Process</h2>
+                <h2 class="section-header">Portfolio Construction Framework</h2>
                 <p class="section-subheader">
-                    Our portfolios are constructed as systematic sleeves, not ad hoc trades. We follow a repeatable process that links client objectives to payoff design, issuer selection, and ongoing risk management.
+                    Every sleeve is built through a repeatable process that connects investment policy to payoff engineering and day-to-day rollout. 
+                    The same framework can be used to underwrite an SMA, AMC, or sub-advised sleeve.
                 </p>
+
+                <div class="framework-container">
+                    <div class="framework-step">
+                        <div class="framework-step-number">1</div>
+                        <div class="framework-step-content">
+                            <h3>Define the Role &amp; Risk Budget</h3>
+                            <p>
+                                Work with the investment team to specify the sleeve's role (income, drawdown management, opportunistic yield), 
+                                benchmark, tracking-error tolerance, and drawdown limits. This determines funding source, target allocation size, 
+                                and allowable volatility.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">2</div>
+                        <div class="framework-step-content">
+                            <h3>Engineer the Payoff Library</h3>
+                            <p>
+                                Define the allowable menu of payoff types, barrier ranges, underlyings, and maturity buckets. For each, we map 
+                                expected carry, convexity, and stress behavior so that the sleeve can be evaluated at the program level, not note by note.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">3</div>
+                        <div class="framework-step-content">
+                            <h3>Construct Diversified Sleeves</h3>
+                            <p>
+                                Allocate across issuers, indices, maturities, and payoff types, subject to concentration and correlation limits. 
+                                Laddered issuance and size constraints keep the sleeve diversified across time and counterparties.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">4</div>
+                        <div class="framework-step-content">
+                            <h3>Monitor, Roll &amp; Report</h3>
+                            <p>
+                                Ongoing oversight tracks barrier proximity, issuer risk, and regime shifts. Maturing notes are rolled into 
+                                new issuance consistent with the playbook, while sleeve-level reporting highlights income, drawdown, and 
+                                contribution to total portfolio risk.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="construction-grid">
                     <div class="construction-card">
-                        <h4>Laddering Maturities</h4>
+                        <h4>Laddering &amp; Liquidity</h4>
                         <ul>
-                            <li>Stagger maturities across 1–5 year tenors</li>
-                            <li>Ensures continuous coupon income</li>
-                            <li>Reduces reinvestment risk</li>
-                            <li>Allows for regime-aware roll management</li>
+                            <li>Stagger maturities across 1–5 years to avoid cliff risk.</li>
+                            <li>Blend primary issuance with secondary opportunities where appropriate.</li>
+                            <li>Maintain rolling liquidity profile consistent with client guidelines.</li>
                         </ul>
                     </div>
                     <div class="construction-card">
-                        <h4>Diversifying Across Underlyings</h4>
+                        <h4>Diversification &amp; Issuer Limits</h4>
                         <ul>
-                            <li>Allocate across SPX, NDX, RUT, SX5E</li>
-                            <li>Limit concentration in any single index</li>
-                            <li>Use worst-of baskets for yield enhancement</li>
-                            <li>Monitor correlation structure</li>
+                            <li>Multiple investment-grade issuing banks with hard concentration caps.</li>
+                            <li>Limits by underlying index, region, and payoff type.</li>
+                            <li>Correlation-aware construction for baskets and worst-of structures.</li>
                         </ul>
                     </div>
                     <div class="construction-card">
-                        <h4>Managing Issuer Risk</h4>
+                        <h4>Regime &amp; Scenario Testing</h4>
                         <ul>
-                            <li>Focus on investment-grade issuers</li>
-                            <li>Set concentration limits per issuer</li>
-                            <li>Ongoing credit monitoring</li>
-                            <li>Diversify across multiple financial institutions</li>
+                            <li>Backtests and scenario analysis vs. 60/40 and policy benchmarks.</li>
+                            <li>Stress tests for 2008-, 2020-, and 2022-style regimes.</li>
+                            <li>Clear documentation of expected behavior before implementation.</li>
                         </ul>
                     </div>
                     <div class="construction-card">
-                        <h4>Risk Budget Adherence</h4>
+                        <h4>Governance &amp; Reporting</h4>
                         <ul>
-                            <li>Size sleeves to fit within overall portfolio risk budget</li>
-                            <li>Maintain target volatility and drawdown limits</li>
-                            <li>Regular rebalancing and barrier monitoring</li>
-                            <li>Scenario testing against policy benchmarks</li>
+                            <li>Sleeve-level performance and risk attribution.</li>
+                            <li>Barrier and issuer-monitoring dashboards.</li>
+                            <li>Integration with existing consultant and custodian reporting.</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- IMPLEMENTATION -->
-        <section id="implementation" class="section dark-bg" style="scroll-margin-top: 80px;">
+        <!-- IMPLEMENTATION & INFRASTRUCTURE -->
+        <section id="implementation" class="section alt-bg" style="scroll-margin-top: 80px;">
             <div class="container">
                 <h2 class="section-header">Implementation for Institutional Allocators</h2>
                 <p class="section-subheader">
-                    First Principle strategies are delivered through SMAs and AMC structures, allowing institutional allocators to integrate structured-product portfolios directly into existing models and custodial platforms.
+                    Our sleeves are delivered through SMAs and AMC structures, with flexibility to integrate into existing operating platforms 
+                    without creating operational drag for the investment office.
                 </p>
                 <div class="pillars-grid">
                     <div class="pillar-card">
                         <h3>Programmatic, Not Ad Hoc</h3>
-                        <p>Strategies are built as ongoing programs with defined rules, issuer lists, and risk limits, reducing dependence on one-off product pitches or opportunistic trades.</p>
+                        <p>
+                            Strategies are implemented as ongoing programs governed by documented playbooks, not trade-by-trade opportunism. 
+                            This allows committees to underwrite the process, not individual tickets.
+                        </p>
                     </div>
                     <div class="pillar-card">
                         <h3>Institutional Infrastructure</h3>
-                        <p>We leverage institutional-grade partners for custody, administration, and execution, aligning our process with the standards of multi-family offices and institutional allocators.</p>
+                        <p>
+                            We work with institutional-grade partners for custody, administration, and execution, aligning with the practices of 
+                            multi-family offices, OCIOs, and other professional allocators.
+                        </p>
                     </div>
                     <div class="pillar-card">
-                        <h3>Transparent Reporting</h3>
-                        <p>Sleeve-level reporting, barrier monitoring, and clear role definitions allow allocators to explain exactly how each strategy fits into client portfolios and policy frameworks.</p>
+                        <h3>Transparent Sleeve-Level Reporting</h3>
+                        <p>
+                            Sleeve-level performance, risk, and barrier reporting allow stakeholders to see exactly how structured products are 
+                            contributing to total portfolio income, volatility, and drawdowns.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -318,16 +1018,36 @@
 
     <script src="../js/investor-type.js"></script>
     <script>
-        // Set up investor type toggle
+        // Investor type toggle
         document.addEventListener('DOMContentLoaded', function() {
             const toggle = document.getElementById('investor-type-indicator');
-            if (toggle) {
+            if (toggle && window.FPInvestorType && typeof window.FPInvestorType.handleInvestorTypeToggle === 'function') {
                 toggle.addEventListener('click', function() {
                     window.FPInvestorType.handleInvestorTypeToggle();
                 });
             }
+
+            // Regime matrix view toggle
+            const regimeButtons = document.querySelectorAll('[data-regime-view]');
+            const qual = document.getElementById('regimeMatrixQualitative');
+            const quant = document.getElementById('regimeMatrixQuantitative');
+
+            regimeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    regimeButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const view = btn.getAttribute('data-regime-view');
+
+                    if (view === 'quantitative') {
+                        qual.style.display = 'none';
+                        quant.style.display = 'block';
+                    } else {
+                        qual.style.display = 'block';
+                        quant.style.display = 'none';
+                    }
+                });
+            });
         });
     </script>
 </body>
 </html>
-

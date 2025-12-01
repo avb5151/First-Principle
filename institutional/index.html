@@ -23,57 +23,71 @@
             margin: 0 auto;
         }
 
-        /* timeline spine behind cards */
+        /* timeline container */
         .regime-timeline {
             position: relative;
             margin-top: 3rem;
         }
 
-        .regime-timeline::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 6%;
-            right: 6%;
-            height: 2px;
-            background: rgba(200, 166, 120, 0.35);
-            z-index: 0;
-        }
-
-        /* three cards on the spine */
+        /* three cards with connecting lines between them */
         .regime-comparison {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 2rem;
             position: relative;
-            z-index: 1;
+        }
+
+        /* connecting lines between boxes */
+        .regime-period:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 2rem;
+            height: 2px;
+            background: rgba(200, 166, 120, 0.5);
+            transform: translateY(-50%);
+            z-index: 2;
         }
 
         .regime-period {
             position: relative;
             padding: 2rem 2.25rem;
-            background: #1A2432;
+            background: #141e2b;
             border-radius: 14px;
-            border: 1px solid rgba(200, 166, 120, 0.35);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(200, 166, 120, 0.28);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease,
-                background 0.3s ease;
+                background 0.3s ease, opacity 0.3s ease;
+            opacity: 0.75;
+
+            /* unify height / alignment */
+            display: flex;
+            flex-direction: column;
+            min-height: 360px;
         }
 
-        /* "current regime" highlight (middle card) */
         .regime-period--current {
-            background: #222f41;
-            border-color: #e0b97f;
+            background: #1c2838;
+            border-color: #d8b179;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+            opacity: 0.9;
         }
 
-        /* subtle hover lift */
-        .regime-period:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
+        .regime-period--future {
             background: #233143;
+            border-color: #f0c88a;
+            box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+            opacity: 1;
         }
 
-        /* headings */
+        .regime-period:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            background: #233143;
+            opacity: 1;
+        }
+
         .regime-period h4 {
             color: #f8f9fb;
             margin-bottom: 1.25rem;
@@ -102,12 +116,16 @@
             flex: 1;
             padding-right: 1rem;
             min-width: 0;
+
+            /* keep each label on one line so it doesn't stack weirdly */
+            white-space: nowrap;
+            font-size: 0.9rem;
         }
 
         .regime-metric-value {
             color: #f6e1bf;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem; /* slightly smaller for better fit */
             text-align: right;
             flex-shrink: 0;
             margin-left: 1rem;
@@ -116,7 +134,7 @@
 
         /* interpretation line */
         .regime-interpretation {
-            margin-top: 1.75rem;
+            margin-top: auto; /* pins this to the bottom so all cards line up */
             padding-top: 1.1rem;
             font-size: 0.9rem;
             color: #d0d5dc;
@@ -125,13 +143,19 @@
             font-style: italic;
         }
 
+        /* adjust dotted line position in first "then" box */
+        .regime-period:first-child .regime-interpretation {
+            margin-top: 1.5rem; /* lower the dotted line, more in the middle */
+        }
+
         /* mobile */
         @media (max-width: 968px) {
             .regime-comparison {
                 grid-template-columns: 1fr;
             }
 
-            .regime-timeline::before {
+            /* connecting lines hidden on mobile */
+            .regime-period::after {
                 display: none;
             }
 
@@ -253,7 +277,7 @@
                 <div class="hero-content-new">
                     <div class="hero-text-new">
                         <h1 class="hero-title-new" style="font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem;">
-                            Structured Income &amp; Risk Management<br>
+                            Portfolio Enhancement<br>
                             for a New Market Regime
                         </h1>
                         <p class="hero-subheader-new" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto 2.5rem;">
@@ -274,11 +298,18 @@
                 <h2 class="section-header">The Regime Shift</h2>
                 <p class="section-subheader">
                     Capital market assumptions have shifted materially. Forward equity returns are lower, volatility is structurally
-                    higher, and traditional diversification is less reliable. The portfolio construction playbook that worked in the QE
-                    era requires recalibration for today&#8217;s and tomorrow&#8217;s regime.
+                    higher, and traditional diversification is less reliable. The portfolio construction playbook that worked in the
+                    Quantitative Easing era requires recalibration for today&#8217;s and tomorrow&#8217;s regime.
                 </p>
 
                 <div class="regime-timeline">
+                    <!-- Simple THEN / NOW / NEXT labels -->
+                    <div class="regime-label-row">
+                        <div class="regime-label">Then: QE Era</div>
+                        <div class="regime-label regime-label--current">Now: Elevated Volatility</div>
+                        <div class="regime-label regime-label--future">Next: Constrained Return Outlook</div>
+                    </div>
+
                     <div class="regime-comparison">
                         <div class="regime-period">
                             <h4>2010–2019: QE-Dominated Regime</h4>
@@ -301,7 +332,7 @@
                                 </div>
                             </div>
                             <p class="regime-interpretation">
-                                Beta and diversification did the heavy lifting; traditional 60/40 portfolios were highly effective.
+                                Beta, multiple expansion, and negative stock–bond correlation did most of the work; traditional 60/40 was an efficient default core.
                             </p>
                         </div>
 
@@ -310,7 +341,7 @@
                             <div class="regime-metrics">
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">Forward Equity Returns</span>
-                                    <span class="regime-metric-value">4–5%</span>
+                                    <span class="regime-metric-value">~4–5%</span>
                                 </div>
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">Realized Volatility (SPX)</span>
@@ -318,24 +349,24 @@
                                 </div>
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">60/40 Expected Return</span>
-                                    <span class="regime-metric-value">4–5%</span>
+                                    <span class="regime-metric-value">~4–5%</span>
                                 </div>
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">Equity–Bond Correlation</span>
-                                    <span class="regime-metric-value">Higher, Less Reliable</span>
+                                    <span class="regime-metric-value">Higher, Unstable</span>
                                 </div>
                             </div>
                             <p class="regime-interpretation">
-                                Drawdowns became sharper and diversification less dependable; portfolios need more efficient payoff design.
+                                Drawdowns are sharper and diversification delivers less; portfolios need more efficient payoff design per unit of risk budget.
                             </p>
                         </div>
 
-                        <div class="regime-period">
-                            <h4>2026+ Capital Market Outlook</h4>
+                        <div class="regime-period regime-period--future">
+                            <h4>2026- Capital Market Outlook</h4>
                             <div class="regime-metrics">
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">Forward Equity Returns</span>
-                                    <span class="regime-metric-value">Constrained, Mid-Single-Digits</span>
+                                    <span class="regime-metric-value">Mid-Single-Digits</span>
                                 </div>
                                 <div class="regime-metric">
                                     <span class="regime-metric-label">Volatility &amp; Skew</span>
@@ -346,21 +377,20 @@
                                     <span class="regime-metric-value">Less Dominant Core</span>
                                 </div>
                                 <div class="regime-metric">
-                                    <span class="regime-metric-label">Portfolio Imperative</span>
-                                    <span class="regime-metric-value">More Efficient Use<br>of Risk Budget</span>
+                                    <span class="regime-metric-label">Risk Budget Use</span>
+                                    <span class="regime-metric-value">More Efficient</span>
                                 </div>
                             </div>
                             <p class="regime-interpretation">
-                                The opportunity is to treat volatility and payoff shape as design variables, not byproducts&#8212;structured-note
-                                sleeves become a rational complement to traditional beta.
+                                The opportunity is to treat volatility and payoff shape as explicit design variables&#8212;structured-note sleeves become a rational
+                                complement to traditional beta.
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <p style="text-align:center;color:#9ca3af;font-size:0.9rem;margin-top:2rem;font-style:italic;">
-                    Sources: JPMorgan, BlackRock, Goldman Sachs Capital Market Assumptions; Bloomberg. Figures are illustrative for regime
-                    comparison.
+                    Sources: JPMorgan, BlackRock, Goldman Sachs Capital Market Assumptions; Bloomberg.
                 </p>
             </div>
         </section>
@@ -370,20 +400,36 @@
             <div class="container">
                 <h2 class="section-header">Our Solution: Payoff Engineering</h2>
                 <p class="section-subheader">
-                    We construct diversified portfolios of structured notes that harvest index option premium across major indices (SPX, NDX, RUT, SX5E). Our approach converts volatility and skew into income and convex payoff profiles, designed to integrate into existing policy portfolios rather than replace them.
+                    We construct diversified, rules-based portfolios of structured notes that harvest index option premium across major indices
+                    (SPX, NDX, RUT, SX5E). The objective is to convert volatility and skew into stable income and convex payoff profiles while
+                    keeping the overall portfolio aligned with existing policy benchmarks and risk budgets.
                 </p>
                 <div class="pillars-grid">
                     <div class="pillar-card">
-                        <h3>Volatility Premium Harvesting</h3>
-                        <p>We systematically sell index options across diversified underlyings, converting realized and implied volatility into consistent income streams. Payoff structures are designed to generate returns in range-bound and moderately rising markets, independent of directional forecasts.</p>
+                        <h3>Systematic Volatility Capture</h3>
+                        <p>
+                            We implement disciplined option-selling programs across diversified index underlyings, targeting the structural gap
+                            between implied and realized volatility rather than short-term market calls. Position sizing, tenor, and strike
+                            selection are driven by a repeatable framework that anchors to risk budget and path-dependent drawdown controls.
+                        </p>
                     </div>
                     <div class="pillar-card">
-                        <h3>Barrier and Coupon Mechanics</h3>
-                        <p>Structured notes employ transparent barrier levels (typically 50–80% of initial index level) and coupon structures that define downside participation. This creates outcome-defined payoffs that differ materially from long-only equity or credit exposures.</p>
+                        <h3>Engineered Payoff Geometry</h3>
+                        <p>
+                            Barrier levels, coupon structures, and maturities are engineered to reshape the distribution of outcomes relative to
+                            long-only equity or credit. Notes typically employ transparent barriers (e.g., 50–80% of initial index level) and
+                            clearly defined downside participation, allowing ex-ante mapping of behavior under stress, in range-bound markets, and
+                            in modestly rising environments.
+                        </p>
                     </div>
                     <div class="pillar-card">
-                        <h3>Portfolio Integration, Not Replacement</h3>
-                        <p>Our structured-note sleeves are designed to replace a portion of traditional equity or credit exposure within existing policy portfolios. They are sized and slotted into allocation frameworks, not layered on top, maintaining overall risk budgets while improving income and drawdown characteristics.</p>
+                        <h3>Institutional Integration & Governance</h3>
+                        <p>
+                            Structured-note sleeves are sized and slotted into existing equity or fixed income allocations&#8212;not layered on top.
+                            We provide position-level transparency, issuer diversification, and attribution that can be mapped into existing risk,
+                            performance, and compliance systems, enabling CIOs and investment committees to monitor the sleeve alongside core
+                            exposures.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -394,35 +440,67 @@
             <div class="container">
                 <h2 class="section-header">Implementation Use Cases</h2>
                 <p class="section-subheader" style="max-width: 800px; margin: 0 auto;">
-                    Structured-note portfolios can be integrated into institutional allocations in multiple ways, depending on income targets, drawdown tolerance, and existing policy design. Choose how you want to use the sleeve; we engineer the payoff mechanics and risk management around that role.
+                    Start with the problem you&#8217;re trying to solve. Structured-note portfolios can be used to enhance income,
+                    reshape equity risk, or simplify alternative credit exposure. Choose the role that best fits your mandate, then
+                    see how the sleeve behaves in our portfolio simulator.
                 </p>
+
                 <div class="use-case-grid">
                     <div class="use-case-card">
-                        <h4>Partial Bond Sleeve Replacement</h4>
-                        <p>
-                            Replace 10&#8211;20% of traditional fixed income with structured income sleeves, targeting higher cash yields with defined barrier levels and no duration risk. The sleeve is sized to remain within existing fixed income risk budgets while improving income and drawdown characteristics.
+                        <h4>Enhance Core Fixed Income</h4>
+                        <p class="use-case-need">
+                            You need higher, more stable cash flow from your bond allocation without extending duration or taking on opaque credit risk.
                         </p>
-                        <a href="simulator.html#bond-sleeve" class="btn btn-secondary btn-small" data-implementation-mode="bond-sleeve">
-                            View Example in Simulator
-                        </a>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Replace 10&#8211;20% of traditional fixed income with structured income sleeves,
+                            targeting higher cash yields with defined barrier levels and no duration risk. The sleeve is sized to remain within 
+                            existing fixed income risk budgets while improving income and drawdown characteristics.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="simulator.html#bond-sleeve"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="bond-sleeve">
+                                View Bond Sleeve Example
+                            </a>
+                        </div>
                     </div>
+
                     <div class="use-case-card">
-                        <h4>Low-Vol Equity Carve-Out</h4>
-                        <p>
-                            Reallocate 15&#8211;25% of core equity exposure into structured equity sleeves, maintaining equity-like return potential while introducing buffers, path-dependent income, and improved downside asymmetry. The objective is to reshape the distribution of equity outcomes, not simply add leverage.
+                        <h4>Reshape Equity Drawdowns</h4>
+                        <p class="use-case-need">
+                            You want to maintain equity-like return potential but reduce the frequency and severity of drawdowns in your core equity allocation.
                         </p>
-                        <a href="simulator.html#equity-carveout" class="btn btn-secondary btn-small" data-implementation-mode="equity-carveout">
-                            View Example in Simulator
-                        </a>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Reallocate 15&#8211;25% of core equity exposure into structured equity sleeves,
+                            maintaining equity-like return potential while introducing buffers, path-dependent income, and improved downside asymmetry.
+                            The objective is to reshape the distribution of equity outcomes, not simply add leverage.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="simulator.html#equity-carveout"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="equitycarveout">
+                                View Equity Carve-Out Example
+                            </a>
+                        </div>
                     </div>
+
                     <div class="use-case-card">
-                        <h4>Alternative Credit Replacement</h4>
-                        <p>
-                            Substitute structured income portfolios for portions of high-yield or alternative credit allocations, targeting comparable or higher yields with more transparent payoff mechanics and explicit barrier-based risk parameters. This can simplify risk oversight while preserving income.
+                        <h4>Simplify Alternative Credit</h4>
+                        <p class="use-case-need">
+                            You need competitive yields relative to high-yield or alternative credit, but with clearer payoff mechanics and more explicit downside parameters.
                         </p>
-                        <a href="simulator.html#alt-credit" class="btn btn-secondary btn-small" data-implementation-mode="alt-credit">
-                            View Example in Simulator
-                        </a>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Substitute structured income portfolios for portions of high-yield or alternative credit allocations,
+                            targeting comparable or higher yields with more transparent payoff mechanics and explicit barrier-based risk parameters.
+                            This can simplify risk oversight while preserving income.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="simulator.html#alt-credit"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="altcredit">
+                                View Alt Credit Example
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

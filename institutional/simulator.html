@@ -72,6 +72,56 @@
             color: #F9FAFB;
         }
 
+        /* Implementation preset bar (institutional) */
+        .simulator-implementation-bar {
+            margin-top: 22px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .simulator-implementation-bar-label {
+            font-size: 13px;
+            color: #CBD5E1;
+        }
+
+        .simulator-implementation-toggle {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            border-radius: 999px;
+            padding: 2px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .simulator-implementation-toggle button {
+            border: none;
+            background: transparent;
+            color: #E2E8F0;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 0.02em;
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .simulator-implementation-toggle button.active {
+            background: rgba(200, 166, 120, 0.14);
+            color: #F9FAFB;
+        }
+
+        @media (max-width: 768px) {
+            .simulator-implementation-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
         /* Implementation label shown when a preset is active (institutional) */
         .simulator-implementation-label {
             font-size: 12px;
@@ -86,18 +136,39 @@
             padding-top: 12px;
         }
 
+        /* Clean inline button (no browser styling) */
         .detailed-metrics-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: inherit;
+            color: #C8A678;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #C8A678;
+            outline: none;
         }
 
-        .detailed-metrics-toggle svg {
+        /* Remove blue focus ring */
+        .detailed-metrics-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Subtle underline on hover */
+        .detailed-metrics-toggle:hover span:first-child {
+            text-decoration: underline;
+        }
+
+        /* Arrow icon */
+        .detailed-metrics-toggle-icon svg {
             width: 14px;
             height: 14px;
+            transition: transform 0.25s ease;
+            stroke: currentColor;
         }
 
         .detailed-metrics-content {
@@ -133,7 +204,8 @@
             display: block;
         }
 
-        .detailed-metrics-wrapper.is-open .detailed-metrics-toggle-icon {
+        /* Rotate arrow when expanded */
+        .detailed-metrics-wrapper.is-open .detailed-metrics-toggle-icon svg {
             transform: rotate(90deg);
         }
 
@@ -215,6 +287,19 @@
                     <!-- Chart Canvas -->
                     <div class="simulator-chart-new">
                         <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Implementation Presets -->
+                <div class="simulator-implementation-bar">
+                    <div class="simulator-implementation-bar-label">
+                        Select an implementation role:
+                    </div>
+                    <div class="simulator-implementation-toggle" id="implementationToggle">
+                        <button type="button" data-preset="custom" class="active">Custom</button>
+                        <button type="button" data-preset="bond">Enhance Core Fixed Income</button>
+                        <button type="button" data-preset="equity">Reshape Equity Drawdowns</button>
+                        <button type="button" data-preset="alt">Simplify Alternative Credit</button>
                     </div>
                 </div>
 
@@ -368,15 +453,37 @@
             structuredFixedIncome: 0.05   // lower-volatility structured income sleeve
         };
 
+        // Implementation presets corresponding to institutional use cases
+        const IMPLEMENTATION_PRESETS = {
+            custom: {
+                label: null
+                // values will follow current sliders; no fixed allocation
+            },
+            bond: {
+                structuredEquity: 0,
+                structuredFixedIncome: 20,
+                label: "Enhance Core Fixed Income"
+            },
+            equity: {
+                structuredEquity: 20,
+                structuredFixedIncome: 0,
+                label: "Reshape Equity Drawdowns"
+            },
+            alt: {
+                structuredEquity: 0,
+                structuredFixedIncome: 25,
+                label: "Simplify Alternative Credit"
+            }
+        };
+
+        let activeImplementationPresetKey = "custom";
+
         // Chart mode: "path" (existing behavior) or "scenarios" (institutional)
         let chartMode = "path";
 
         // Track simple stress scenario results (institutional)
         let lastBaseStressResult = { maxDrawdown: 0, downsideCapture: 0 };
         let lastCurrentStressResult = { maxDrawdown: 0, downsideCapture: 0 };
-
-        // Track the active implementation preset (if any)
-        let activeImplementationPreset = null;
 
         // --------- STATE / DOM REFS ---------
         let portfolioChart = null;
@@ -409,6 +516,9 @@
         const detailedMetricsToggle = document.getElementById("detailedMetricsToggle");
         const detailedMetricsContent = document.getElementById("detailedMetricsContent");
 
+        // Implementation preset toggle (institutional)
+        const implementationToggle = document.getElementById("implementationToggle");
+
         // Detailed metric value elements
         const baseVolMetric = document.getElementById("baseVolMetric");
         const baseMaxDDMetric = document.getElementById("baseMaxDDMetric");
@@ -416,6 +526,44 @@
         const currentVolMetric = document.getElementById("currentVolMetric");
         const currentMaxDDMetric = document.getElementById("currentMaxDDMetric");
         const currentDownsideCaptureMetric = document.getElementById("currentDownsideCaptureMetric");
+
+        function updateImplementationLabel() {
+            if (!implementationLabel) return;
+            const preset = IMPLEMENTATION_PRESETS[activeImplementationPresetKey];
+            implementationLabel.textContent =
+                preset && preset.label
+                    ? "Implementation role: " + preset.label
+                    : "";
+        }
+
+        function updateImplementationToggleUI() {
+            if (!implementationToggle) return;
+            implementationToggle.querySelectorAll("button[data-preset]").forEach(btn => {
+                const key = btn.getAttribute("data-preset");
+                btn.classList.toggle("active", key === activeImplementationPresetKey);
+            });
+        }
+
+        function applyImplementationPreset(key, options = {}) {
+            const preset = IMPLEMENTATION_PRESETS[key];
+            if (!preset) return;
+
+            activeImplementationPresetKey = key;
+
+            // Only set slider values for named presets; "custom" just reflects user input
+            if (key !== "custom") {
+                if (typeof preset.structuredEquity === "number") {
+                    structuredEquitySlider.value = preset.structuredEquity;
+                }
+                if (typeof preset.structuredFixedIncome === "number") {
+                    structuredFixedIncomeSlider.value = preset.structuredFixedIncome;
+                }
+            }
+
+            updateImplementationLabel();
+            updateImplementationToggleUI();
+            updateSimulator(true);
+        }
 
         // --------- CORE MATH ---------
         function calculatePortfolioValue(years, allocation) {
@@ -477,18 +625,26 @@
         const STRESS_SCENARIOS = [
             {
                 name: "Base Regime",
-                equityReturn: 0.07,
-                bondReturn: 0.0458
+                traditionalEquityReturn: 0.07,
+                structuredEquityReturn: 0.10,
+                traditionalFixedIncomeReturn: 0.0458,
+                structuredFixedIncomeReturn: 0.07
             },
             {
                 name: "Equity Shock (2020-style)",
-                equityReturn: -0.20,
-                bondReturn: 0.02
+                // Large equity drawdown; structured equity is buffered
+                traditionalEquityReturn: -0.20,
+                structuredEquityReturn: -0.10,
+                traditionalFixedIncomeReturn: 0.02,
+                structuredFixedIncomeReturn: 0.03
             },
             {
                 name: "Rate Shock (2022-style)",
-                equityReturn: -0.15,
-                bondReturn: -0.05
+                // Both equity and traditional bonds under pressure; structured sleeves behave differently
+                traditionalEquityReturn: -0.15,
+                structuredEquityReturn: -0.05,
+                traditionalFixedIncomeReturn: -0.05,
+                structuredFixedIncomeReturn: -0.02
             }
         ];
 
@@ -512,19 +668,22 @@
                 wSFI * VOLATILITY.structuredFixedIncome;
 
             const results = STRESS_SCENARIOS.map((scenario) => {
-                const effectiveEquityReturn = scenario.equityReturn;
-                const effectiveBondReturn = scenario.bondReturn;
-
                 const portfolioReturn =
-                    (wEq + wSEq) * effectiveEquityReturn +
-                    (wFI + wSFI) * effectiveBondReturn;
+                    wEq  * scenario.traditionalEquityReturn +
+                    wSEq * scenario.structuredEquityReturn +
+                    wFI  * scenario.traditionalFixedIncomeReturn +
+                    wSFI * scenario.structuredFixedIncomeReturn;
 
                 const endingValue = INITIAL_VALUE * (1 + portfolioReturn);
 
-                return { scenarioName: scenario.name, portfolioReturn, endingValue, baseVol };
+                return {
+                    scenarioName: scenario.name,
+                    portfolioReturn,
+                    endingValue,
+                    baseVol
+                };
             });
 
-            // Compute simple "downside capture" vs first scenario (Base 60/40)
             return results;
         }
 
@@ -618,19 +777,27 @@
 
                 const baseScenarioResults = calculateStressScenarios(baseAllocation);
                 const currentScenarioResults = calculateStressScenarios(currentAllocation);
-                const labels = baseScenarioResults.map(r => r.scenarioName);
-                const baseVals = baseScenarioResults.map(r => INITIAL_VALUE * (1 + r.portfolioReturn));
-                const currentVals = currentScenarioResults.map(r => INITIAL_VALUE * (1 + r.portfolioReturn));
 
-                // Simple downside capture vs base scenario worst-case
-                const baseWorst = Math.min(...baseVals);
-                const currentWorst = Math.min(...currentVals);
+                const labels = baseScenarioResults.map(r => r.scenarioName);
+                // Plot % returns instead of ending dollar values
+                const baseReturnsPct = baseScenarioResults.map(r => r.portfolioReturn * 100);
+                const currentReturnsPct = currentScenarioResults.map(r => r.portfolioReturn * 100);
+
+                // Set a tighter y-axis around the scenario range
+                const minReturn = Math.min(...baseReturnsPct, ...currentReturnsPct);
+                const maxReturn = Math.max(...baseReturnsPct, ...currentReturnsPct);
+                const yMin = Math.floor((minReturn - 2) / 5) * 5;  // small padding & round to 5%
+                const yMax = Math.ceil((maxReturn + 2) / 5) * 5;
+
+                // Downside capture based on worst scenario return
+                const baseWorst = Math.min(...baseReturnsPct);
+                const currentWorst = Math.min(...currentReturnsPct);
                 lastBaseStressResult = {
-                    maxDrawdown: (baseWorst / INITIAL_VALUE - 1) * 100,
+                    maxDrawdown: baseWorst,
                     downsideCapture: 100
                 };
                 lastCurrentStressResult = {
-                    maxDrawdown: (currentWorst / INITIAL_VALUE - 1) * 100,
+                    maxDrawdown: currentWorst,
                     downsideCapture: baseWorst !== 0 ? (currentWorst / baseWorst) * 100 : 0
                 };
                 baseDownsideCaptureMetric.textContent =
@@ -648,14 +815,14 @@
                             datasets: [
                                 {
                                     label: "Base 60/40 Portfolio",
-                                    data: baseVals,
+                                    data: baseReturnsPct,
                                     borderColor: "rgba(200, 200, 200, 0.5)",
                                     backgroundColor: "rgba(200, 200, 200, 0.25)",
                                     borderWidth: 1
                                 },
                                 {
                                     label: "Current Allocation",
-                                    data: currentVals,
+                                    data: currentReturnsPct,
                                     borderColor: "#C8A678",
                                     backgroundColor: "rgba(200, 166, 120, 0.35)",
                                     borderWidth: 1
@@ -664,16 +831,35 @@
                         },
                         options: {
                             responsive: true,
-                            maintainAspectRatio: false
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    type: "category",
+                                    ticks: {
+                                        color: "#E2E8F0",
+                                        font: { size: 11 }
+                                    }
+                                },
+                                y: {
+                                    type: "linear",
+                                    min: yMin,
+                                    max: yMax,
+                                    ticks: {
+                                        color: "#E2E8F0",
+                                        callback: (value) => value.toFixed(0) + "%",
+                                        font: { size: 11 }
+                                    }
+                                }
+                            }
                         }
                     });
                 } else {
                     portfolioChart.config.type = "bar";
                     portfolioChart.data.labels = labels;
                     portfolioChart.data.datasets[0].label = "Base 60/40 Portfolio";
-                    portfolioChart.data.datasets[0].data = baseVals;
+                    portfolioChart.data.datasets[0].data = baseReturnsPct;
                     portfolioChart.data.datasets[1].label = "Current Allocation";
-                    portfolioChart.data.datasets[1].data = currentVals;
+                    portfolioChart.data.datasets[1].data = currentReturnsPct;
                     portfolioChart.options.scales.x = {
                         type: "category",
                         ticks: {
@@ -683,9 +869,12 @@
                     };
                     portfolioChart.options.scales.y = {
                         type: "linear",
+                        min: yMin,
+                        max: yMax,
                         ticks: {
-                            callback: (value) => formatCurrency(value),
-                            color: "#E2E8F0"
+                            color: "#E2E8F0",
+                            callback: (value) => value.toFixed(0) + "%",
+                            font: { size: 11 }
                         }
                     };
                     portfolioChart.update("active");
@@ -905,6 +1094,10 @@
 
         // --------- EVENT WIRING ---------
         function handleSliderInput() {
+            // Any manual slider move becomes a custom configuration
+            activeImplementationPresetKey = "custom";
+            updateImplementationLabel();
+            updateImplementationToggleUI();
             updateSimulator(true);
         }
 
@@ -934,33 +1127,31 @@
             });
         }
 
+        // Implementation preset toggle buttons
+        if (implementationToggle) {
+            implementationToggle.addEventListener("click", (e) => {
+                const btn = e.target.closest("button[data-preset]");
+                if (!btn) return;
+                const key = btn.getAttribute("data-preset");
+                applyImplementationPreset(key);
+            });
+        }
+
         // Implementation presets from hash (institutional use cases)
         function applyImplementationPresetFromHash() {
             const h = window.location.hash || "";
 
             if (h === "#bond-sleeve") {
-                // Partial Bond Sleeve Replacement: 0 structured equity, 20% structured FI
-                structuredEquitySlider.value = 0;
-                structuredFixedIncomeSlider.value = 20;
-                activeImplementationPreset = "Partial Bond Sleeve Replacement";
+                applyImplementationPreset("bond");
             } else if (h === "#equitycarveout" || h === "#equity-carveout") {
-                // Low-Vol Equity Carve-Out: 20% structured equity, 0 structured FI
-                structuredEquitySlider.value = 20;
-                structuredFixedIncomeSlider.value = 0;
-                activeImplementationPreset = "Low-Vol Equity Carve-Out";
+                applyImplementationPreset("equity");
             } else if (h === "#alt-credit") {
-                // Alternative Credit Replacement: 0 structured equity, 20% structured FI (HY / alt credit replacement)
-                structuredEquitySlider.value = 0;
-                structuredFixedIncomeSlider.value = 20;
-                activeImplementationPreset = "Alternative Credit Replacement";
+                applyImplementationPreset("alt");
             } else {
-                activeImplementationPreset = null;
-            }
-
-            if (implementationLabel) {
-                implementationLabel.textContent = activeImplementationPreset
-                    ? "Implementation: " + activeImplementationPreset
-                    : "";
+                activeImplementationPresetKey = "custom";
+                updateImplementationLabel();
+                updateImplementationToggleUI();
+                updateSimulator(false);
             }
         }
 
@@ -983,6 +1174,9 @@
                 const canvas = document.getElementById('portfolioChart');
                 if (canvas && canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
                     applyImplementationPresetFromHash();
+                    // Ensure toggle and label are in a consistent state even if there is no hash
+                    updateImplementationLabel();
+                    updateImplementationToggleUI();
                     updateSimulator(false);
                     // Resize after a brief delay to ensure proper rendering
                     setTimeout(() => {
