@@ -2645,6 +2645,17 @@ section {
     min-height: 120px;
 }
 
+/* Honeypot field - hidden from users but visible to bots */
+.honeypot-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
 .btn-contact {
     padding: 1.2rem 3rem;
     background-color: #C8A678;

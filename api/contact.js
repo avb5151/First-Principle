@@ -1,22 +1,84 @@
 /**
  * Vercel Serverless Function: Contact Form Handler
  * 
+ * Endpoint: /api/contact
+ * Method: POST
+ * 
  * This function processes contact form submissions and sends emails via Resend.
  * 
+ * Environment Variables Required:
+ * - RESEND_API_KEY: Your Resend API key
+ * 
  * SETUP INSTRUCTIONS:
- * 1. Sign up for Resend at https://resend.com
- * 2. Create an API key in your Resend dashboard
- * 3. Add the API key to your Vercel environment variables:
+ * 1. Install Resend: npm install resend
+ * 2. Sign up for Resend at https://resend.com
+ * 3. Create an API key in your Resend dashboard
+ * 4. Add the API key to your Vercel environment variables:
  *    - Go to Vercel Dashboard > Your Project > Settings > Environment Variables
  *    - Add: RESEND_API_KEY = your_resend_api_key_here
- * 4. Update the 'from' email address below to match your verified domain in Resend
- *    (or use a verified email address from Resend)
- * 
- * SECURITY:
- * - API keys are stored in Vercel environment variables (never exposed to client)
- * - CORS is configured to only allow requests from your domain
- * - Rate limiting can be added if needed
+ * 5. Verify your domain in Resend or use onboarding@resend.dev for testing
  */
+
+import { Resend } from 'resend';
+
+// In-memory rate limiting store (best effort)
+// In production, consider using Redis or Vercel Edge Config for distributed rate limiting
+const rateLimitStore = new Map();
+
+// Rate limiting: max 5 requests per IP per 15 minutes
+const RATE_LIMIT_MAX_REQUESTS = 5;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+
+/**
+ * Get client IP address from request
+ */
+function getClientIP(req) {
+  // Try various headers that Vercel/proxies might use
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.headers['x-real-ip'] || req.connection?.remoteAddress || 'unknown';
+}
+
+/**
+ * Check if IP has exceeded rate limit
+ */
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const record = rateLimitStore.get(ip);
+
+  if (!record) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+
+  // Reset if window has expired
+  if (now > record.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+
+  // Check if limit exceeded
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return false;
+  }
+
+  // Increment count
+  record.count++;
+  rateLimitStore.set(ip, record);
+  return true;
+
+  // Cleanup old entries periodically (simple approach)
+  // In production, use a proper cleanup mechanism
+  if (rateLimitStore.size > 1000) {
+    for (const [key, value] of rateLimitStore.entries()) {
+      if (now > value.resetTime) {
+        rateLimitStore.delete(key);
+      }
+    }
+  }
+}
 
 export default async function handler(req, res) {
   // Only allow POST requests
@@ -24,43 +86,53 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // CORS headers - Update allowed origin to match your production domain
-  const allowedOrigins = [
-    'https://first-principle.vercel.app',
-    'https://www.first-principle.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:5500',
-    'http://127.0.0.1:5500'
-  ];
-  
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
   try {
-    // Validate required fields
-    const { name, email, company, message } = req.body;
+    // Get client IP for rate limiting
+    const clientIP = getClientIP(req);
 
+    // Check rate limit
+    if (!checkRateLimit(clientIP)) {
+      // Silently return success to avoid revealing rate limit
+      return res.status(200).json({ 
+        message: 'Your message has been sent successfully.' 
+      });
+    }
+
+    // Parse request body
+    const { name, email, company, message, website } = req.body;
+
+    // Honeypot check: if website field is filled, it's spam
+    if (website && website.trim() !== '') {
+      // Silently reject (return success to avoid revealing honeypot)
+      return res.status(200).json({ 
+        message: 'Your message has been sent successfully.' 
+      });
+    }
+
+    // Validate required fields
     if (!name || !email || !message) {
       return res.status(400).json({ 
-        error: 'Missing required fields',
-        details: 'Name, email, and message are required.'
+        error: 'Missing required fields.' 
+      });
+    }
+
+    // Trim and validate
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedMessage = message.trim();
+    const trimmedCompany = company ? company.trim() : '';
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) {
+      return res.status(400).json({ 
+        error: 'Missing required fields.' 
       });
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(trimmedEmail)) {
       return res.status(400).json({ 
-        error: 'Invalid email format'
+        error: 'Invalid email format.' 
       });
     }
 
@@ -70,80 +142,74 @@ export default async function handler(req, res) {
     if (!RESEND_API_KEY) {
       console.error('RESEND_API_KEY is not set in environment variables');
       return res.status(500).json({ 
-        error: 'Server configuration error',
+        error: 'Failed to send message.',
         details: 'Email service is not configured. Please contact the administrator.'
       });
     }
 
-    // Helper function to escape HTML and prevent XSS
-    function escapeHtml(text) {
-      if (!text) return '';
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return text.replace(/[&<>"']/g, m => map[m]);
-    }
+    // Initialize Resend
+    const resend = new Resend(RESEND_API_KEY);
 
-    // Prepare email content (with HTML escaping for security)
-    const emailSubject = `New Contact Form Submission from ${escapeHtml(name)}`;
-    const escapedName = escapeHtml(name);
-    const escapedEmail = escapeHtml(email);
-    const escapedCompany = company ? escapeHtml(company) : '';
-    const escapedMessage = escapeHtml(message).replace(/\n/g, '<br>');
+    // Prepare email content
+    const emailSubject = `New Contact Inquiry: ${trimmedName} (${trimmedCompany || 'No Company'})`;
     
+    // Create email body with all form fields
     const emailBody = `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${escapedName}</p>
-      <p><strong>Email:</strong> ${escapedEmail}</p>
-      ${escapedCompany ? `<p><strong>Company:</strong> ${escapedCompany}</p>` : ''}
+      <p><strong>Name:</strong> ${escapeHtml(trimmedName)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(trimmedEmail)}</p>
+      <p><strong>Company:</strong> ${trimmedCompany ? escapeHtml(trimmedCompany) : 'Not provided'}</p>
       <p><strong>Message:</strong></p>
-      <p>${escapedMessage}</p>
+      <p style="white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</p>
       <hr>
       <p style="color: #666; font-size: 12px;">This email was sent from the First Principle Asset Management contact form.</p>
     `;
 
     // Send email using Resend
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify({
-        from: 'First Principle Contact Form <noreply@theinvictuscollective.com>', // UPDATE: Use your verified domain
-        to: ['team@theinvictuscollective.com'],
-        subject: emailSubject,
-        html: emailBody,
-        reply_to: email // Allows direct reply to the sender
-      })
+    // Use contact@firstprincipleam.com if domain is verified, otherwise onboarding@resend.dev
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    
+    const { data, error } = await resend.emails.send({
+      from: `Contact Form <${fromEmail}>`,
+      to: ['team@theinvictuscollective.com'],
+      replyTo: trimmedEmail,
+      subject: emailSubject,
+      html: emailBody,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('Resend API error:', data);
+    if (error) {
+      console.error('Resend API error:', error);
       return res.status(500).json({ 
-        error: 'Failed to send email',
+        error: 'Failed to send message.',
         details: 'There was an error processing your request. Please try again later.'
       });
     }
 
     // Success response
     return res.status(200).json({ 
-      success: true,
-      message: 'Your message has been sent successfully. We will get back to you soon.'
+      message: 'Your message has been sent successfully.' 
     });
 
   } catch (error) {
     console.error('Contact form error:', error);
     return res.status(500).json({ 
-      error: 'Internal server error',
+      error: 'Failed to send message.',
       details: 'An unexpected error occurred. Please try again later.'
     });
   }
 }
 
+/**
+ * Helper function to escape HTML and prevent XSS
+ */
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+}

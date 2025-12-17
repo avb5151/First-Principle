@@ -1,0 +1,12 @@
+{
+  "name": "first-principle",
+  "version": "1.0.0",
+  "description": "First Principle Asset Management website",
+  "type": "module",
+  "dependencies": {
+    "resend": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

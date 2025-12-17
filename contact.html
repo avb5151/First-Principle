@@ -75,6 +75,12 @@
                                 <span class="error-message" id="messageError"></span>
                             </div>
                             
+                            <!-- Honeypot field (hidden from users but visible to bots) -->
+                            <div class="form-group-new honeypot-field">
+                                <label for="website">Website</label>
+                                <input type="text" id="website" name="website" autocomplete="off" tabindex="-1">
+                            </div>
+                            
                             <!-- Success/Error Messages -->
                             <div class="form-message" id="formMessage" role="alert" aria-live="polite"></div>
                             
@@ -220,7 +226,8 @@
                     name: document.getElementById('name').value.trim(),
                     email: document.getElementById('email').value.trim(),
                     company: document.getElementById('company').value.trim(),
-                    message: document.getElementById('message').value.trim()
+                    message: document.getElementById('message').value.trim(),
+                    website: document.getElementById('website').value.trim()
                 };
 
                 try {
