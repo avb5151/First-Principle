@@ -170,16 +170,29 @@
         
         // Determine current path and redirect accordingly
         const currentPath = window.location.pathname;
+        const currentFile = currentPath.split('/').pop() || 'index.html';
+        
+        // Map equivalent pages between retail and institutional
+        const pageMap = {
+            'index.html': 'index.html',
+            'product.html': 'product.html',
+            'simulator.html': 'simulator.html'
+        };
+        
         if (currentPath.includes('retail/')) {
-            window.location.href = currentPath.replace('retail/', 'institutional/');
+            // Switching from retail to institutional
+            const targetFile = pageMap[currentFile] || 'index.html';
+            window.location.href = '/institutional/' + targetFile;
         } else if (currentPath.includes('institutional/')) {
-            window.location.href = currentPath.replace('institutional/', 'retail/');
+            // Switching from institutional to retail
+            const targetFile = pageMap[currentFile] || 'index.html';
+            window.location.href = '/retail/' + targetFile;
         } else {
-            // Fallback to homepage
+            // On root pages - redirect to appropriate homepage
             if (newType === USER_TYPES.INSTITUTIONAL) {
-                window.location.href = 'institutional/index.html';
+                window.location.href = '/institutional/index.html';
             } else {
-                window.location.href = 'retail/index.html';
+                window.location.href = '/retail/index.html';
             }
         }
     }
