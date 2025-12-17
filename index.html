@@ -10,174 +10,45 @@
     <style>
         body {
             background: #1A2532;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
-            font-family: 'Nunito Sans', sans-serif;
-        }
-        .landing-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-        .landing-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        .landing-header h1 {
-            color: #C8A678;
-            font-size: 3rem;
-            font-weight: 400;
-            font-style: italic;
-            margin-bottom: 1rem;
-            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
-        }
-        .landing-header p {
-            color: #E0E0E0;
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .landing-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        .landing-link-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(200, 166, 120, 0.3);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .landing-link-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(200, 166, 120, 0.5);
-            transform: translateY(-3px);
-        }
-        .landing-link-card a {
-            color: #C8A678;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: block;
-        }
-        .landing-link-card a:hover {
-            color: #F8F9FA;
-        }
-        .landing-link-card p {
-            color: #B0B0B0;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        .primary-cta {
-            text-align: center;
-            margin-top: 3rem;
-        }
-        .primary-cta a {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: #C8A678;
-            color: #1A2532;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-        .primary-cta a:hover {
-            background: #d8b179;
         }
     </style>
 </head>
 <body>
-    <!-- HEADER / NAV -->
-    <header class="header">
-        <nav class="nav container">
-            <div class="nav-left">
-                <a href="/" class="logo">First Principle Asset Management</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/institutional/product.html">Strategy</a></li>
-                <li><a href="/institutional/simulator.html">Portfolio Simulator</a></li>
-                <li><a href="/resources.html">Resources</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-right">
-                <a href="/contact.html" class="cta-button">Schedule a Call</a>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <div class="landing-container">
-            <div class="landing-header">
-                <h1>First Principle Asset Management</h1>
-                <p>Portfolio Enhancement for a New Market Regime</p>
-            </div>
-            
-            <div class="landing-links">
-                <div class="landing-link-card">
-                    <a href="/institutional/index.html">Institutional Investors</a>
-                    <p>Structured products for institutional allocators</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/retail/index.html">Individual Investors</a>
-                    <p>Structured products for advisors and individual investors</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/about.html">About & Leadership</a>
-                    <p>Learn about our team and approach</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/institutional/product.html">Strategy</a>
-                    <p>How our structured-note portfolios work</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/institutional/simulator.html">Portfolio Simulator</a>
-                    <p>See the impact on your portfolio</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/resources.html">Resources</a>
-                    <p>Analytical frameworks and guides</p>
-                </div>
-                <div class="landing-link-card">
-                    <a href="/contact.html">Contact</a>
-                    <p>Schedule a call or request information</p>
-                </div>
-            </div>
-
-            <div class="primary-cta">
-                <a href="/institutional/index.html">Explore Institutional Solutions</a>
+    <!-- ARCHIVED: INVESTOR TYPE GATE MODAL (Retail toggle disabled - launching to institutional clients only) -->
+    <!-- To re-enable retail toggle, restore the modal HTML below and update investor-type.js -->
+    <!--
+    <div id="investor-gate-modal">
+        <div class="investor-gate-content">
+            <h1 class="investor-gate-title">Select your path</h1>
+            <p class="investor-gate-subtitle">
+                First Principle offers tailored experiences for individual investors and institutional allocators.
+            </p>
+            <div class="investor-gate-buttons">
+                <button id="investor-gate-retail" class="investor-gate-button">Individual Investor</button>
+                <button id="investor-gate-institutional" class="investor-gate-button">Institutional Investor</button>
             </div>
         </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p style="margin: 0;">First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
-                <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="/" style="color: #B0B0B0; text-decoration: none;">Home</a>
-                    <a href="/about.html" style="color: #B0B0B0; text-decoration: none;">About</a>
-                    <a href="/institutional/product.html" style="color: #B0B0B0; text-decoration: none;">Strategy</a>
-                    <a href="/institutional/simulator.html" style="color: #B0B0B0; text-decoration: none;">Simulator</a>
-                    <a href="/resources.html" style="color: #B0B0B0; text-decoration: none;">Resources</a>
-                    <a href="/contact.html" style="color: #B0B0B0; text-decoration: none;">Contact</a>
-                </nav>
-            </div>
-        </div>
-    </footer>
+    </div>
+    -->
 
     <script src="js/investor-type.js"></script>
     <script>
-        // Set default user type to institutional if not set, but don't auto-redirect
-        // This allows crawlers to see the landing page
+        // ARCHIVED: Auto-redirect to institutional (retail toggle disabled)
+        // To re-enable, restore the modal display code below and update investor-type.js
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.FPInvestorType && !window.FPInvestorType.getUserType()) {
+            // Auto-set user type to institutional and redirect
+            if (window.FPInvestorType) {
                 window.FPInvestorType.setUserType('institutional');
+                window.location.href = 'institutional/index.html';
+            } else {
+                // Fallback if script hasn't loaded yet
+                localStorage.setItem('fp_user_type', 'institutional');
+                window.location.href = 'institutional/index.html';
             }
         });
     </script>
