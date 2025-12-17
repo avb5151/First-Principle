@@ -19,7 +19,9 @@
     </style>
 </head>
 <body>
-    <!-- INVESTOR TYPE GATE MODAL -->
+    <!-- ARCHIVED: INVESTOR TYPE GATE MODAL (Retail toggle disabled - launching to institutional clients only) -->
+    <!-- To re-enable retail toggle, restore the modal HTML below and update investor-type.js -->
+    <!--
     <div id="investor-gate-modal">
         <div class="investor-gate-content">
             <h1 class="investor-gate-title">Select your path</h1>
@@ -32,14 +34,21 @@
             </div>
         </div>
     </div>
+    -->
 
     <script src="js/investor-type.js"></script>
     <script>
-        // Show modal immediately on gate page
+        // ARCHIVED: Auto-redirect to institutional (retail toggle disabled)
+        // To re-enable, restore the modal display code below and update investor-type.js
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('investor-gate-modal');
-            if (modal) {
-                modal.style.display = 'flex';
+            // Auto-set user type to institutional and redirect
+            if (window.FPInvestorType) {
+                window.FPInvestorType.setUserType('institutional');
+                window.location.href = 'institutional/index.html';
+            } else {
+                // Fallback if script hasn't loaded yet
+                localStorage.setItem('fp_user_type', 'institutional');
+                window.location.href = 'institutional/index.html';
             }
         });
     </script>

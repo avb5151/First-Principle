@@ -1,10 +1,16 @@
 /**
  * Investor Type Management
  * Handles retail vs institutional user type selection and routing
+ * 
+ * ARCHIVED: Retail toggle is currently disabled - launching to institutional clients only
+ * To re-enable retail toggle, set RETAIL_ENABLED to true below
  */
 
 (function() {
     'use strict';
+
+    // ARCHIVED: Set to true to re-enable retail toggle functionality
+    const RETAIL_ENABLED = false;
 
     const STORAGE_KEY = 'fp_user_type';
     const USER_TYPES = {
@@ -150,8 +156,14 @@
 
     /**
      * Handle manual investor type toggle
+     * ARCHIVED: Disabled when RETAIL_ENABLED is false
      */
     function handleInvestorTypeToggle() {
+        // ARCHIVED: Retail toggle disabled - do nothing
+        if (!RETAIL_ENABLED) {
+            return;
+        }
+        
         const currentType = getUserType();
         const newType = currentType === USER_TYPES.RETAIL ? USER_TYPES.INSTITUTIONAL : USER_TYPES.RETAIL;
         setUserType(newType);
@@ -174,39 +186,57 @@
 
     /**
      * Initialize investor type functionality
+     * ARCHIVED: Auto-sets to institutional when RETAIL_ENABLED is false
      */
     function init() {
+        // ARCHIVED: Auto-set to institutional if retail is disabled and this is first visit
+        if (!RETAIL_ENABLED && isFirstVisit()) {
+            setUserType(USER_TYPES.INSTITUTIONAL);
+        }
+
         // Check if we're on the root index.html (gate page)
         const isRootPage = window.location.pathname.endsWith('index.html') || 
                           window.location.pathname.endsWith('/') ||
                           window.location.pathname === '/Users/caseykemp/First-Principle/index.html';
 
-        // If first visit and on root, show gate
-        if (isFirstVisit() && isRootPage) {
+        // ARCHIVED: Only show gate if retail is enabled
+        if (RETAIL_ENABLED && isFirstVisit() && isRootPage) {
             showInvestorGate();
         }
 
-        // Set up event listeners
-        const retailBtn = document.getElementById('investor-gate-retail');
-        const institutionalBtn = document.getElementById('investor-gate-institutional');
-        const toggleBtn = document.getElementById('investor-type-toggle');
+        // Set up event listeners (only if retail is enabled)
+        if (RETAIL_ENABLED) {
+            const retailBtn = document.getElementById('investor-gate-retail');
+            const institutionalBtn = document.getElementById('investor-gate-institutional');
+            const toggleBtn = document.getElementById('investor-type-toggle');
 
-        if (retailBtn) {
-            retailBtn.addEventListener('click', () => handleInvestorTypeSelection(USER_TYPES.RETAIL));
-        }
+            if (retailBtn) {
+                retailBtn.addEventListener('click', () => handleInvestorTypeSelection(USER_TYPES.RETAIL));
+            }
 
-        if (institutionalBtn) {
-            institutionalBtn.addEventListener('click', () => handleInvestorTypeSelection(USER_TYPES.INSTITUTIONAL));
-        }
+            if (institutionalBtn) {
+                institutionalBtn.addEventListener('click', () => handleInvestorTypeSelection(USER_TYPES.INSTITUTIONAL));
+            }
 
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', handleInvestorTypeToggle);
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', handleInvestorTypeToggle);
+            }
         }
 
         // Update navigation on pages that have it
         if (document.querySelector('.nav')) {
             updateNavigationLinks();
             updateInvestorTypeIndicator();
+            
+            // ARCHIVED: Disable toggle indicator click if retail is disabled
+            if (!RETAIL_ENABLED) {
+                const indicator = document.getElementById('investor-type-indicator');
+                if (indicator) {
+                    indicator.style.cursor = 'default';
+                    indicator.style.opacity = '0.7';
+                    indicator.title = 'Institutional mode (retail toggle disabled)';
+                }
+            }
         }
     }
 

@@ -221,7 +221,7 @@
     <header class="header">
         <nav class="nav container">
             <div class="nav-left">
-                <a href="index.html" class="logo">First Principle</a>
+                <a href="index.html" class="logo">First Principle Asset Management</a>
             </div>
             <ul class="nav-links">
                 <li><a href="../about.html">About</a></li>
@@ -252,8 +252,17 @@
                 <div class="simulator-chart-container">
                     <div class="simulator-header-bar">
                         <div style="flex: 1; min-width: 0;">
-                            <h2 class="simulator-header-title">Illustrative Portfolio Outcomes with Structured Products</h2>
+                            <h2 class="simulator-header-title">Hypothetical Portfolio Outcomes with Structured Products</h2>
                             <div id="implementationLabel" class="simulator-implementation-label"></div>
+                            <p style="font-size: 0.85rem; color: #A0AEC0; margin-top: 0.5rem; font-style: italic;">
+                                <strong>Hypothetical Performance Disclosure:</strong> All outcomes shown are hypothetical and for illustrative purposes only. 
+                                They do not represent actual performance or guarantee future results. Material underlying criteria, assumptions, risks, and limitations: 
+                                Returns are based on assumed expected returns and volatility parameters that may not reflect actual market conditions. 
+                                The simulator assumes constant expected returns and volatility, which do not account for changing market regimes, correlation shifts, 
+                                or extreme market events. Structured products are subject to issuer credit risk, barrier breach risk, early redemption risk, 
+                                liquidity risk, and market risk. Past performance does not guarantee future results. Actual results may vary significantly from 
+                                these hypothetical projections.
+                            </p>
                         </div>
                         <div id="simulatorModeContainer" style="margin-right: 1.5rem;">
                             <div class="simulator-mode-toggle" id="simulatorModeToggle">
@@ -340,13 +349,15 @@
 
                 <!-- Assumptions Notation -->
                 <div class="assumptions-notation">
-                    Assumptions: Base portfolio is 60% broad-based equities at 7.0% expected annual return and 40% fixed income blended from 2/3 investment grade at 4.0% and 1/3 high yield at 5.75% (≈4.58% blended). Structured equity sleeve represents a diversified basket of equity-linked notes with 10.0% expected return. Structured fixed income sleeve represents a diversified basket of income-focused notes with 7.0% expected return. All figures are hypothetical and for illustrative purposes only.
+                    <strong>Hypothetical Performance Assumptions:</strong> Base portfolio is 60% broad-based equities at 7.0% expected annual return and 40% fixed income blended from 2/3 investment grade at 4.0% and 1/3 high yield at 5.75% (≈4.58% blended). Structured equity sleeve represents a diversified basket of equity-linked notes with 10.0% expected return. Structured fixed income sleeve represents a diversified basket of income-focused notes with 7.0% expected return. All figures are hypothetical and for illustrative purposes only. 
+                    <br><br>
+                    <strong>Material Risks and Limitations:</strong> These hypothetical outcomes are based on simplified assumptions and do not reflect actual investment results. Key risks include: issuer credit risk, barrier breach risk resulting in principal loss, early redemption risk, liquidity constraints, market volatility, correlation breakdowns, and changing interest rate environments. The simulator does not account for transaction costs, fees, taxes, or the impact of extreme market events. Actual performance may differ materially from these projections. Past performance does not guarantee future results.
                 </div>
 
                 <!-- Metrics Panels -->
                 <div class="simulator-metrics-new">
                     <div class="metric-panel fade-on-scroll">
-                        <div class="metric-title-minimal">Base 60/40 Portfolio</div>
+                        <div class="metric-title-minimal">Base 60/40 Portfolio (Hypothetical)</div>
                         <div class="metric-content">
                             <div class="metric-row">
                                 <span class="metric-label-minimal">Ending Value</span>
@@ -364,7 +375,7 @@
                     </div>
 
                     <div class="metric-panel metric-panel-featured fade-on-scroll delay-1">
-                        <div class="metric-title-minimal">Current Allocation with First Principle</div>
+                        <div class="metric-title-minimal">Current Allocation with First Principle (Hypothetical)</div>
                         <div class="metric-content">
                             <div class="metric-row">
                                 <span class="metric-label-minimal">Ending Value</span>
@@ -427,6 +438,22 @@
             </div>
         </section>
     </main>
+
+    <!-- DISCLOSURES -->
+    <section class="section dark-bg" style="padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h3 style="color: #C8A678; font-size: 1.1rem; margin-bottom: 1.5rem; font-family: 'Nunito Sans', sans-serif;">Important Disclosures</h3>
+                <div style="color: #B0B0B0; font-size: 0.85rem; line-height: 1.8; font-family: 'Nunito Sans', sans-serif;">
+                    <p style="margin-bottom: 1rem;"><strong>Not an Offer, Recommendation, or Professional Advice:</strong> The information contained on this website is for informational purposes only and does not constitute an offer to sell, a solicitation of an offer to buy, or a recommendation to purchase any security or investment product. Nothing on this website should be construed as investment, legal, tax, or other professional advice.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Use of Third-Party Information:</strong> This website may contain information from third-party sources. First Principle Asset Management does not guarantee the accuracy, completeness, or timeliness of such information and is not responsible for any errors or omissions.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Confidentiality:</strong> The information on this website is confidential and proprietary. Unauthorized use, reproduction, or distribution of this information is prohibited.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Past Performance:</strong> Past performance is not indicative of future results. All investments involve risk, including the possible loss of principal. There can be no assurance that any investment strategy will be successful or that any investment will achieve its objectives.</p>
+                    <p><strong>Forward-Looking Statements:</strong> This website may contain forward-looking statements that are based on current expectations and projections about future events. These statements are subject to risks, uncertainties, and assumptions that could cause actual results to differ materially from those expressed or implied. First Principle Asset Management does not undertake any obligation to update any forward-looking statements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -1212,7 +1239,9 @@
     </script>
     <script src="../js/investor-type.js"></script>
     <script>
-        // Set up investor type toggle
+        // ARCHIVED: Investor type toggle disabled (retail mode disabled - launching to institutional clients only)
+        // To re-enable, uncomment below and set RETAIL_ENABLED to true in investor-type.js
+        /*
         document.addEventListener('DOMContentLoaded', function() {
             const toggle = document.getElementById('investor-type-indicator');
             if (toggle) {
@@ -1221,6 +1250,7 @@
                 });
             }
         });
+        */
     </script>
 </body>
 </html>

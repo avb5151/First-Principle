@@ -166,11 +166,12 @@ section {
 
 .logo {
     font-family: "Franklin Gothic", "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif !important;
-    font-size: 2.25rem;
+    font-size: 1.5rem;
     color: #C8A678;
     font-weight: 400;
     display: inline-block;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
 }
 
 .logo:hover {
@@ -1705,6 +1706,10 @@ section {
     .nav-left {
         order: 1;
     }
+    
+    .logo {
+        font-size: 1.4rem;
+    }
 
     .nav-right {
         order: 2;
@@ -1789,6 +1794,10 @@ section {
     .nav-left {
         width: 100%;
         margin-bottom: 0.5rem;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
     }
 
     .nav-right {
