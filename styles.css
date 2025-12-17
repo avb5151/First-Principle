@@ -1,4 +1,36 @@
 /* ============================================
+   FONT FACE DECLARATIONS
+   ============================================ */
+
+@font-face {
+    font-family: 'Meno Banner';
+    src: url('Fonts/_Meno Banner Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Meno Banner';
+    src: url('Fonts/_Meno Banner Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Meno Banner';
+    src: url('Fonts/_Meno Banner Semi Bold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Meno Banner';
+    src: url('Fonts/_Meno Banner Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ============================================
    RESET & BASE STYLES
    ============================================ */
 
@@ -165,18 +197,112 @@ section {
 }
 
 .logo {
-    font-family: "Franklin Gothic", "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif !important;
-    font-size: 1.5rem;
+    font-family: "Meno Banner", serif;
     color: #C8A678;
-    font-weight: 400;
-    display: inline-block;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1.2;
+    text-align: center;
+    padding: 0.5rem 0;
 }
 
 .logo:hover {
     opacity: 1;
     color: #D4B589;
+}
+
+.logo:hover .logo-line-1,
+.logo:hover .logo-line-2,
+.logo:hover .logo-line-3,
+.logo:hover .logo-line-4 {
+    color: #D4B589;
+}
+
+.logo-line-1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+}
+
+.logo-line-2 {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+}
+
+.logo-line-3 {
+    font-size: 0.7rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-line-3::before,
+.logo-line-3::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background-color: #C8A678;
+}
+
+.logo:hover .logo-line-3::before,
+.logo:hover .logo-line-3::after {
+    background-color: #D4B589;
+}
+
+.logo-line-4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 968px) {
+    .logo-line-1 {
+        font-size: 1.75rem;
+    }
+    
+    .logo-line-2 {
+        font-size: 0.9rem;
+    }
+    
+    .logo-line-3 {
+        font-size: 0.65rem;
+    }
+    
+    .logo-line-4 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .logo-line-1 {
+        font-size: 1.5rem;
+    }
+    
+    .logo-line-2 {
+        font-size: 0.8rem;
+    }
+    
+    .logo-line-3 {
+        font-size: 0.6rem;
+    }
+    
+    .logo-line-4 {
+        font-size: 0.9rem;
+    }
+    
+    .logo-line-3::before,
+    .logo-line-3::after {
+        width: 1.5rem;
+    }
 }
 
 .nav-links a {
