@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=institutional/index.html">
     <title>First Principle Asset Management</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,22 +36,6 @@
         </div>
     </div>
     -->
-
-    <script src="js/investor-type.js"></script>
-    <script>
-        // ARCHIVED: Auto-redirect to institutional (retail toggle disabled)
-        // To re-enable, restore the modal display code below and update investor-type.js
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-set user type to institutional and redirect
-            if (window.FPInvestorType) {
-                window.FPInvestorType.setUserType('institutional');
-                window.location.href = 'institutional/index.html';
-            } else {
-                // Fallback if script hasn't loaded yet
-                localStorage.setItem('fp_user_type', 'institutional');
-                window.location.href = 'institutional/index.html';
-            }
-        });
-    </script>
+    <p style="color: #f8f9fb; text-align: center;">Redirecting to <a href="institutional/index.html" style="color: #C8A678;">institutional homepage</a>...</p>
 </body>
 </html>
