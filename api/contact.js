@@ -115,7 +115,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'First Principle Contact Form <noreply@theinvictuscollective.com>', // UPDATE: Use your verified domain
-        to: ['engage@theinvictuscollective.com'],
+        to: ['team@theinvictuscollective.com'],
         subject: emailSubject,
         html: emailBody,
         reply_to: email // Allows direct reply to the sender

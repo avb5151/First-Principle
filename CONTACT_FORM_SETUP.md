@@ -52,7 +52,7 @@ Open `/api/contact.js` and update the following:
 
 2. **To Email Address** (line ~68):
    ```javascript
-   to: ['engage@theinvictuscollective.com'],
+   to: ['team@theinvictuscollective.com'],
    ```
    - This is already set correctly, but verify it's the correct email
 
@@ -80,7 +80,7 @@ Open `/api/contact.js` and update the following:
 2. Fill out the form with test data
 3. Submit and verify:
    - Success message appears
-   - Email is received at `engage@theinvictuscollective.com`
+   - Email is received at `team@theinvictuscollective.com`
    - Form resets after successful submission
 
 ## Troubleshooting
