@@ -42,9 +42,10 @@
 
 html {
     scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
-
-/* Remove smooth scroll if not needed for multi-page navigation */
 
 body {
     font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
@@ -54,6 +55,12 @@ body {
     font-size: 1.1rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    flex: 1;
 }
 
 /* ============================================
@@ -2516,7 +2523,7 @@ section {
 /* Contact Page Redesign */
 .contact-section-new {
     background: linear-gradient(180deg, #1E2A39 0%, #1A2532 100%);
-    padding: 8rem 0;
+    padding: 8rem 0 4rem 0;
 }
 
 .contact-content-new {
@@ -2605,6 +2612,169 @@ section {
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
+}
+
+/* HubSpot Form Styling - Enhanced to match site design */
+.hs-form-frame {
+    width: 100%;
+}
+
+/* Form container */
+.hs-form,
+form.hs-form {
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif !important;
+}
+
+/* Form field groups */
+.hs-form-field {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Labels */
+.hs-form-field label,
+.hs-form-field > label,
+.hs-form-field label span {
+    color: #E0E0E0 !important;
+    font-size: 0.9rem !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.5rem !important;
+    letter-spacing: 0.3px !important;
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif !important;
+}
+
+.hs-form-field label .hs-form-required {
+    color: #C8A678 !important;
+}
+
+/* Input fields */
+.hs-form-field input[type="text"],
+.hs-form-field input[type="email"],
+.hs-form-field input[type="tel"],
+.hs-form-field input[type="number"],
+.hs-form-field textarea,
+.hs-form-field select {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #F8F9FA !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif !important;
+    font-weight: 300 !important;
+    width: 100% !important;
+    transition: all 0.3s ease !important;
+}
+
+.hs-form-field textarea {
+    resize: vertical !important;
+    min-height: 120px !important;
+}
+
+/* Input focus states */
+.hs-form-field input[type="text"]:focus,
+.hs-form-field input[type="email"]:focus,
+.hs-form-field input[type="tel"]:focus,
+.hs-form-field input[type="number"]:focus,
+.hs-form-field textarea:focus,
+.hs-form-field select:focus {
+    border-color: #C8A678 !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(200, 166, 120, 0.1) !important;
+}
+
+/* Placeholder text */
+.hs-form-field input::placeholder,
+.hs-form-field textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    opacity: 1 !important;
+}
+
+/* Submit button */
+.hs-button,
+input[type="submit"].hs-button,
+button.hs-button {
+    background-color: #C8A678 !important;
+    color: #1E2A39 !important;
+    padding: 1.2rem 3rem !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px !important;
+    border-radius: 50px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-top: 0.5rem !important;
+    font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif !important;
+    width: auto !important;
+}
+
+.hs-button:hover,
+input[type="submit"].hs-button:hover,
+button.hs-button:hover {
+    background-color: #D4B589 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(200, 166, 120, 0.3) !important;
+}
+
+.hs-button:active,
+input[type="submit"].hs-button:active,
+button.hs-button:active {
+    transform: translateY(0) !important;
+}
+
+/* Error messages */
+.hs-error-msgs,
+.hs-error-msgs label {
+    color: #ff6b6b !important;
+    font-size: 0.85rem !important;
+    margin-top: 0.5rem !important;
+    list-style: none !important;
+    padding: 0 !important;
+}
+
+.hs-error-msgs li {
+    color: #ff6b6b !important;
+    font-size: 0.85rem !important;
+    margin-top: 0.25rem !important;
+}
+
+/* Input error state */
+.hs-form-field.hs-error input,
+.hs-form-field.hs-error textarea,
+.hs-form-field.hs-error select {
+    border-color: #ff6b6b !important;
+}
+
+/* Success message */
+.hs-submit-success,
+.submitted-message {
+    color: #4ade80 !important;
+    font-size: 1rem !important;
+    margin-top: 1rem !important;
+    padding: 1rem !important;
+    background-color: rgba(74, 222, 128, 0.1) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(74, 222, 128, 0.2) !important;
+}
+
+/* Form description/help text */
+.hs-form-description {
+    color: #B0B0B0 !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Hide HubSpot branding if present */
+.hs-form .hs-form-footer .hs-powered-by {
+    display: none !important;
+}
+
+/* Overall form text color */
+.hs-main-font-element,
+.hs-form,
+form.hs-form {
+    color: #E0E0E0 !important;
 }
 
 .btn-contact {
