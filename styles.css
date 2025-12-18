@@ -201,70 +201,44 @@ section {
     color: #C8A678;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     text-decoration: none;
     line-height: 1.2;
-    text-align: center;
+    text-align: left;
     padding: 0.5rem 0;
+    transition: opacity 0.3s ease;
 }
 
 .logo:hover {
-    opacity: 1;
+    opacity: 0.8;
     color: #D4B589;
 }
 
-.logo:hover .logo-line-1,
-.logo:hover .logo-line-2,
-.logo:hover .logo-line-3,
-.logo:hover .logo-line-4 {
-    color: #D4B589;
+.logo img {
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    display: block;
 }
 
 .logo-line-1 {
     font-size: 2rem;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.1rem;
     letter-spacing: -0.01em;
 }
 
 .logo-line-2 {
     font-size: 1rem;
     font-weight: 400;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.01em;
-}
-
-.logo-line-3 {
-    font-size: 0.7rem;
-    font-weight: 300;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.02em;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo-line-3::before,
-.logo-line-3::after {
-    content: '';
-    display: block;
-    width: 2rem;
-    height: 1px;
-    background-color: #C8A678;
-}
-
-.logo:hover .logo-line-3::before,
-.logo:hover .logo-line-3::after {
-    background-color: #D4B589;
-}
-
-.logo-line-4 {
-    font-size: 1.1rem;
-    font-weight: 600;
     letter-spacing: 0.01em;
 }
 
 @media (max-width: 968px) {
+    .logo img {
+        max-height: 45px;
+    }
+    
     .logo-line-1 {
         font-size: 1.75rem;
     }
@@ -272,36 +246,19 @@ section {
     .logo-line-2 {
         font-size: 0.9rem;
     }
-    
-    .logo-line-3 {
-        font-size: 0.65rem;
-    }
-    
-    .logo-line-4 {
-        font-size: 1rem;
-    }
 }
 
 @media (max-width: 640px) {
+    .logo img {
+        max-height: 35px;
+    }
+    
     .logo-line-1 {
         font-size: 1.5rem;
     }
     
     .logo-line-2 {
         font-size: 0.8rem;
-    }
-    
-    .logo-line-3 {
-        font-size: 0.6rem;
-    }
-    
-    .logo-line-4 {
-        font-size: 0.9rem;
-    }
-    
-    .logo-line-3::before,
-    .logo-line-3::after {
-        width: 1.5rem;
     }
 }
 
@@ -1833,9 +1790,6 @@ section {
         order: 1;
     }
     
-    .logo {
-        font-size: 1.4rem;
-    }
 
     .nav-right {
         order: 2;
@@ -1922,9 +1876,6 @@ section {
         margin-bottom: 0.5rem;
     }
     
-    .logo {
-        font-size: 1.2rem;
-    }
 
     .nav-right {
         width: 100%;

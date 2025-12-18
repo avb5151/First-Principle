@@ -141,9 +141,11 @@ export default async function handler(req, res) {
     
     if (!RESEND_API_KEY) {
       console.error('RESEND_API_KEY is not set in environment variables');
+      console.error('For local development, create a .env.local file with RESEND_API_KEY=your_key');
+      console.error('Then run: npx vercel dev');
       return res.status(500).json({ 
         error: 'Failed to send message.',
-        details: 'Email service is not configured. Please contact the administrator.'
+        details: 'Email service is not configured. RESEND_API_KEY environment variable is missing. For local testing, create a .env.local file and run "npx vercel dev".'
       });
     }
 

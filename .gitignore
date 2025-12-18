@@ -7,6 +7,10 @@ node_modules/
 # Vercel build output
 .vercel/
 
+# Environment variables
+.env.local
+.env*.local
+
 # Logs
 *.log
 
