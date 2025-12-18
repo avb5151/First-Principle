@@ -208,10 +208,10 @@ section {
     color: #C8A678;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     text-decoration: none;
     line-height: 1.2;
-    text-align: left;
+    text-align: center;
     padding: 0.5rem 0;
     transition: opacity 0.3s ease;
 }
@@ -239,6 +239,39 @@ section {
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.01em;
+    margin-bottom: 0.15rem;
+}
+
+.logo-line-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.15rem 0;
+    width: 100%;
+}
+
+.logo-line-separator::before,
+.logo-line-separator::after {
+    content: '';
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1px;
+    background-color: #C8A678;
+    opacity: 0.6;
+}
+
+.logo-line-3 {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+}
+
+.logo-line-4 {
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
 }
 
 @media (max-width: 968px) {
@@ -253,6 +286,15 @@ section {
     .logo-line-2 {
         font-size: 0.9rem;
     }
+    
+    .logo-line-3 {
+        font-size: 0.65rem;
+    }
+    
+    .logo-line-4 {
+        font-size: 0.8rem;
+    }
+    
 }
 
 @media (max-width: 640px) {
@@ -267,6 +309,15 @@ section {
     .logo-line-2 {
         font-size: 0.8rem;
     }
+    
+    .logo-line-3 {
+        font-size: 0.6rem;
+    }
+    
+    .logo-line-4 {
+        font-size: 0.75rem;
+    }
+    
 }
 
 .nav-links a {
