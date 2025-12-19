@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="../Logo.jpg">
     <meta name="description" content="Portfolio simulator for structured products. Test hypothetical outcomes with structured note portfolios across market regimes and implementation roles.">
     <title>Portfolio Simulator | First Principle</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -342,7 +343,7 @@
                             <span class="slider-value-minimal" id="structuredEquityValue">20%</span>
                         </div>
                         <input type="range" id="structuredEquity" min="0" max="60" value="20" step="5" class="slider-premium">
-                        <div class="slider-note-minimal">Expected return: 10%</div>
+                        <div class="slider-note-minimal">Expected return: 12%</div>
                     </div>
 
                     <div class="control-bar-item">
@@ -351,13 +352,13 @@
                             <span class="slider-value-minimal" id="structuredFixedIncomeValue">10%</span>
                         </div>
                         <input type="range" id="structuredFixedIncome" min="0" max="40" value="10" step="5" class="slider-premium">
-                        <div class="slider-note-minimal">Expected return: 7%</div>
+                        <div class="slider-note-minimal">Expected return: 10%</div>
                     </div>
                 </div>
 
                 <!-- Assumptions Notation -->
                 <div class="assumptions-notation">
-                    <strong>Hypothetical Performance Assumptions:</strong> Base portfolio is 60% broad-based equities at 7.0% expected annual return and 40% fixed income blended from 2/3 investment grade at 4.0% and 1/3 high yield at 5.75% (≈4.58% blended). Structured equity sleeve represents a diversified basket of equity-linked notes with 10.0% expected return. Structured fixed income sleeve represents a diversified basket of income-focused notes with 7.0% expected return. All figures are hypothetical and for illustrative purposes only. 
+                    <strong>Hypothetical Performance Assumptions:</strong> Base portfolio is 60% broad-based equities at 7.0% expected annual return and 40% fixed income blended from 2/3 investment grade at 4.0% and 1/3 high yield at 5.75% (≈4.58% blended). Structured equity sleeve represents a diversified basket of equity-linked notes with 12.0% expected return. Structured fixed income sleeve represents a diversified basket of income-focused notes with 10.0% expected return. All figures are hypothetical and for illustrative purposes only. 
                     <br><br>
                     <strong>Material Risks and Limitations:</strong> These hypothetical outcomes are based on simplified assumptions and do not reflect actual investment results. Key risks include: issuer credit risk, barrier breach risk resulting in principal loss, early redemption risk, liquidity constraints, market volatility, correlation breakdowns, and changing interest rate environments. The simulator does not account for transaction costs, fees, taxes, or the impact of extreme market events. Actual performance may differ materially from these projections. Past performance does not guarantee future results.
                 </div>
@@ -486,9 +487,9 @@
 
         const RETURNS = {
             traditionalEquity: 0.07,      // 7.0% expected annual return
-            structuredEquity: 0.10,       // structured equity sleeve
+            structuredEquity: 0.12,       // structured equity sleeve
             traditionalFixedIncome: 0.0458, // ~4.58% blended IG/HY
-            structuredFixedIncome: 0.07   // structured income sleeve
+            structuredFixedIncome: 0.10   // structured income sleeve
         };
 
         const VOLATILITY = {
@@ -671,9 +672,9 @@
             {
                 name: "Base Regime",
                 traditionalEquityReturn: 0.07,
-                structuredEquityReturn: 0.10,
+                structuredEquityReturn: 0.12,
                 traditionalFixedIncomeReturn: 0.0458,
-                structuredFixedIncomeReturn: 0.07
+                structuredFixedIncomeReturn: 0.10
             },
             {
                 name: "Equity Shock (2020-style)",
@@ -803,10 +804,16 @@
                     portfolioChart.options.scales.x.max = timeHorizon;
                     const allValues = [...baseResult.values, ...currentResult.values];
                     const maxVal = Math.max(...allValues);
-                    const yMin = 1000000;
-                    const yMax = Math.ceil(maxVal / 500000) * 500000;
+                    const yMin = INITIAL_VALUE; // Start at $1M
+                    const yMax = Math.ceil(maxVal / 500000) * 500000; // Round up to nearest $500k
                     portfolioChart.options.scales.y.min = yMin;
                     portfolioChart.options.scales.y.max = yMax;
+                    portfolioChart.options.scales.y.ticks.callback = function(value) {
+                        return formatDollarsCompact(value);
+                    };
+                    portfolioChart.options.plugins.tooltip.callbacks.label = function(context) {
+                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                    };
                     portfolioChart.update(smooth ? "active" : "none");
                 } else {
                     initializeChart(years, baseResult.values, currentResult.values, timeHorizon);
@@ -956,6 +963,18 @@
             }).format(value);
         }
 
+        function formatDollarsCompact(value) {
+            if (value >= 1000000) {
+                const millions = value / 1000000;
+                return '$' + millions.toFixed(millions % 1 === 0 ? 0 : 1) + 'M';
+            } else if (value >= 1000) {
+                const thousands = value / 1000;
+                return '$' + thousands.toFixed(thousands % 1 === 0 ? 0 : 1) + 'K';
+            } else {
+                return '$' + value.toFixed(0);
+            }
+        }
+
         // --------- CHART INIT ---------
         function initializeChart(years, baseValues, currentValues, maxYear) {
             const canvas = document.getElementById('portfolioChart');
@@ -976,11 +995,11 @@
                 portfolioChart = null;
             }
 
-            // Calculate y-axis bounds - fixed min at 1,000,000, round max to clean increment
+            // Calculate y-axis bounds - start at $1M, round max to clean increment
             const allValues = [...baseValues, ...currentValues];
             const maxVal = Math.max(...allValues);
-            const yMin = 1000000; // Fixed at initial portfolio value
-            // Round max to next $500,000 increment
+            const yMin = INITIAL_VALUE; // Start at $1M
+            // Round max to next $500k increment
             const yMax = Math.ceil(maxVal / 500000) * 500000;
 
             console.log('Initializing chart with:', {
@@ -1123,7 +1142,7 @@
                                 color: '#888',
                                 stepSize: 500000, // Even spacing every $500k
                                 callback: function(value) {
-                                    return formatCurrency(value);
+                                    return formatDollarsCompact(value);
                                 }
                             },
                             min: yMin,
