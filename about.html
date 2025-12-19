@@ -241,20 +241,25 @@
         .partners-logo-item {
             flex-shrink: 0;
             padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
         }
 
-        .partner-name {
-            color: #B0B0B0;
-            font-size: 1.1rem;
-            font-weight: 400;
-            font-family: 'Nunito Sans', sans-serif;
-            white-space: nowrap;
-            letter-spacing: 0.05em;
-            transition: color 0.3s ease;
+        .partner-logo {
+            max-height: 60px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        .partners-logo-item:hover .partner-name {
-            color: #C8A678;
+        .partners-logo-item:hover .partner-logo {
+            filter: brightness(1);
+            transform: scale(1.05);
         }
 
         @keyframes scroll-logos {
@@ -414,47 +419,41 @@
             <div class="partners-banner-container">
                 <div class="partners-logo-track">
                     <div class="partners-logo-item">
-                        <span class="partner-name">Navian Capital</span>
+                        <img src="Navian.jpeg" alt="Navian Capital" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Luma Technologies</span>
+                        <img src="Luma.jpeg" alt="Luma Technologies" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">StoneX</span>
+                        <img src="Halo.png" alt="Halo" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Gen2</span>
+                        <img src="JPM.png" alt="JP Morgan" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Morgan Stanley</span>
+                        <img src="MS.jpeg" alt="Morgan Stanley" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">JP Morgan</span>
-                    </div>
-                    <div class="partners-logo-item">
-                        <span class="partner-name">Bank of Colombia</span>
+                        <img src="BofCol.png" alt="Bank of Colombia" class="partner-logo">
                     </div>
                     <!-- Duplicate for seamless loop -->
                     <div class="partners-logo-item">
-                        <span class="partner-name">Navian Capital</span>
+                        <img src="Navian.jpeg" alt="Navian Capital" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Luma Technologies</span>
+                        <img src="Luma.jpeg" alt="Luma Technologies" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">StoneX</span>
+                        <img src="Halo.png" alt="Halo" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Gen2</span>
+                        <img src="JPM.png" alt="JP Morgan" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">Morgan Stanley</span>
+                        <img src="MS.jpeg" alt="Morgan Stanley" class="partner-logo">
                     </div>
                     <div class="partners-logo-item">
-                        <span class="partner-name">JP Morgan</span>
-                    </div>
-                    <div class="partners-logo-item">
-                        <span class="partner-name">Bank of Colombia</span>
+                        <img src="BofCol.png" alt="Bank of Colombia" class="partner-logo">
                     </div>
                 </div>
             </div>
