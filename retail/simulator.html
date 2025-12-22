@@ -224,7 +224,7 @@
 
     <script>
         // --------- CONFIG ---------
-        const INITIAL_VALUE = 1_000_000;
+        const INITIAL_VALUE = 10_000_000;
 
         const RETURNS = {
             traditionalEquity: 0.07,      // 7.0% expected annual return
@@ -365,12 +365,12 @@
                 // Update x-axis
                 portfolioChart.options.scales.x.max = timeHorizon;
                 
-                // Calculate and update y-axis bounds - fixed min at 1,000,000, round max to clean increment
+                // Calculate and update y-axis bounds - fixed min at 10,000,000, round max to clean increment
                 const allValues = [...baseResult.values, ...currentResult.values];
                 const maxVal = Math.max(...allValues);
                 const yMin = 1000000; // Fixed at initial portfolio value
                 // Round max to next $500,000 increment
-                const yMax = Math.ceil(maxVal / 500000) * 500000;
+                const yMax = Math.ceil(maxVal / 5000000) * 5000000;
                 
                 portfolioChart.options.scales.y.min = yMin;
                 portfolioChart.options.scales.y.max = yMax;
@@ -431,7 +431,7 @@
                 portfolioChart = null;
             }
 
-            // Calculate y-axis bounds - fixed min at 1,000,000, round max to clean increment
+            // Calculate y-axis bounds - fixed min at 10,000,000, round max to clean increment
             const allValues = [...baseValues, ...currentValues];
             const maxVal = Math.max(...allValues);
             const yMin = 1000000; // Fixed at initial portfolio value
@@ -576,7 +576,7 @@
                                     weight: 300
                                 },
                                 color: '#888',
-                                stepSize: 500000, // Even spacing every $500k
+                                stepSize: 5000000, // Even spacing every $5M
                                 callback: function(value) {
                                     return formatCurrency(value);
                                 }

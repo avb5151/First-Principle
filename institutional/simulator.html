@@ -483,7 +483,7 @@
 
     <script>
         // --------- CONFIG ---------
-        const INITIAL_VALUE = 1_000_000;
+        const INITIAL_VALUE = 10_000_000;
 
         const RETURNS = {
             traditionalEquity: 0.07,      // 7.0% expected annual return
@@ -804,8 +804,8 @@
                     portfolioChart.options.scales.x.max = timeHorizon;
                     const allValues = [...baseResult.values, ...currentResult.values];
                     const maxVal = Math.max(...allValues);
-                    const yMin = INITIAL_VALUE; // Start at $1M
-                    const yMax = Math.ceil(maxVal / 500000) * 500000; // Round up to nearest $500k
+                    const yMin = INITIAL_VALUE; // Start at $10M
+                    const yMax = Math.ceil(maxVal / 5000000) * 5000000; // Round up to nearest $5M
                     portfolioChart.options.scales.y.min = yMin;
                     portfolioChart.options.scales.y.max = yMax;
                     portfolioChart.options.scales.y.ticks.callback = function(value) {
@@ -995,12 +995,12 @@
                 portfolioChart = null;
             }
 
-            // Calculate y-axis bounds - start at $1M, round max to clean increment
+            // Calculate y-axis bounds - start at $10M, round max to clean increment
             const allValues = [...baseValues, ...currentValues];
             const maxVal = Math.max(...allValues);
-            const yMin = INITIAL_VALUE; // Start at $1M
+            const yMin = INITIAL_VALUE; // Start at $10M
             // Round max to next $500k increment
-            const yMax = Math.ceil(maxVal / 500000) * 500000;
+            const yMax = Math.ceil(maxVal / 5000000) * 5000000;
 
             console.log('Initializing chart with:', {
                 years: years.length,
@@ -1140,7 +1140,7 @@
                                     weight: 300
                                 },
                                 color: '#888',
-                                stepSize: 500000, // Even spacing every $500k
+                                stepSize: 5000000, // Even spacing every $5M
                                 callback: function(value) {
                                     return formatDollarsCompact(value);
                                 }

@@ -3890,6 +3890,7 @@ form.hs-form {
     color: #555;
     letter-spacing: 0.01em;
     font-weight: 300;
+    white-space: pre-line;
 }
 
 /* Product 101 & Whitepaper Responsive */
