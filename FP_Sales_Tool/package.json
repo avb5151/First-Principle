@@ -1,7 +1,7 @@
 {
-  "name": "first-principle",
+  "name": "fp_sales_tool",
   "version": "1.0.0",
-  "description": "First Principle Asset Management website",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "resend": "^3.2.0",
     "next": "^14.2.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
@@ -27,8 +26,5 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.2.0"
-  },
-  "engines": {
-    "node": ">=18.x"
   }
 }
