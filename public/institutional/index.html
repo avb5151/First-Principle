@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="../Logo.jpg">
+    <meta name="description" content="Institutional structured products designed to convert equity volatility into stable income. Portfolio enhancement for a new market regime.">
+    <title>Institutional Structured Products | First Principle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .regime-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* keep header/subheader tight and centered */
+        .regime-section .section-header {
+            margin-bottom: 0.75rem;
+        }
+
+        .regime-section .section-subheader {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        /* timeline container */
+        .regime-timeline {
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        /* three cards with connecting lines between them */
+        .regime-comparison {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        /* connecting lines between boxes */
+        .regime-period:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 2rem;
+            height: 2px;
+            background: rgba(200, 166, 120, 0.5);
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        .regime-period {
+            position: relative;
+            padding: 2rem 2.25rem;
+            background: #141e2b;
+            border-radius: 14px;
+            border: 1px solid rgba(200, 166, 120, 0.28);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease,
+                background 0.3s ease, opacity 0.3s ease;
+            opacity: 0.75;
+
+            /* unify height / alignment */
+            display: flex;
+            flex-direction: column;
+            min-height: 360px;
+        }
+
+        .regime-period--current {
+            background: #1c2838;
+            border-color: #d8b179;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+            opacity: 0.9;
+        }
+
+        .regime-period--future {
+            background: #233143;
+            border-color: #f0c88a;
+            box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+            opacity: 1;
+        }
+
+        .regime-period:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            background: #233143;
+            opacity: 1;
+        }
+
+        .regime-period h4 {
+            color: #f8f9fb;
+            margin-bottom: 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* metrics */
+        .regime-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-top: 0.75rem;
+        }
+
+        .regime-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 0.9rem;
+            flex-wrap: nowrap;
+        }
+
+        .regime-metric-label {
+            color: #c0c6d0;
+            flex: 1;
+            padding-right: 1rem;
+            min-width: 0;
+
+            /* keep each label on one line so it doesn't stack weirdly */
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .regime-metric-value {
+            color: #f6e1bf;
+            font-weight: 600;
+            font-size: 0.95rem; /* slightly smaller for better fit */
+            text-align: right;
+            flex-shrink: 0;
+            margin-left: 1rem;
+            line-height: 1.3;
+        }
+
+        /* interpretation line */
+        .regime-interpretation {
+            margin-top: auto; /* pins this to the bottom so all cards line up */
+            padding-top: 1.1rem;
+            font-size: 0.9rem;
+            color: #d0d5dc;
+            line-height: 1.6;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            font-style: italic;
+        }
+
+        /* adjust dotted line position in first "then" box */
+        .regime-period:first-child .regime-interpretation {
+            margin-top: 1.5rem; /* lower the dotted line, more in the middle */
+        }
+
+        /* mobile */
+        @media (max-width: 968px) {
+            .regime-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            /* connecting lines hidden on mobile */
+            .regime-period::after {
+                display: none;
+            }
+
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .analytics-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 2px solid #C8A678;
+        }
+
+        .analytics-card h4 {
+            color: #C8A678;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .analytics-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .analytics-card li {
+            color: #E0E0E0;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .analytics-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #C8A678;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .use-case-card {
+            background: #F8F9FA;
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 3px solid #C8A678;
+        }
+
+        .use-case-card h4 {
+            color: #1A2532;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .use-case-card p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-card .btn {
+            margin-top: auto;
+        }
+
+        @media (max-width: 968px) {
+            .use-case-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <span class="logo-line-1">First Principle</span>
+                    <span class="logo-line-2">Asset Management</span>
+                    <div class="logo-line-separator">
+                        <span class="logo-line-3">powered by</span>
+                    </div>
+                    <span class="logo-line-4">The Invictus Collective</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/about.html">About</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="/institutional/product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="/institutional/product.html#instruments-mechanics">Instruments & Mechanics</a></li>
+                        <li><a href="/institutional/product.html#risk-return">Risk & Return Drivers</a></li>
+                        <li><a href="/institutional/product.html#portfolio-construction">Portfolio Construction</a></li>
+                        <li><a href="/institutional/product.html#implementation">Implementation</a></li>
+                    </ul>
+                </li>
+                <li><a href="/institutional/simulator.html">Portfolio Simulator</a></li>
+                <li><a href="/resources.html">Resources</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="/contact.html" class="cta-button">Schedule a Call</a>
+                <span id="investor-type-indicator" class="investor-type-indicator institutional" style="cursor: pointer;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero hero-fullscreen">
+            <div class="hero-overlay"></div>
+            <div class="container">
+                <div class="hero-content-new">
+                    <div class="hero-text-new">
+                        <h1 class="hero-title-new" style="font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem;">
+                            Portfolio Enhancement<br>
+                            for a New Market Regime
+                        </h1>
+                        <p class="hero-subheader-new" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto 2.5rem;">
+                            First Principle, powered by The Invictus Collective, designs structured-note portfolios that convert equity volatility into systematic, stable income and asymmetric payoff profiles. We believe our approach is suited for today&#8217;s volatility and correlation regime, and is engineered to integrate into existing equity and credit allocations&#8212;not replace them.
+                        </p>
+                        <div class="hero-buttons-new">
+                            <a href="/institutional/product.html" class="btn btn-primary">Explore the Strategy</a>
+                            <a href="/institutional/simulator.html" class="btn btn-secondary">Run a Portfolio Simulation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REGIME SHIFT SECTION -->
+        <section class="section dark-bg regime-section">
+            <div class="container">
+                <h2 class="section-header">The Regime Shift</h2>
+                <p class="section-subheader">
+                    Capital market assumptions have shifted materially. Forward equity returns are lower, volatility is structurally higher, and traditional diversification is less reliable. We believe the portfolio construction playbook that worked in the Quantitative Easing era requires recalibration for today&#8217;s and tomorrow&#8217;s regime. Explore our institutional expertise and learn how we apply systematic frameworks to portfolio enhancement.
+                </p>
+
+                <div class="regime-timeline">
+                    <!-- Simple THEN / NOW / NEXT labels -->
+                    <div class="regime-label-row">
+                        <div class="regime-label">Then: QE Era</div>
+                        <div class="regime-label regime-label--current">Now: Elevated Volatility</div>
+                        <div class="regime-label regime-label--future">Next: Constrained Return Outlook</div>
+                    </div>
+
+                    <div class="regime-comparison">
+                        <div class="regime-period">
+                            <h4>2010–2019: QE-Dominated Regime</h4>
+                            <div class="regime-metrics">
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Forward Equity Returns</span>
+                                    <span class="regime-metric-value">7–9%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Realized Volatility (SPX)</span>
+                                    <span class="regime-metric-value">12–15%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">60/40 Expected Return</span>
+                                    <span class="regime-metric-value">6–7%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Equity–Bond Correlation</span>
+                                    <span class="regime-metric-value">Negative to Low</span>
+                                </div>
+                            </div>
+                            <p class="regime-interpretation">
+                                Beta, multiple expansion, and negative stock–bond correlation did most of the work; traditional 60/40 was an efficient default core.
+                            </p>
+                        </div>
+
+                        <div class="regime-period regime-period--current">
+                            <h4>2020–2025: Elevated Volatility Regime</h4>
+                            <div class="regime-metrics">
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Forward Equity Returns</span>
+                                    <span class="regime-metric-value">~4–5%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Realized Volatility (SPX)</span>
+                                    <span class="regime-metric-value">18–22%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">60/40 Expected Return</span>
+                                    <span class="regime-metric-value">~4–5%</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Equity–Bond Correlation</span>
+                                    <span class="regime-metric-value">Higher, Unstable</span>
+                                </div>
+                            </div>
+                            <p class="regime-interpretation">
+                                Drawdowns are sharper and diversification delivers less; portfolios need more efficient payoff design per unit of risk budget.
+                            </p>
+                        </div>
+
+                        <div class="regime-period regime-period--future">
+                            <h4>2026- Capital Market Outlook</h4>
+                            <div class="regime-metrics">
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Forward Equity Returns</span>
+                                    <span class="regime-metric-value">Mid-Single-Digits</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Volatility &amp; Skew</span>
+                                    <span class="regime-metric-value">Structurally Elevated</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">60/40 Role</span>
+                                    <span class="regime-metric-value">Less Dominant Core</span>
+                                </div>
+                                <div class="regime-metric">
+                                    <span class="regime-metric-label">Risk Budget Use</span>
+                                    <span class="regime-metric-value">More Efficient</span>
+                                </div>
+                            </div>
+                            <p class="regime-interpretation">
+                                The opportunity is to treat volatility and payoff shape as explicit design variables&#8212;structured-note sleeves become a rational
+                                complement to traditional beta.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align:center;color:#9ca3af;font-size:0.9rem;margin-top:2rem;font-style:italic;">
+                    Sources: JPMorgan, BlackRock, Goldman Sachs Capital Market Assumptions; Bloomberg.
+                </p>
+            </div>
+        </section>
+
+        <!-- OUR SOLUTION: PAYOFF ENGINEERING -->
+        <section class="section dark-bg">
+            <div class="container">
+                <h2 class="section-header">Our Solution: Payoff Engineering</h2>
+                <p class="section-subheader">
+                    We construct diversified, rules-based portfolios of structured notes that are designed to harvest index option premium across major indices
+                    (SPX, NDX, RUT, SX5E). The objective is to convert volatility and skew into stable income and convex payoff profiles while
+                    keeping the overall portfolio aligned with existing policy benchmarks and risk budgets. Learn more about our <a href="/institutional/product.html" style="color: #C8A678; text-decoration: underline;">structured note strategy</a> and implementation framework.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Systematic Volatility Capture</h3>
+                        <p>
+                            We implement disciplined option-selling programs across diversified index underlyings, targeting the structural gap
+                            between implied and realized volatility rather than short-term market calls. Position sizing, tenor, and strike
+                            selection are driven by a systematic framework that anchors to risk budget and path-dependent drawdown controls.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Engineered Payoff Geometry</h3>
+                        <p>
+                            Barrier levels, coupon structures, and maturities are engineered to reshape the distribution of outcomes relative to
+                            long-only equity or credit. Notes typically employ transparent barriers (e.g., 50–80% of initial index level) and
+                            clearly defined downside participation, allowing ex-ante mapping of behavior under stress, in range-bound markets, and
+                            in modestly rising environments.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Institutional Integration & Governance</h3>
+                        <p>
+                            Structured-note sleeves are sized and slotted into existing equity or fixed income allocations&#8212;not layered on top.
+                            We aim to provide position-level transparency, issuer diversification, and attribution that can be mapped into existing risk,
+                            performance, and compliance systems, enabling CIOs and investment committees to monitor the sleeve alongside core
+                            exposures.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USE CASES -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-header">Implementation Use Cases</h2>
+                <p class="section-subheader" style="max-width: 800px; margin: 0 auto;">
+                    Start with the problem you&#8217;re trying to solve. It is our belief that structured-note portfolios can be used to enhance income,
+                    reshape equity risk, or simplify alternative credit exposure. Choose the role that best fits your mandate, then
+                    see how the sleeve behaves in our portfolio simulator.
+                </p>
+
+                <div class="use-case-grid">
+                    <div class="use-case-card">
+                        <h4>Enhance Core Fixed Income</h4>
+                        <p class="use-case-need">
+                            You need higher, more stable cash flow from your bond allocation without extending duration or taking on opaque credit risk.
+                        </p>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Replace 10&#8211;20% of traditional fixed income with structured income sleeves,
+                            targeting higher cash yields with defined barrier levels and no duration risk. The sleeve is sized to remain within 
+                            existing fixed income risk budgets with the potential to improve income and drawdown characteristics.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="/institutional/simulator.html#bond-sleeve"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="bond-sleeve">
+                                View Bond Sleeve Example
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="use-case-card">
+                        <h4>Reshape Equity Drawdowns</h4>
+                        <p class="use-case-need">
+                            You want to maintain equity-like return potential but reduce the frequency and severity of drawdowns in your core equity allocation.
+                        </p>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Reallocate 15&#8211;25% of core equity exposure into structured equity sleeves,
+                            maintaining equity-like return potential while introducing buffers, path-dependent income, and potentially improved downside asymmetry.
+                            The objective is to reshape the distribution of equity outcomes, not simply add leverage.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="/institutional/simulator.html#equity-carveout"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="equitycarveout">
+                                View Equity Carve-Out Example
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="use-case-card">
+                        <h4>Simplify Alternative Credit</h4>
+                        <p class="use-case-need">
+                            You need competitive yields relative to high-yield or alternative credit, but with clearer payoff mechanics and more explicit downside parameters.
+                        </p>
+                        <p class="use-case-how">
+                            <strong>How we implement it:</strong> Substitute structured income portfolios for portions of high-yield or alternative credit allocations,
+                            targeting comparable or higher yields with more transparent payoff mechanics and explicit barrier-based risk parameters.
+                            This is designed to have the potential to both simplify risk and preserve income.
+                        </p>
+                        <div class="use-case-actions">
+                            <a href="/institutional/simulator.html#alt-credit"
+                               class="btn btn-outline-gold btn-small"
+                               data-implementation-mode="altcredit">
+                                View Alt Credit Example
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="section dark-bg">
+            <div class="container">
+                <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                    <h2 class="section-header">Request a Deck or Schedule a Call</h2>
+                    <p class="section-subheader">
+                        Connect with our team to discuss how structured-note portfolios can be integrated into your institutional allocation framework. We provide detailed analytics, scenario analysis, and implementation roadmaps.
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+                        <a href="/contact.html" class="btn btn-primary">Schedule a Call</a>
+                        <a href="/institutional/product.html" class="btn btn-secondary">View Strategy Details</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- DISCLOSURES -->
+    <section class="section dark-bg" style="padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h3 style="color: #C8A678; font-size: 1.1rem; margin-bottom: 1.5rem; font-family: 'Nunito Sans', sans-serif;">Important Disclosures</h3>
+                <div style="color: #B0B0B0; font-size: 0.85rem; line-height: 1.8; font-family: 'Nunito Sans', sans-serif;">
+                    <p style="margin-bottom: 1rem;"><strong>Not an Offer, Recommendation, or Professional Advice:</strong> The information contained on this website is for informational purposes only and does not constitute an offer to sell, a solicitation of an offer to buy, or a recommendation to purchase any security or investment product. Nothing on this website should be construed as investment, legal, tax, or other professional advice.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Use of Third-Party Information:</strong> This website may contain information from third-party sources. First Principle Asset Management does not guarantee the accuracy, completeness, or timeliness of such information and is not responsible for any errors or omissions.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Confidentiality:</strong> The information on this website is confidential and proprietary. Unauthorized use, reproduction, or distribution of this information is prohibited.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Past Performance:</strong> Past performance is not indicative of future results. All investments involve risk, including the possible loss of principal. There can be no assurance that any investment strategy will be successful or that any investment will achieve its objectives.</p>
+                    <p><strong>Forward-Looking Statements:</strong> This website may contain forward-looking statements that are based on current expectations and projections about future events. These statements are subject to risks, uncertainties, and assumptions that could cause actual results to differ materially from those expressed or implied. First Principle Asset Management does not undertake any obligation to update any forward-looking statements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0;">First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+                <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="/" style="color: #B0B0B0; text-decoration: none;">Home</a>
+                    <a href="/about.html" style="color: #B0B0B0; text-decoration: none;">About</a>
+                    <a href="/institutional/product.html" style="color: #B0B0B0; text-decoration: none;">Strategy</a>
+                    <a href="/institutional/simulator.html" style="color: #B0B0B0; text-decoration: none;">Simulator</a>
+                    <a href="/resources.html" style="color: #B0B0B0; text-decoration: none;">Resources</a>
+                    <a href="/contact.html" style="color: #B0B0B0; text-decoration: none;">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/investor-type.js"></script>
+    <script>
+        // ARCHIVED: Investor type toggle disabled (retail mode disabled - launching to institutional clients only)
+        // To re-enable, uncomment below and set RETAIL_ENABLED to true in investor-type.js
+        /*
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+        });
+        */
+    </script>
+</body>
+</html>
+

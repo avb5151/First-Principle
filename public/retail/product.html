@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="../Logo.jpg">
+    <title>Strategy | First Principle Asset Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Strategy Intro Section */
+        .strategy-intro-section {
+            background-color: #1A2532;
+        }
+
+        .strategy-intro-title {
+            font-size: 4rem;
+            color: #C8A678;
+            font-weight: 400;
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .strategy-intro-text-wrapper {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 2rem;
+        }
+
+        .strategy-intro-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #E0E0E0;
+            margin-bottom: 2rem;
+            max-width: 100%;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .strategy-intro-divider {
+            width: 100%;
+            height: 1px;
+            background-color: #C8A678;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .strategy-intro-title {
+                font-size: 3rem;
+                padding-left: 1rem;
+            }
+
+            .strategy-intro-text-wrapper {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .strategy-intro-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Framework Section Design */
+        .framework-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+
+        .framework-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .framework-step {
+            transition: all 0.3s ease;
+        }
+
+        .framework-step:hover .framework-step-number {
+            background-color: rgba(200, 166, 120, 0.1);
+            box-shadow: 0 0 20px rgba(200, 166, 120, 0.4);
+            transform: scale(1.05);
+        }
+
+        .framework-step-number {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #1A2532;
+            border: 2px solid #C8A678;
+            color: #C8A678;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            transition: all 0.3s ease;
+        }
+
+        .framework-step-content {
+            flex: 1;
+            padding-top: 0.5rem;
+        }
+
+        .framework-step-content h3 {
+            color: #F8F9FA;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .framework-step-content p {
+            color: #E0E0E0;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .framework-connector {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #C8A678, rgba(200, 166, 120, 0.3));
+            margin-left: 29px;
+            margin-top: -10px;
+            margin-bottom: -10px;
+            transition: all 0.3s ease;
+        }
+
+        .framework-step:hover ~ .framework-connector {
+            background: linear-gradient(to bottom, #C8A678, rgba(200, 166, 120, 0.5));
+            box-shadow: 0 0 8px rgba(200, 166, 120, 0.3);
+        }
+
+        .framework-step:last-child .framework-connector {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .framework-step {
+                gap: 1.5rem;
+            }
+
+            .framework-step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+
+            .framework-connector {
+                margin-left: 24px;
+            }
+
+            .framework-step-content h3 {
+                font-size: 1.25rem;
+            }
+        }
+
+        .strategy-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .strategy-card {
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: rgba(200, 166, 120, 0.5);
+        }
+
+        .strategy-card.strategy-flagship {
+            background: linear-gradient(135deg, rgba(200, 166, 120, 0.2) 0%, rgba(200, 166, 120, 0.1) 100%);
+            border: 2px solid #C8A678;
+            box-shadow: 0 5px 20px rgba(200, 166, 120, 0.3);
+            transform: scale(1.02);
+        }
+
+        .strategy-card.strategy-flagship:hover {
+            box-shadow: 0 15px 40px rgba(200, 166, 120, 0.5);
+            background: linear-gradient(135deg, rgba(200, 166, 120, 0.25) 0%, rgba(200, 166, 120, 0.15) 100%);
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        .flagship-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #C8A678;
+            color: #1E2A39;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'Nunito Sans', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .strategy-name {
+            color: #F8F9FA;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .strategy-card.strategy-flagship .strategy-name {
+            color: #C8A678;
+        }
+
+        .strategy-tagline {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 300;
+        }
+
+        .strategy-body {
+            color: #E0E0E0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .strategy-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .strategy-bullets li {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .strategy-bullets li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #C8A678;
+            font-weight: bold;
+        }
+
+        .strategy-toggle {
+            background: transparent;
+            border: 1px solid #C8A678;
+            color: #C8A678;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .strategy-toggle:hover {
+            background-color: #C8A678;
+            color: #1E2A39;
+        }
+
+        .strategy-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .strategy-details.is-open {
+            max-height: 500px;
+        }
+
+        .strategy-details p {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .regime-matrix {
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+        .regime-matrix table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .regime-matrix thead {
+            background-color: #1A2532;
+        }
+
+        .regime-matrix th {
+            color: #F8F9FA;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: 'Nunito Sans', sans-serif;
+            border-bottom: 2px solid #C8A678;
+            letter-spacing: 0.3px;
+        }
+
+        .regime-matrix td {
+            padding: 1rem 1.5rem;
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-bottom: 1px solid #E8E8E8;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .regime-matrix tbody tr {
+            position: relative;
+        }
+
+        .regime-matrix tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Regime Performance Color Scale - Subtle Institutional Palette */
+        .regime-matrix td.regime-pale-green {
+            background-color: #F0F5F0 !important; /* Pale green - neutral/modestly positive */
+        }
+
+        .regime-matrix td.regime-mid-green {
+            background-color: #E0EDE0 !important; /* Mid green - clearly positive */
+        }
+
+        .regime-matrix td.regime-dark-green {
+            background-color: #D0E4D0 !important; /* Dark green - strongest performance */
+            color: #3A3A3A !important; /* Slightly darker text for better contrast */
+        }
+
+        .regime-matrix td.regime-light-red {
+            background-color: #F5F0F0 !important; /* Very light red - weak/negative, extremely subtle */
+        }
+
+        /* Override old strategy column backgrounds - now using performance-based colors */
+        .regime-matrix .strategy-tortoise,
+        .regime-matrix .strategy-einstein,
+        .regime-matrix .strategy-hare {
+            background-color: transparent !important; /* Remove old column-based colors */
+        }
+
+        /* Enhanced Pillar Card Hover States */
+        #portfolio-optimization .pillar-card,
+        #implementation-for-advisors .pillar-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #portfolio-optimization .pillar-card::before,
+        #implementation-for-advisors .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #C8A678, rgba(200, 166, 120, 0.5));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        #portfolio-optimization .pillar-card:hover::before,
+        #implementation-for-advisors .pillar-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        #portfolio-optimization .pillar-card:hover,
+        #implementation-for-advisors .pillar-card:hover {
+            border-top-color: #C8A678;
+            box-shadow: 0 12px 35px rgba(200, 166, 120, 0.15);
+        }
+
+        @media (max-width: 968px) {
+            .strategy-strip {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <span class="logo-line-1">First Principle</span>
+                    <span class="logo-line-2">Asset Management</span>
+                    <div class="logo-line-separator">
+                        <span class="logo-line-3">powered by</span>
+                    </div>
+                    <span class="logo-line-4">The Invictus Collective</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/about.html">About</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="/retail/product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="/retail/product.html#core-strategies">Core Strategies</a></li>
+                        <li><a href="/retail/product.html#portfolio-optimization">Portfolio Optimization</a></li>
+                        <li><a href="/retail/product.html#first-principle-framework">The First Principle Framework</a></li>
+                        <li><a href="/retail/product.html#behavior-across-markets">Behavior Across Markets</a></li>
+                        <li><a href="/retail/product.html#implementation-for-advisors">Implementation for Advisors</a></li>
+                    </ul>
+                </li>
+                <li><a href="/retail/simulator.html">Portfolio Simulator</a></li>
+                <li><a href="/resources.html">Resources</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="/contact.html" class="cta-button">Advisor Inquiry</a>
+                <span id="investor-type-indicator" class="investor-type-indicator retail" style="cursor: pointer;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- INTRO SECTION -->
+        <section class="section strategy-intro-section" style="background-color: #1A2532; padding-top: 8rem; padding-bottom: 4rem;">
+            <div class="container">
+                <h1 class="strategy-intro-title">A Research-Driven Framework for Structured Products</h1>
+                <div class="strategy-intro-text-wrapper">
+                    <p class="strategy-intro-text">
+                        First Principle Asset Management converts complex option payoffs into systematic, downside-aware portfolio sleeves. Our strategies are designed to enhance income, shape drawdowns, and improve risk-adjusted returns when paired with traditional equity and fixed income. We leverage institutional-grade research, direct bank relationships, and a disciplined investment framework to deliver structured-note portfolios that complement traditional 60/40 allocations. Our approach transforms volatility into income, uses defined barriers to manage downside risk, and creates payoff profiles that behave differently from long-only equities and bonds across various market regimes.
+                    </p>
+                    <div class="strategy-intro-divider"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE PORTFOLIO STRATEGIES -->
+        <section id="core-strategies" class="section dark-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Core Portfolio Strategies: A Spectrum of Risk</h2>
+
+                <div class="strategy-strip" style="margin-top: 4rem;">
+                    <!-- The Tortoise -->
+                    <article class="strategy-card">
+                        <h3 class="strategy-name">The Tortoise</h3>
+                        <p class="strategy-tagline">Income &amp; capital preservation</p>
+                        <p class="strategy-body">
+                            Conservative sleeve of high-buffer income notes designed for principal stability and recurring cash flow.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li><strong>Objective:</strong> 5–7% annualized cash yield from coupons</li>
+                            <li><strong>Structures:</strong> Buffered income notes with 30–40% downside protection</li>
+                            <li><strong>Fit:</strong> Complements core fixed income and defensive equity allocations</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Tortoise primarily uses short- to intermediate-term notes on diversified indices, laddered across issuers and maturities. Barriers are calibrated to withstand routine equity drawdowns, with issuer diversification and size limits designed to keep the sleeve aligned with capital-preservation objectives.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Albert Einstein Genius Fund -->
+                    <article class="strategy-card strategy-flagship">
+                        <div class="flagship-badge">Flagship</div>
+                        <h3 class="strategy-name">The Albert Einstein Genius Fund</h3>
+                        <p class="strategy-tagline">Flagship balanced structured portfolio</p>
+                        <p class="strategy-body">
+                            Flagship program blending income, growth, and defensive structures. Designed to replace a portion of traditional equity exposure while targeting improved risk-adjusted returns.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li><strong>Objective:</strong> 7–9% long-term annualized return profile</li>
+                            <li><strong>Structures:</strong> Mix of buffered income, enhanced participation, and range-bound notes</li>
+                            <li><strong>Fit:</strong> Replacement for part of core equity allocation in balanced portfolios</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Albert Einstein Genius Fund combines diversified underlyings, staggered maturities, and multiple payoff types. Portfolios are constructed with 40–50% downside protection levels on broad indices at maturity, while using volatility premia and conditional upside to pursue equity-like returns with more defined downside frameworks.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- The Hare -->
+                    <article class="strategy-card">
+                        <h3 class="strategy-name">The Hare</h3>
+                        <p class="strategy-tagline">Growth with defined risk</p>
+                        <p class="strategy-body">
+                            Higher-octane sleeve for clients willing to accept greater market sensitivity in exchange for higher upside potential.
+                        </p>
+                        <ul class="strategy-bullets">
+                            <li><strong>Objective:</strong> 10–13% annualized return potential in favorable markets</li>
+                            <li><strong>Structures:</strong> Autocallable growth notes with 20–30% downside protection</li>
+                            <li><strong>Fit:</strong> Satellite allocation for risk-tolerant clients within an overall plan</li>
+                        </ul>
+                        <button class="strategy-toggle" type="button">Technical details</button>
+                        <div class="strategy-details">
+                            <p>
+                                The Hare leans into structures with higher participation rates and conditional coupons, concentrated in broad indices and liquid sector baskets. Protection levels are shallower and more path-dependent, making this strategy appropriate only as a modest sleeve for clients with higher risk tolerance and long time horizons.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="strategy-disclaimer" style="text-align: center; color: #E0E0E0; font-size: 0.85rem; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; font-family: 'Nunito Sans', sans-serif; font-weight: 300;">
+                    All objectives, ranges, and characterizations above are illustrative only and do not represent guarantees or projections. Actual results will vary, and structured products involve risks, including the potential loss of principal.
+                </p>
+            </div>
+        </section>
+
+        <!-- WHERE STRUCTURED PRODUCTS FIT -->
+        <section id="portfolio-optimization" class="section alt-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Where Structured Products Fit in a Portfolio</h2>
+                <p class="section-subheader">
+                    We do not treat structured notes as standalone trades. We design diversified sleeves that sit alongside traditional equity and fixed income, with clearly defined roles in income generation, drawdown management, and diversification.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Income Enhancement</h3>
+                        <p>
+                            Use volatility to generate repeatable cash flows through buffered income and coupon notes, rather than relying solely on dividends or bond yields.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Drawdown Shaping</h3>
+                        <p>
+                            Employ barriers and buffers to soften downside participation in adverse markets, while maintaining participation in moderate equity growth.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Diversification of Payoffs</h3>
+                        <p>
+                            Introduce payoff profiles that are not linear with the underlying market, helping diversify outcomes relative to long-only equity and credit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE FIRST PRINCIPLE FRAMEWORK -->
+        <section id="first-principle-framework" class="section dark-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">The First Principle Framework</h2>
+                <p class="section-subheader">
+                    Our strategies are built as institutional sleeves, not tactical trades. We follow a repeatable process that links client objectives to payoff design, issuer selection, and ongoing risk management.
+                </p>
+                <div class="framework-container">
+                    <div class="framework-step">
+                        <div class="framework-step-number">1</div>
+                        <div class="framework-step-content">
+                            <h3>Define the Risk Budget</h3>
+                            <p>
+                                We begin with portfolio objectives, volatility tolerance, drawdown limits, and income targets. Structured sleeves are sized and slotted into the broader allocation, not layered on top.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">2</div>
+                        <div class="framework-step-content">
+                            <h3>Engineer the Payoff Library</h3>
+                            <p>
+                                We design a menu of allowed payoff types, barriers, tenors, and underlyings for each strategy, creating a rules-based architecture instead of ad hoc trades.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">3</div>
+                        <div class="framework-step-content">
+                            <h3>Construct Diversified Sleeves</h3>
+                            <p>
+                                Portfolios are built across issuers, maturities, and underlyings, with constraints on concentration and correlation. Structured sleeves are managed as programs, not individual notes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="framework-connector"></div>
+                    <div class="framework-step">
+                        <div class="framework-step-number">4</div>
+                        <div class="framework-step-content">
+                            <h3>Monitor &amp; Rebalance</h3>
+                            <p>
+                                We maintain ongoing oversight of barriers, issuer risk, and market regimes, rolling maturing notes into new opportunities while keeping the sleeve aligned with its defined risk budget.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REGIME BEHAVIOR SECTION -->
+        <section id="behavior-across-markets" class="section alt-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">How the Strategies Behave Across Market Regimes</h2>
+                <p class="section-subheader">
+                    Structured-note portfolios are designed to respond differently to market regimes than long-only equities or bonds. The table below summarizes the intended behavior of each sleeve in common scenarios.
+                </p>
+                <div class="regime-matrix">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Market Regime</th>
+                                <th>The Tortoise</th>
+                                <th>Albert Einstein Genius Fund</th>
+                                <th>The Hare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rising markets</strong></td>
+                                <td class="strategy-tortoise regime-pale-green">Collects coupons, may participate partially in upside depending on structure.</td>
+                                <td class="strategy-einstein regime-mid-green">Participates meaningfully in upside while still maintaining defined downside frameworks.</td>
+                                <td class="strategy-hare regime-dark-green">High upside sensitivity; performance closely linked to equity path and call features.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sideways / range-bound markets</strong></td>
+                                <td class="strategy-tortoise regime-dark-green">Coupons drive most of the return, potentially outperforming long-only equities.</td>
+                                <td class="strategy-einstein regime-mid-green">Income plus selective upside from range-bound and enhanced participation notes.</td>
+                                <td class="strategy-hare regime-pale-green">Coupons and autocalls drive returns if indices remain within agreed corridors.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Moderate drawdowns</strong></td>
+                                <td class="strategy-tortoise regime-mid-green">Buffers and protection levels aim to absorb routine drawdowns, helping preserve capital.</td>
+                                <td class="strategy-einstein regime-pale-green">Buffers mitigate part of the drawdown, with loss participation only beyond defined levels.</td>
+                                <td class="strategy-hare regime-light-red">More exposed to drawdowns; protection is shallower and more path-dependent.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Severe stress</strong></td>
+                                <td class="strategy-tortoise regime-pale-green">Can experience losses, but diversified issuers and high buffers are intended to soften impact relative to pure equity.</td>
+                                <td class="strategy-einstein regime-light-red">Losses may be realized beyond barrier levels; design focuses on recovery over the full cycle.</td>
+                                <td class="strategy-hare regime-light-red">Behaves more like an equity satellite; may experience material losses in severe bear markets.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMPLEMENTATION & INFRASTRUCTURE -->
+        <section id="implementation-for-advisors" class="section dark-bg" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <h2 class="section-header">Implementation for Advisors</h2>
+                <p class="section-subheader">
+                    First Principle strategies are delivered through SMAs and AMC structures, allowing advisors to plug institutional structured-product portfolios directly into existing models and custodial platforms.
+                </p>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Programmatic, Not Ad Hoc</h3>
+                        <p>
+                            Strategies are built as ongoing programs with defined rules, issuer lists, and risk limits, reducing dependence on one-off product pitches or opportunistic trades.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Institutional Infrastructure</h3>
+                        <p>
+                            We leverage institutional-grade partners for custody, administration, and execution, aligning our process with the standards of multi-family offices and institutional allocators.
+                        </p>
+                    </div>
+                    <div class="pillar-card">
+                        <h3>Advisor-Centric Design</h3>
+                        <p>
+                            Sleeve-level reporting, model integration, and clear role definitions allow advisors to explain exactly how each strategy fits into client portfolios.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0;">First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+                <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="/" style="color: #B0B0B0; text-decoration: none;">Home</a>
+                    <a href="/about.html" style="color: #B0B0B0; text-decoration: none;">About</a>
+                    <a href="/retail/product.html" style="color: #B0B0B0; text-decoration: none;">Strategy</a>
+                    <a href="/retail/simulator.html" style="color: #B0B0B0; text-decoration: none;">Simulator</a>
+                    <a href="/resources.html" style="color: #B0B0B0; text-decoration: none;">Resources</a>
+                    <a href="/contact.html" style="color: #B0B0B0; text-decoration: none;">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.strategy-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const card = button.closest('.strategy-card');
+                const details = card.querySelector('.strategy-details');
+                details.classList.toggle('is-open');
+            });
+        });
+    </script>
+    <script src="../js/investor-type.js"></script>
+    <script>
+        // Set up investor type toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

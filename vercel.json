@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "redirects": [
-    { "source": "/", "destination": "/institutional/", "permanent": true }
+  "rewrites": [
+    { "source": "/", "destination": "/institutional/index.html" }
   ]
 }

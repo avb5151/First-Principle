@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="../Logo.jpg">
+    <meta name="description" content="Portfolio simulator for structured products. Test hypothetical outcomes with structured note portfolios across market regimes and implementation roles.">
+    <title>Portfolio Simulator | First Principle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .simulator-chart-container {
+            padding-top: 0;
+            margin-top: -40px;
+        }
+
+        .simulator-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 20px;
+            gap: 2rem;
+        }
+
+        .simulator-header-title {
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            font-size: 32px;
+            font-weight: 500;
+            color: #C8A678;
+            margin: 0;
+            flex: 1;
+        }
+
+        .allocation-overlay {
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .simulator-header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .allocation-overlay {
+                width: 100%;
+            }
+        }
+
+        /* Chart mode toggle (institutional) */
+        .simulator-mode-toggle {
+            display: inline-flex;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+        .simulator-mode-toggle button {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: #E2E8F0;
+            cursor: pointer;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .simulator-mode-toggle button.active {
+            background: rgba(200, 166, 120, 0.14);
+            color: #F9FAFB;
+        }
+
+        /* Implementation preset bar (institutional) */
+        .simulator-implementation-bar {
+            margin-top: 22px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .simulator-implementation-bar-label {
+            font-size: 13px;
+            color: #CBD5E1;
+        }
+
+        .simulator-implementation-toggle {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            border-radius: 999px;
+            padding: 2px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .simulator-implementation-toggle button {
+            border: none;
+            background: transparent;
+            color: #E2E8F0;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 0.02em;
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .simulator-implementation-toggle button.active {
+            background: rgba(200, 166, 120, 0.14);
+            color: #F9FAFB;
+        }
+
+        @media (max-width: 768px) {
+            .simulator-implementation-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Implementation label shown when a preset is active (institutional) */
+        .simulator-implementation-label {
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-top: 4px;
+        }
+
+        /* Detailed metrics section (institutional) */
+        .detailed-metrics-wrapper {
+            margin-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
+        }
+
+        /* Clean inline button (no browser styling) */
+        .detailed-metrics-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: inherit;
+            color: #C8A678;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            outline: none;
+        }
+
+        /* Remove blue focus ring */
+        .detailed-metrics-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Subtle underline on hover */
+        .detailed-metrics-toggle:hover span:first-child {
+            text-decoration: underline;
+        }
+
+        /* Arrow icon */
+        .detailed-metrics-toggle-icon svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.25s ease;
+            stroke: currentColor;
+        }
+
+        .detailed-metrics-content {
+            margin-top: 10px;
+            display: none;
+            font-size: 12px;
+            color: #E2E8F0;
+            column-gap: 2rem;
+        }
+
+        .detailed-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem 1.75rem;
+        }
+
+        .detailed-metrics-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .detailed-metrics-label {
+            color: #A0AEC0;
+        }
+
+        .detailed-metrics-value {
+            font-weight: 500;
+        }
+
+        /* Expanded state */
+        .detailed-metrics-wrapper.is-open .detailed-metrics-content {
+            display: block;
+        }
+
+        /* Rotate arrow when expanded */
+        .detailed-metrics-wrapper.is-open .detailed-metrics-toggle-icon svg {
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .detailed-metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <span class="logo-line-1">First Principle</span>
+                    <span class="logo-line-2">Asset Management</span>
+                    <div class="logo-line-separator">
+                        <span class="logo-line-3">powered by</span>
+                    </div>
+                    <span class="logo-line-4">The Invictus Collective</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/about.html">About</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="/institutional/product.html">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="/institutional/product.html#instruments-mechanics">Instruments & Mechanics</a></li>
+                        <li><a href="/institutional/product.html#risk-return">Risk & Return Drivers</a></li>
+                        <li><a href="/institutional/product.html#portfolio-construction">Portfolio Construction</a></li>
+                        <li><a href="/institutional/product.html#implementation">Implementation</a></li>
+                    </ul>
+                </li>
+                <li><a href="/institutional/simulator.html">Portfolio Simulator</a></li>
+                <li><a href="/resources.html">Resources</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="/contact.html" class="cta-button">Schedule a Call</a>
+                <span id="investor-type-indicator" class="investor-type-indicator institutional" style="cursor: pointer;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="simulator-page">
+            <div class="container">
+                <!-- Chart Section - Dominates the Page -->
+                <div class="simulator-chart-container">
+                    <div class="simulator-header-bar">
+                        <div style="flex: 1; min-width: 0;">
+                            <h1 class="simulator-header-title">Hypothetical Portfolio Outcomes with Structured Products</h1>
+                            <div id="implementationLabel" class="simulator-implementation-label"></div>
+                            <p style="font-size: 0.85rem; color: #A0AEC0; margin-top: 0.5rem; font-style: italic;">
+                                <strong>Hypothetical Performance Disclosure:</strong> All outcomes shown are hypothetical and for illustrative purposes only. 
+                                They do not represent actual performance or guarantee future results. Material underlying criteria, assumptions, risks, and limitations: 
+                                Returns are based on assumed expected returns and volatility parameters that may not reflect actual market conditions. 
+                                The simulator assumes constant expected returns and volatility, which do not account for changing market regimes, correlation shifts, 
+                                or extreme market events. Structured products are subject to issuer credit risk, barrier breach risk, early redemption risk, 
+                                liquidity risk, and market risk. Past performance does not guarantee future results. Actual results may vary significantly from 
+                                these hypothetical projections. Learn more about our <a href="/institutional/product.html" style="color: #C8A678; text-decoration: underline;">structured note strategy</a> and <a href="/resources.html" style="color: #C8A678; text-decoration: underline;">implementation resources</a>.
+                            </p>
+                        </div>
+                        <div id="simulatorModeContainer" style="margin-right: 1.5rem;">
+                            <div class="simulator-mode-toggle" id="simulatorModeToggle">
+                                <button type="button" data-mode="path" class="active">Expected Path</button>
+                                <button type="button" data-mode="scenarios">Stress &amp; Regime View</button>
+                            </div>
+                        </div>
+                        <div class="allocation-overlay">
+                            <div class="allocation-title-minimal">Current Allocation</div>
+                            <div class="allocation-grid">
+                                <div class="allocation-row">
+                                    <span class="allocation-label-minimal">Equities (traditional)</span>
+                                    <span class="allocation-value-minimal" id="traditionalEquity">60%</span>
+                                </div>
+                                <div class="allocation-row">
+                                    <span class="allocation-label-minimal">Structured Equity</span>
+                                    <span class="allocation-value-minimal" id="structuredEquityAlloc">0%</span>
+                                </div>
+                                <div class="allocation-row">
+                                    <span class="allocation-label-minimal">Fixed Income (traditional)</span>
+                                    <span class="allocation-value-minimal" id="traditionalFixedIncome">40%</span>
+                                </div>
+                                <div class="allocation-row">
+                                    <span class="allocation-label-minimal">Structured Fixed Income</span>
+                                    <span class="allocation-value-minimal" id="structuredFixedIncomeAlloc">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Canvas -->
+                    <div class="simulator-chart-new">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Implementation Presets -->
+                <div class="simulator-implementation-bar">
+                    <div class="simulator-implementation-bar-label">
+                        Select an implementation role:
+                    </div>
+                    <div class="simulator-implementation-toggle" id="implementationToggle">
+                        <button type="button" data-preset="custom" class="active">Custom</button>
+                        <button type="button" data-preset="bond">Enhance Core Fixed Income</button>
+                        <button type="button" data-preset="equity">Reshape Equity Drawdowns</button>
+                        <button type="button" data-preset="alt">Simplify Alternative Credit</button>
+                    </div>
+                </div>
+
+                <!-- Bottom Control Bar -->
+                <div class="simulator-control-bar">
+                    <div class="control-bar-item">
+                        <div class="slider-header">
+                            <span class="slider-label-minimal">Time Horizon</span>
+                            <span class="slider-value-minimal" id="timeHorizonValue">20</span>
+                        </div>
+                        <input type="range" id="timeHorizon" min="5" max="50" value="20" step="1" class="slider-premium">
+                        <div class="slider-markers">
+                            <span>5</span>
+                            <span>10</span>
+                            <span>20</span>
+                            <span>50</span>
+                        </div>
+                    </div>
+
+                    <div class="control-bar-item">
+                        <div class="slider-header">
+                            <span class="slider-label-minimal">Structured Equity Sleeve</span>
+                            <span class="slider-value-minimal" id="structuredEquityValue">20%</span>
+                        </div>
+                        <input type="range" id="structuredEquity" min="0" max="60" value="20" step="5" class="slider-premium">
+                        <div class="slider-note-minimal">Expected return: 12%</div>
+                    </div>
+
+                    <div class="control-bar-item">
+                        <div class="slider-header">
+                            <span class="slider-label-minimal">Structured Fixed Income Sleeve</span>
+                            <span class="slider-value-minimal" id="structuredFixedIncomeValue">10%</span>
+                        </div>
+                        <input type="range" id="structuredFixedIncome" min="0" max="40" value="10" step="5" class="slider-premium">
+                        <div class="slider-note-minimal">Expected return: 10%</div>
+                    </div>
+                </div>
+
+                <!-- Assumptions Notation -->
+                <div class="assumptions-notation">
+                    <strong>Hypothetical Performance Assumptions:</strong> Base portfolio is 60% broad-based equities at 7.0% expected annual return and 40% fixed income blended from 2/3 investment grade at 4.0% and 1/3 high yield at 5.75% (≈4.58% blended). Structured equity sleeve represents a diversified basket of equity-linked notes with 12.0% expected return. Structured fixed income sleeve represents a diversified basket of income-focused notes with 10.0% expected return. All figures are hypothetical and for illustrative purposes only. 
+                    <br><br>
+                    <strong>Material Risks and Limitations:</strong> These hypothetical outcomes are based on simplified assumptions and do not reflect actual investment results. Key risks include: issuer credit risk, barrier breach risk resulting in principal loss, early redemption risk, liquidity constraints, market volatility, correlation breakdowns, and changing interest rate environments. The simulator does not account for transaction costs, fees, taxes, or the impact of extreme market events. Actual performance may differ materially from these projections. Past performance does not guarantee future results.
+                </div>
+
+                <!-- Metrics Panels -->
+                <div class="simulator-metrics-new">
+                    <div class="metric-panel fade-on-scroll">
+                        <div class="metric-title-minimal">Base 60/40 Portfolio (Hypothetical)</div>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Ending Value</span>
+                                <span class="metric-value-minimal" id="baseEndingValue">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Annualized Return</span>
+                                <span class="metric-value-minimal" id="baseAnnualizedReturn">0.00%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Sharpe Ratio</span>
+                                <span class="metric-value-minimal" id="baseSharpeRatio">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-panel metric-panel-featured fade-on-scroll delay-1">
+                        <div class="metric-title-minimal">Current Allocation with First Principle (Hypothetical)</div>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Ending Value</span>
+                                <span class="metric-value-minimal" id="currentEndingValue">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Annualized Return</span>
+                                <span class="metric-value-minimal" id="currentAnnualizedReturn">0.00%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label-minimal">Sharpe Ratio</span>
+                                <span class="metric-value-minimal" id="currentSharpeRatio">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detailed-metrics-wrapper" id="detailedMetricsWrapper">
+                        <button type="button" class="detailed-metrics-toggle" id="detailedMetricsToggle">
+                            <span>Show detailed risk metrics</span>
+                            <span class="detailed-metrics-toggle-icon">
+                                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 3.5L10 8L5 12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="detailed-metrics-content" id="detailedMetricsContent">
+                            <div class="detailed-metrics-grid">
+                                <div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Base Volatility (σ)</span>
+                                        <span class="detailed-metrics-value" id="baseVolMetric">0.00%</span>
+                                    </div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Base Max Drawdown (proxy)</span>
+                                        <span class="detailed-metrics-value" id="baseMaxDDMetric">0.0%</span>
+                                    </div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Base Downside Capture (stress)</span>
+                                        <span class="detailed-metrics-value" id="baseDownsideCaptureMetric">0.0%</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Current Volatility (σ)</span>
+                                        <span class="detailed-metrics-value" id="currentVolMetric">0.00%</span>
+                                    </div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Current Max Drawdown (proxy)</span>
+                                        <span class="detailed-metrics-value" id="currentMaxDDMetric">0.0%</span>
+                                    </div>
+                                    <div class="detailed-metrics-row">
+                                        <span class="detailed-metrics-label">Current Downside Capture (stress)</span>
+                                        <span class="detailed-metrics-value" id="currentDownsideCaptureMetric">0.0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- DISCLOSURES -->
+    <section class="section dark-bg" style="padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h3 style="color: #C8A678; font-size: 1.1rem; margin-bottom: 1.5rem; font-family: 'Nunito Sans', sans-serif;">Important Disclosures</h3>
+                <div style="color: #B0B0B0; font-size: 0.85rem; line-height: 1.8; font-family: 'Nunito Sans', sans-serif;">
+                    <p style="margin-bottom: 1rem;"><strong>Not an Offer, Recommendation, or Professional Advice:</strong> The information contained on this website is for informational purposes only and does not constitute an offer to sell, a solicitation of an offer to buy, or a recommendation to purchase any security or investment product. Nothing on this website should be construed as investment, legal, tax, or other professional advice.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Use of Third-Party Information:</strong> This website may contain information from third-party sources. First Principle Asset Management does not guarantee the accuracy, completeness, or timeliness of such information and is not responsible for any errors or omissions.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Confidentiality:</strong> The information on this website is confidential and proprietary. Unauthorized use, reproduction, or distribution of this information is prohibited.</p>
+                    <p style="margin-bottom: 1rem;"><strong>Past Performance:</strong> Past performance is not indicative of future results. All investments involve risk, including the possible loss of principal. There can be no assurance that any investment strategy will be successful or that any investment will achieve its objectives.</p>
+                    <p><strong>Forward-Looking Statements:</strong> This website may contain forward-looking statements that are based on current expectations and projections about future events. These statements are subject to risks, uncertainties, and assumptions that could cause actual results to differ materially from those expressed or implied. First Principle Asset Management does not undertake any obligation to update any forward-looking statements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0;">First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+                <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="/" style="color: #B0B0B0; text-decoration: none;">Home</a>
+                    <a href="/about.html" style="color: #B0B0B0; text-decoration: none;">About</a>
+                    <a href="/institutional/product.html" style="color: #B0B0B0; text-decoration: none;">Strategy</a>
+                    <a href="/institutional/simulator.html" style="color: #B0B0B0; text-decoration: none;">Simulator</a>
+                    <a href="/resources.html" style="color: #B0B0B0; text-decoration: none;">Resources</a>
+                    <a href="/contact.html" style="color: #B0B0B0; text-decoration: none;">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --------- CONFIG ---------
+        const INITIAL_VALUE = 10_000_000;
+
+        const RETURNS = {
+            traditionalEquity: 0.07,      // 7.0% expected annual return
+            structuredEquity: 0.12,       // structured equity sleeve
+            traditionalFixedIncome: 0.0458, // ~4.58% blended IG/HY
+            structuredFixedIncome: 0.10   // structured income sleeve
+        };
+
+        const VOLATILITY = {
+            traditionalEquity: 0.16,      // 16% annualized volatility
+            structuredEquity: 0.13,       // slightly lower than long-only equity
+            traditionalFixedIncome: 0.06, // 6% blended bond volatility
+            structuredFixedIncome: 0.05   // lower-volatility structured income sleeve
+        };
+
+        // Implementation presets corresponding to institutional use cases
+        const IMPLEMENTATION_PRESETS = {
+            custom: {
+                label: null
+                // values will follow current sliders; no fixed allocation
+            },
+            bond: {
+                structuredEquity: 0,
+                structuredFixedIncome: 20,
+                label: "Enhance Core Fixed Income"
+            },
+            equity: {
+                structuredEquity: 20,
+                structuredFixedIncome: 0,
+                label: "Reshape Equity Drawdowns"
+            },
+            alt: {
+                structuredEquity: 0,
+                structuredFixedIncome: 25,
+                label: "Simplify Alternative Credit"
+            }
+        };
+
+        let activeImplementationPresetKey = "custom";
+
+        // Chart mode: "path" (existing behavior) or "scenarios" (institutional)
+        let chartMode = "path";
+
+        // Track simple stress scenario results (institutional)
+        let lastBaseStressResult = { maxDrawdown: 0, downsideCapture: 0 };
+        let lastCurrentStressResult = { maxDrawdown: 0, downsideCapture: 0 };
+
+        // --------- STATE / DOM REFS ---------
+        let portfolioChart = null;
+
+        const timeHorizonSlider = document.getElementById('timeHorizon');
+        const structuredEquitySlider = document.getElementById('structuredEquity');
+        const structuredFixedIncomeSlider = document.getElementById('structuredFixedIncome');
+
+        const timeHorizonValue = document.getElementById('timeHorizonValue');
+        const structuredEquityValue = document.getElementById('structuredEquityValue');
+        const structuredFixedIncomeValue = document.getElementById('structuredFixedIncomeValue');
+
+        const traditionalEquityDisplay = document.getElementById('traditionalEquity');
+        const structuredEquityAllocDisplay = document.getElementById('structuredEquityAlloc');
+        const traditionalFixedIncomeDisplay = document.getElementById('traditionalFixedIncome');
+        const structuredFixedIncomeAllocDisplay = document.getElementById('structuredFixedIncomeAlloc');
+
+        const baseEndingValue = document.getElementById('baseEndingValue');
+        const baseAnnualizedReturn = document.getElementById('baseAnnualizedReturn');
+        const baseSharpeRatio = document.getElementById('baseSharpeRatio');
+        const currentEndingValue = document.getElementById('currentEndingValue');
+        const currentAnnualizedReturn = document.getElementById('currentAnnualizedReturn');
+        const currentSharpeRatio = document.getElementById('currentSharpeRatio');
+
+        // Institutional UI elements
+        const implementationLabel = document.getElementById("implementationLabel");
+        const simulatorModeContainer = document.getElementById("simulatorModeContainer");
+        const simulatorModeToggle = document.getElementById("simulatorModeToggle");
+        const detailedMetricsWrapper = document.getElementById("detailedMetricsWrapper");
+        const detailedMetricsToggle = document.getElementById("detailedMetricsToggle");
+        const detailedMetricsContent = document.getElementById("detailedMetricsContent");
+
+        // Implementation preset toggle (institutional)
+        const implementationToggle = document.getElementById("implementationToggle");
+
+        // Detailed metric value elements
+        const baseVolMetric = document.getElementById("baseVolMetric");
+        const baseMaxDDMetric = document.getElementById("baseMaxDDMetric");
+        const baseDownsideCaptureMetric = document.getElementById("baseDownsideCaptureMetric");
+        const currentVolMetric = document.getElementById("currentVolMetric");
+        const currentMaxDDMetric = document.getElementById("currentMaxDDMetric");
+        const currentDownsideCaptureMetric = document.getElementById("currentDownsideCaptureMetric");
+
+        function updateImplementationLabel() {
+            if (!implementationLabel) return;
+            const preset = IMPLEMENTATION_PRESETS[activeImplementationPresetKey];
+            implementationLabel.textContent =
+                preset && preset.label
+                    ? "Implementation role: " + preset.label
+                    : "";
+        }
+
+        function updateImplementationToggleUI() {
+            if (!implementationToggle) return;
+            implementationToggle.querySelectorAll("button[data-preset]").forEach(btn => {
+                const key = btn.getAttribute("data-preset");
+                btn.classList.toggle("active", key === activeImplementationPresetKey);
+            });
+        }
+
+        function applyImplementationPreset(key, options = {}) {
+            const preset = IMPLEMENTATION_PRESETS[key];
+            if (!preset) return;
+
+            activeImplementationPresetKey = key;
+
+            // Only set slider values for named presets; "custom" just reflects user input
+            if (key !== "custom") {
+                if (typeof preset.structuredEquity === "number") {
+                    structuredEquitySlider.value = preset.structuredEquity;
+                }
+                if (typeof preset.structuredFixedIncome === "number") {
+                    structuredFixedIncomeSlider.value = preset.structuredFixedIncome;
+                }
+            }
+
+            updateImplementationLabel();
+            updateImplementationToggleUI();
+            updateSimulator(true);
+        }
+
+        // --------- CORE MATH ---------
+        function calculatePortfolioValue(years, allocation) {
+            const values = [];
+
+            // Normalize allocation in case it doesn't sum exactly to 100
+            const totalWeight =
+                allocation.traditionalEquity +
+                allocation.structuredEquity +
+                allocation.traditionalFixedIncome +
+                allocation.structuredFixedIncome;
+
+            const wEq      = totalWeight > 0 ? allocation.traditionalEquity      / totalWeight : 0;
+            const wSEq     = totalWeight > 0 ? allocation.structuredEquity      / totalWeight : 0;
+            const wFI      = totalWeight > 0 ? allocation.traditionalFixedIncome / totalWeight : 0;
+            const wSFI     = totalWeight > 0 ? allocation.structuredFixedIncome / totalWeight : 0;
+
+            const weightedReturn =
+                wEq  * RETURNS.traditionalEquity +
+                wSEq * RETURNS.structuredEquity +
+                wFI  * RETURNS.traditionalFixedIncome +
+                wSFI * RETURNS.structuredFixedIncome;
+
+            const weightedVolatility = Math.sqrt(
+                Math.pow(wEq  * VOLATILITY.traditionalEquity,     2) +
+                Math.pow(wSEq * VOLATILITY.structuredEquity,      2) +
+                Math.pow(wFI  * VOLATILITY.traditionalFixedIncome,2) +
+                Math.pow(wSFI * VOLATILITY.structuredFixedIncome, 2)
+            );
+
+            for (let year = 0; year <= years; year++) {
+                const value = INITIAL_VALUE * Math.pow(1 + weightedReturn, year);
+                values.push(value);
+            }
+
+            const endingValue = values[values.length - 1];
+            const annualizedReturn = weightedReturn;
+            const sharpeRatio = weightedVolatility > 0
+                ? (annualizedReturn - 0.02) / weightedVolatility
+                : 0;
+
+            // Simple max drawdown proxy for illustrative purposes:
+            // assume worst-case year ~ (annualizedReturn - 2 * volatility)
+            const approxWorstYearReturn = annualizedReturn - 2 * weightedVolatility;
+            const approxMaxDrawdown = Math.min(0, approxWorstYearReturn); // negative value = drawdown
+
+            return {
+                values,
+                endingValue,
+                annualizedReturn,
+                sharpeRatio,
+                volatility: weightedVolatility,
+                maxDrawdownProxy: approxMaxDrawdown
+            };
+        }
+
+        // --------- STRESS / REGIME VIEW (INSTITUTIONAL) ---------
+        // Simple illustrative stress scenarios (not full historical backtests)
+        const STRESS_SCENARIOS = [
+            {
+                name: "Base Regime",
+                traditionalEquityReturn: 0.07,
+                structuredEquityReturn: 0.12,
+                traditionalFixedIncomeReturn: 0.0458,
+                structuredFixedIncomeReturn: 0.10
+            },
+            {
+                name: "Equity Shock (2020-style)",
+                // Large equity drawdown; structured equity is buffered
+                traditionalEquityReturn: -0.20,
+                structuredEquityReturn: -0.10,
+                traditionalFixedIncomeReturn: 0.02,
+                structuredFixedIncomeReturn: 0.03
+            },
+            {
+                name: "Rate Shock (2022-style)",
+                // Both equity and traditional bonds under pressure; structured sleeves behave differently
+                traditionalEquityReturn: -0.15,
+                structuredEquityReturn: -0.05,
+                traditionalFixedIncomeReturn: -0.05,
+                structuredFixedIncomeReturn: -0.02
+            }
+        ];
+
+        // Given an allocation, compute one-year scenario outcomes (for bars)
+        function calculateStressScenarios(allocation) {
+            const totalWeight =
+                allocation.traditionalEquity +
+                allocation.structuredEquity +
+                allocation.traditionalFixedIncome +
+                allocation.structuredFixedIncome || 1;
+
+            const wEq = allocation.traditionalEquity / totalWeight;
+            const wSEq = allocation.structuredEquity / totalWeight;
+            const wFI = allocation.traditionalFixedIncome / totalWeight;
+            const wSFI = allocation.structuredFixedIncome / totalWeight;
+
+            const baseVol =
+                wEq * VOLATILITY.traditionalEquity +
+                wSEq * VOLATILITY.structuredEquity +
+                wFI * VOLATILITY.traditionalFixedIncome +
+                wSFI * VOLATILITY.structuredFixedIncome;
+
+            const results = STRESS_SCENARIOS.map((scenario) => {
+                const portfolioReturn =
+                    wEq  * scenario.traditionalEquityReturn +
+                    wSEq * scenario.structuredEquityReturn +
+                    wFI  * scenario.traditionalFixedIncomeReturn +
+                    wSFI * scenario.structuredFixedIncomeReturn;
+
+                const endingValue = INITIAL_VALUE * (1 + portfolioReturn);
+
+                return {
+                    scenarioName: scenario.name,
+                    portfolioReturn,
+                    endingValue,
+                    baseVol
+                };
+            });
+
+            return results;
+        }
+
+        // --------- SIMULATOR UPDATE ---------
+        function updateSimulator(smooth = false) {
+            const timeHorizon = parseInt(timeHorizonSlider.value, 10);
+
+            const structuredEquity = Math.min(60, Math.max(0, parseInt(structuredEquitySlider.value, 10)));
+            const structuredFixedIncome = Math.min(40, Math.max(0, parseInt(structuredFixedIncomeSlider.value, 10)));
+
+            const traditionalEquity = 60 - structuredEquity;
+            const traditionalFixedIncome = 40 - structuredFixedIncome;
+
+            // UI labels
+            timeHorizonValue.textContent = timeHorizon;
+            structuredEquityValue.textContent = `${structuredEquity}%`;
+            structuredFixedIncomeValue.textContent = `${structuredFixedIncome}%`;
+
+            traditionalEquityDisplay.textContent = `${traditionalEquity}%`;
+            structuredEquityAllocDisplay.textContent = `${structuredEquity}%`;
+            traditionalFixedIncomeDisplay.textContent = `${traditionalFixedIncome}%`;
+            structuredFixedIncomeAllocDisplay.textContent = `${structuredFixedIncome}%`;
+
+            // Base 60/40
+            const baseAllocation = {
+                traditionalEquity: 60,
+                structuredEquity: 0,
+                traditionalFixedIncome: 40,
+                structuredFixedIncome: 0
+            };
+            const baseResult = calculatePortfolioValue(timeHorizon, baseAllocation);
+
+            // Current allocation
+            const currentAllocation = {
+                traditionalEquity,
+                structuredEquity,
+                traditionalFixedIncome,
+                structuredFixedIncome
+            };
+            const currentResult = calculatePortfolioValue(timeHorizon, currentAllocation);
+
+            // Metrics
+            animateValue(baseEndingValue, baseResult.endingValue, formatCurrency);
+            animateValue(baseAnnualizedReturn, baseResult.annualizedReturn * 100, v => v.toFixed(2) + '%');
+            animateValue(baseSharpeRatio, baseResult.sharpeRatio, v => v.toFixed(2));
+
+            animateValue(currentEndingValue, currentResult.endingValue, formatCurrency);
+            animateValue(currentAnnualizedReturn, currentResult.annualizedReturn * 100, v => v.toFixed(2) + '%');
+            animateValue(currentSharpeRatio, currentResult.sharpeRatio, v => v.toFixed(2));
+
+            // Update detailed risk metrics
+            baseVolMetric.textContent = (baseResult.volatility * 100).toFixed(2) + "%";
+            currentVolMetric.textContent = (currentResult.volatility * 100).toFixed(2) + "%";
+            // Convert maxDrawdownProxy (a negative return) into percentage
+            const baseDD = baseResult.maxDrawdownProxy * 100;
+            const currentDD = currentResult.maxDrawdownProxy * 100;
+            baseMaxDDMetric.textContent = baseDD.toFixed(1) + "%";
+            currentMaxDDMetric.textContent = currentDD.toFixed(1) + "%";
+
+            // PATH MODE (existing behavior)
+            if (chartMode === "path") {
+                const years = Array.from({ length: timeHorizon + 1 }, (_, i) => i);
+
+                if (portfolioChart) {
+                    portfolioChart.data.labels = years;
+                    portfolioChart.data.datasets[0].label = "Base 60/40 Portfolio";
+                    portfolioChart.data.datasets[0].data = baseResult.values;
+                    portfolioChart.data.datasets[1].label = "Current Allocation";
+                    portfolioChart.data.datasets[1].data = currentResult.values;
+                    portfolioChart.config.type = "line";
+                    portfolioChart.options.scales.x.type = "linear";
+                    portfolioChart.options.scales.x.max = timeHorizon;
+                    const allValues = [...baseResult.values, ...currentResult.values];
+                    const maxVal = Math.max(...allValues);
+                    const yMin = INITIAL_VALUE; // Start at $10M
+                    const yMax = Math.ceil(maxVal / 5000000) * 5000000; // Round up to nearest $5M
+                    portfolioChart.options.scales.y.min = yMin;
+                    portfolioChart.options.scales.y.max = yMax;
+                    portfolioChart.options.scales.y.ticks.callback = function(value) {
+                        return formatDollarsCompact(value);
+                    };
+                    portfolioChart.options.plugins.tooltip.callbacks.label = function(context) {
+                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                    };
+                    portfolioChart.update(smooth ? "active" : "none");
+                } else {
+                    initializeChart(years, baseResult.values, currentResult.values, timeHorizon);
+                }
+            } else if (chartMode === "scenarios") {
+                // STRESS & REGIME VIEW - bar chart of one-year outcomes under scenarios
+                const baseAllocation = {
+                    traditionalEquity: 60,
+                    structuredEquity: 0,
+                    traditionalFixedIncome: 40,
+                    structuredFixedIncome: 0
+                };
+
+                const baseScenarioResults = calculateStressScenarios(baseAllocation);
+                const currentScenarioResults = calculateStressScenarios(currentAllocation);
+
+                const labels = baseScenarioResults.map(r => r.scenarioName);
+                // Plot % returns instead of ending dollar values
+                const baseReturnsPct = baseScenarioResults.map(r => r.portfolioReturn * 100);
+                const currentReturnsPct = currentScenarioResults.map(r => r.portfolioReturn * 100);
+
+                // Set a tighter y-axis around the scenario range
+                const minReturn = Math.min(...baseReturnsPct, ...currentReturnsPct);
+                const maxReturn = Math.max(...baseReturnsPct, ...currentReturnsPct);
+                const yMin = Math.floor((minReturn - 2) / 5) * 5;  // small padding & round to 5%
+                const yMax = Math.ceil((maxReturn + 2) / 5) * 5;
+
+                // Downside capture based on worst scenario return
+                const baseWorst = Math.min(...baseReturnsPct);
+                const currentWorst = Math.min(...currentReturnsPct);
+                lastBaseStressResult = {
+                    maxDrawdown: baseWorst,
+                    downsideCapture: 100
+                };
+                lastCurrentStressResult = {
+                    maxDrawdown: currentWorst,
+                    downsideCapture: baseWorst !== 0 ? (currentWorst / baseWorst) * 100 : 0
+                };
+                baseDownsideCaptureMetric.textContent =
+                    lastBaseStressResult.downsideCapture.toFixed(1) + "%";
+                currentDownsideCaptureMetric.textContent =
+                    lastCurrentStressResult.downsideCapture.toFixed(1) + "%";
+
+                if (!portfolioChart) {
+                    const canvas = document.getElementById("portfolioChart");
+                    const ctx = canvas.getContext("2d");
+                    portfolioChart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels,
+                            datasets: [
+                                {
+                                    label: "Base 60/40 Portfolio",
+                                    data: baseReturnsPct,
+                                    borderColor: "rgba(200, 200, 200, 0.5)",
+                                    backgroundColor: "rgba(200, 200, 200, 0.25)",
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: "Current Allocation",
+                                    data: currentReturnsPct,
+                                    borderColor: "#C8A678",
+                                    backgroundColor: "rgba(200, 166, 120, 0.35)",
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    type: "category",
+                                    ticks: {
+                                        color: "#E2E8F0",
+                                        font: { size: 11 }
+                                    }
+                                },
+                                y: {
+                                    type: "linear",
+                                    min: yMin,
+                                    max: yMax,
+                                    ticks: {
+                                        color: "#E2E8F0",
+                                        callback: (value) => value.toFixed(0) + "%",
+                                        font: { size: 11 }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    portfolioChart.config.type = "bar";
+                    portfolioChart.data.labels = labels;
+                    portfolioChart.data.datasets[0].label = "Base 60/40 Portfolio";
+                    portfolioChart.data.datasets[0].data = baseReturnsPct;
+                    portfolioChart.data.datasets[1].label = "Current Allocation";
+                    portfolioChart.data.datasets[1].data = currentReturnsPct;
+                    portfolioChart.options.scales.x = {
+                        type: "category",
+                        ticks: {
+                            color: "#E2E8F0",
+                            font: { size: 11 }
+                        }
+                    };
+                    portfolioChart.options.scales.y = {
+                        type: "linear",
+                        min: yMin,
+                        max: yMax,
+                        ticks: {
+                            color: "#E2E8F0",
+                            callback: (value) => value.toFixed(0) + "%",
+                            font: { size: 11 }
+                        }
+                    };
+                    portfolioChart.update("active");
+                }
+            }
+        }
+
+        // --------- ANIMATION HELPERS ---------
+        function animateValue(element, target, formatter) {
+            const currentRaw = element.textContent.replace(/[^0-9.-]/g, '');
+            const current = currentRaw ? parseFloat(currentRaw) : 0;
+            const start = current;
+            const duration = 400;
+            const startTime = performance.now();
+
+            function step(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = start + (target - start) * eased;
+                element.textContent = formatter(value);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatDollarsCompact(value) {
+            if (value >= 1000000) {
+                const millions = value / 1000000;
+                return '$' + millions.toFixed(millions % 1 === 0 ? 0 : 1) + 'M';
+            } else if (value >= 1000) {
+                const thousands = value / 1000;
+                return '$' + thousands.toFixed(thousands % 1 === 0 ? 0 : 1) + 'K';
+            } else {
+                return '$' + value.toFixed(0);
+            }
+        }
+
+        // --------- CHART INIT ---------
+        function initializeChart(years, baseValues, currentValues, maxYear) {
+            const canvas = document.getElementById('portfolioChart');
+            if (!canvas) {
+                console.error('Canvas not found');
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Could not get 2d context');
+                return;
+            }
+
+            // Destroy existing chart
+            if (portfolioChart) {
+                portfolioChart.destroy();
+                portfolioChart = null;
+            }
+
+            // Calculate y-axis bounds - start at $10M, round max to clean increment
+            const allValues = [...baseValues, ...currentValues];
+            const maxVal = Math.max(...allValues);
+            const yMin = INITIAL_VALUE; // Start at $10M
+            // Round max to next $500k increment
+            const yMax = Math.ceil(maxVal / 5000000) * 5000000;
+
+            console.log('Initializing chart with:', {
+                years: years.length,
+                baseValues: baseValues.length,
+                currentValues: currentValues.length,
+                yMin,
+                yMax,
+                firstBase: baseValues[0],
+                lastBase: baseValues[baseValues.length - 1],
+                firstCurrent: currentValues[0],
+                lastCurrent: currentValues[currentValues.length - 1]
+            });
+
+            // Create chart with clean configuration
+            portfolioChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Base 60/40 Portfolio',
+                            data: baseValues,
+                            borderColor: 'rgba(200, 200, 200, 0.5)',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            pointHoverRadius: 5,
+                            tension: 0.3,
+                            fill: false,
+                            spanGaps: false
+                        },
+                        {
+                            label: 'Current Allocation',
+                            data: currentValues,
+                            borderColor: '#C8A678',
+                            backgroundColor: 'transparent',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            pointHoverRadius: 5,
+                            tension: 0.3,
+                            fill: false,
+                            spanGaps: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 600,
+                        easing: 'easeOutQuart'
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: {
+                                    family: 'system-ui, sans-serif',
+                                    size: 12,
+                                    weight: 300
+                                },
+                                color: '#E0E0E0'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 42, 57, 0.95)',
+                            padding: 12,
+                            borderColor: 'rgba(200, 166, 120, 0.4)',
+                            borderWidth: 1,
+                            titleFont: {
+                                size: 12,
+                                weight: 400
+                            },
+                            bodyFont: {
+                                size: 11,
+                                weight: 300
+                            },
+                            titleColor: '#F8F9FA',
+                            bodyColor: '#E0E0E0',
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            title: {
+                                display: true,
+                                text: 'Years',
+                                font: {
+                                    size: 11,
+                                    weight: 300
+                                },
+                                color: '#D0D0D0'
+                            },
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: 300
+                                },
+                                color: '#E0E0E0',
+                                stepSize: 1
+                            },
+                            min: 0,
+                            max: maxYear,
+                            border: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            beginAtZero: false,
+                            title: {
+                                display: false
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: 300
+                                },
+                                color: '#E0E0E0',
+                                stepSize: 5000000, // Even spacing every $5M
+                                callback: function(value) {
+                                    return formatDollarsCompact(value);
+                                }
+                            },
+                            min: yMin,
+                            max: yMax,
+                            border: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --------- EVENT WIRING ---------
+        function handleSliderInput() {
+            // Any manual slider move becomes a custom configuration
+            activeImplementationPresetKey = "custom";
+            updateImplementationLabel();
+            updateImplementationToggleUI();
+            updateSimulator(true);
+        }
+
+        timeHorizonSlider.addEventListener('input', handleSliderInput);
+        structuredEquitySlider.addEventListener('input', handleSliderInput);
+        structuredFixedIncomeSlider.addEventListener('input', handleSliderInput);
+
+        // Chart mode toggle
+        if (simulatorModeToggle) {
+            simulatorModeToggle.addEventListener("click", (e) => {
+                const btn = e.target.closest("button[data-mode]");
+                if (!btn) return;
+                chartMode = btn.getAttribute("data-mode") || "path";
+                simulatorModeToggle.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                updateSimulator(true);
+            });
+        }
+
+        // Detailed metrics drawer
+        if (detailedMetricsToggle && detailedMetricsWrapper) {
+            detailedMetricsToggle.addEventListener("click", () => {
+                detailedMetricsWrapper.classList.toggle("is-open");
+                const open = detailedMetricsWrapper.classList.contains("is-open");
+                detailedMetricsToggle.querySelector("span").textContent =
+                    open ? "Hide detailed risk metrics" : "Show detailed risk metrics";
+            });
+        }
+
+        // Implementation preset toggle buttons
+        if (implementationToggle) {
+            implementationToggle.addEventListener("click", (e) => {
+                const btn = e.target.closest("button[data-preset]");
+                if (!btn) return;
+                const key = btn.getAttribute("data-preset");
+                applyImplementationPreset(key);
+            });
+        }
+
+        // Implementation presets from hash (institutional use cases)
+        function applyImplementationPresetFromHash() {
+            const h = window.location.hash || "";
+
+            if (h === "#bond-sleeve") {
+                applyImplementationPreset("bond");
+            } else if (h === "#equitycarveout" || h === "#equity-carveout") {
+                applyImplementationPreset("equity");
+            } else if (h === "#alt-credit") {
+                applyImplementationPreset("alt");
+            } else {
+                activeImplementationPresetKey = "custom";
+                updateImplementationLabel();
+                updateImplementationToggleUI();
+                updateSimulator(false);
+            }
+        }
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        function initChart() {
+            // Wait for DOM and ensure canvas is ready
+            setTimeout(() => {
+                const canvas = document.getElementById('portfolioChart');
+                if (canvas && canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
+                    applyImplementationPresetFromHash();
+                    // Ensure toggle and label are in a consistent state even if there is no hash
+                    updateImplementationLabel();
+                    updateImplementationToggleUI();
+                    updateSimulator(false);
+                    // Resize after a brief delay to ensure proper rendering
+                    setTimeout(() => {
+                        if (portfolioChart) {
+                            portfolioChart.resize();
+                        }
+                    }, 300);
+                } else {
+                    // Retry if canvas not ready
+                    setTimeout(initChart, 100);
+                }
+            }, 200);
+        }
+
+        window.addEventListener("hashchange", () => {
+            applyImplementationPresetFromHash();
+            updateSimulator(true);
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initChart);
+        } else {
+            initChart();
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (portfolioChart) portfolioChart.resize();
+            }, 250);
+        });
+    </script>
+    <script src="../js/investor-type.js"></script>
+    <script>
+        // ARCHIVED: Investor type toggle disabled (retail mode disabled - launching to institutional clients only)
+        // To re-enable, uncomment below and set RETAIL_ENABLED to true in investor-type.js
+        /*
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+        });
+        */
+    </script>
+</body>
+</html>
+

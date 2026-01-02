@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="Logo.jpg">
+    <meta name="description" content="About First Principle Asset Management. Learn about our leadership team and institutional expertise in structured products and portfolio enhancement.">
+    <title>About & Leadership | First Principle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .team-section-new {
+            padding: 6rem 0 7rem 0;
+            background-color: #1A2532;
+        }
+
+        .team-section-new .section-title {
+            margin-bottom: 4rem;
+            color: #C8A678;
+            text-align: left;
+            font-style: italic;
+            font-size: 3.5rem;
+        }
+
+        .team-grid-new {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-panel-clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .team-panel-clickable:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 10px 30px rgba(200, 166, 120, 0.3);
+            border-color: rgba(200, 166, 120, 0.4);
+        }
+
+        .avatar-new {
+            width: 100%;
+            height: 450px;
+            margin: 0 auto 0;
+            overflow: hidden;
+            background-color: #2A3542;
+            border-radius: 0;
+        }
+
+        .avatar-new img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            border-radius: 0;
+        }
+
+        /* Consistent image positioning for all leadership photos */
+        .avatar-new img {
+            object-position: center center;
+        }
+
+        .team-panel-clickable:hover .avatar-new img {
+            filter: grayscale(80%);
+        }
+
+        .team-info-box {
+            background-color: #2A3542;
+            padding: 1.75rem;
+            margin-top: 0;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-panel-clickable:hover .team-info-box {
+            background-color: #2F3D4E;
+            border-top: 2px solid rgba(200, 166, 120, 0.5);
+        }
+
+        .team-name {
+            color: #C8A678;
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+        }
+
+        .team-role-new {
+            color: #B0B0B0;
+            font-size: 0.9rem;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .team-view-bio {
+            display: none;
+        }
+
+        /* About section improvements */
+        .about-section-new {
+            padding: 6rem 0;
+            background-color: #1E2A39;
+        }
+
+        .about-content-new {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text-new {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-title {
+            color: #C8A678;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .about-paragraphs-horizontal {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .about-paragraph-white {
+            color: #E0E0E0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        /* Numbered Framework for Origin Story */
+        .origin-framework {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .origin-step {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(200, 166, 120, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .origin-step:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(200, 166, 120, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .origin-step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1A2532;
+            border: 2px solid #C8A678;
+            color: #C8A678;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .origin-step-content h3 {
+            color: #F8F9FA;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .origin-step-content p {
+            color: #E0E0E0;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Partners Logo Banner */
+        .partners-banner {
+            background-color: #1A2532;
+            padding: 3rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .partners-label {
+            color: #C8A678;
+            font-style: italic;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            font-family: "Charter", "Bitstream Charter", "Georgia", "Times New Roman", serif;
+            font-weight: 400;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 2rem;
+        }
+
+        .partners-banner-container {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .partners-logo-track {
+            display: flex;
+            gap: 4rem;
+            animation: scroll-logos 30s linear infinite;
+            width: fit-content;
+        }
+
+        .partners-logo-item {
+            flex-shrink: 0;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+        }
+
+        .partner-logo {
+            max-height: 60px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .partners-logo-item:hover .partner-logo {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
+
+        @keyframes scroll-logos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .about-paragraphs-horizontal {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .origin-framework {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .team-grid-new {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .team-grid-new {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .avatar-new {
+                height: 350px;
+            }
+
+            .partners-label {
+                padding: 0 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAV -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <span class="logo-line-1">First Principle</span>
+                    <span class="logo-line-2">Asset Management</span>
+                    <div class="logo-line-separator">
+                        <span class="logo-line-3">powered by</span>
+                    </div>
+                    <span class="logo-line-4">The Invictus Collective</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/about.html">About</a></li>
+                <li class="nav-item-with-dropdown">
+                    <a href="/institutional/product.html" id="strategy-link">Strategy</a>
+                    <ul class="nav-dropdown">
+                        <li><a href="/institutional/product.html#instruments-mechanics" id="strategy-link-core">Instruments & Mechanics</a></li>
+                        <li><a href="/institutional/product.html#risk-return" id="strategy-link-opt">Risk & Return Drivers</a></li>
+                        <li><a href="/institutional/product.html#portfolio-construction" id="strategy-link-framework">Portfolio Construction</a></li>
+                        <li><a href="/institutional/product.html#implementation" id="strategy-link-behavior">Implementation</a></li>
+                        <li><a href="/retail/product.html#core-strategies" id="strategy-link-impl">Core Strategies (Retail)</a></li>
+                    </ul>
+                </li>
+                <li><a href="/institutional/simulator.html" id="simulator-link">Portfolio Simulator</a></li>
+                <li><a href="/resources.html">Resources</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="contact.html" class="cta-button">Advisor Inquiry</a>
+                <span id="investor-type-indicator" class="investor-type-indicator" style="cursor: pointer;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TEAM SECTION -->
+        <section class="team-section-new">
+            <div class="container">
+                <h1 class="section-title fade-on-scroll">Leadership</h1>
+                <div class="team-grid-new">
+                    <div class="team-panel-clickable fade-on-scroll" data-bio="habitz">
+                        <div class="avatar-new">
+                            <img src="habitz.jpg" alt="Christian N. Habitz">
+                        </div>
+                        <div class="team-info-box">
+                            <h3 class="team-name">Christian N. Habitz</h3>
+                            <p class="team-role-new">Founder | Managing Partner</p>
+                        </div>
+                    </div>
+                    <div class="team-panel-clickable fade-on-scroll delay-1" data-bio="bower">
+                        <div class="avatar-new">
+                            <img src="bower.jpg" alt="Robert D. Bower">
+                        </div>
+                        <div class="team-info-box">
+                            <h3 class="team-name">Robert D. Bower, CFA, CAIA</h3>
+                            <p class="team-role-new">Chief Investment Officer</p>
+                        </div>
+                    </div>
+                    <div class="team-panel-clickable fade-on-scroll delay-2" data-bio="mckenna">
+                        <div class="avatar-new">
+                            <img src="CMHeadshot.jpg" alt="Colleen T. McKenna">
+                        </div>
+                        <div class="team-info-box">
+                            <h3 class="team-name">Colleen T. McKenna</h3>
+                            <p class="team-role-new">Director of Operations and Client Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="about-section-new">
+            <div class="container">
+                <div class="about-text-new fade-on-scroll">
+                    <h2 class="about-title">Born from Institutional Expertise</h2>
+                    <div class="origin-framework">
+                        <div class="origin-step">
+                            <div class="origin-step-number">1</div>
+                            <div class="origin-step-content">
+                                <h3>Institutional Foundation</h3>
+                                <p>First Principle was created by The Invictus Collective, a multi-family office serving ultra-high-net-worth families and institutional clients. For years, Christian Habitz and Rob Bower have used structured-note portfolios to engineer downside-aware income and custom exposures for a small number of private clients. Explore our <a href="/institutional/product.html" style="color: #C8A678; text-decoration: underline;">structured note strategy</a> and learn how we apply these frameworks to institutional portfolios.</p>
+                            </div>
+                        </div>
+                        <div class="origin-step">
+                            <div class="origin-step-number">2</div>
+                            <div class="origin-step-content">
+                                <h3>Systematic Frameworks</h3>
+                                <p>Those portfolios were built one client at a time, with direct access to banks, structured-product desks, and institutional due diligence. The result was a set of systematic frameworks for using structured notes as portfolio enhancements rather than one-off trades.</p>
+                            </div>
+                        </div>
+                        <div class="origin-step">
+                            <div class="origin-step-number">3</div>
+                            <div class="origin-step-content">
+                                <h3>Scalable Architecture</h3>
+                                <p>First Principle exists to bring that same architecture to the advisory market. Instead of bespoke tickets, we design scalable SMAs and AMC portfolios that give advisors and their clients access to the same research, counterparties, and risk framework previously reserved for UHNW families—without channel conflict and with clear integration into existing 60/40 and model portfolios. See our <a href="/institutional/simulator.html" style="color: #C8A678; text-decoration: underline;">portfolio simulator</a> to explore how these portfolios can enhance your allocations, or <a href="/contact.html" style="color: #C8A678; text-decoration: underline;">contact us</a> to learn more.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTNERS LOGO BANNER -->
+        <section class="partners-banner">
+            <p class="partners-label">Our Institutional and Technology Partners:</p>
+            <div class="partners-banner-container">
+                <div class="partners-logo-track">
+                    <div class="partners-logo-item">
+                        <img src="Navian.jpeg" alt="Navian Capital" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="Luma.jpeg" alt="Luma Technologies" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="Halo.png" alt="Halo" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="JPM.png" alt="JP Morgan" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="MS.jpeg" alt="Morgan Stanley" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="BofCol.png" alt="Bank of Colombia" class="partner-logo">
+                    </div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="partners-logo-item">
+                        <img src="Navian.jpeg" alt="Navian Capital" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="Luma.jpeg" alt="Luma Technologies" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="Halo.png" alt="Halo" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="JPM.png" alt="JP Morgan" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="MS.jpeg" alt="Morgan Stanley" class="partner-logo">
+                    </div>
+                    <div class="partners-logo-item">
+                        <img src="BofCol.png" alt="Bank of Colombia" class="partner-logo">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BIO MODAL -->
+    <div id="bioModal" class="bio-modal">
+        <div class="bio-modal-overlay"></div>
+        <div class="bio-modal-content">
+            <button class="bio-modal-close" aria-label="Close modal">&times;</button>
+            <div class="bio-modal-header">
+                <h2 class="bio-modal-name" id="modalName"></h2>
+                <p class="bio-modal-role" id="modalRole"></p>
+            </div>
+            <div class="bio-modal-body">
+                <p class="bio-modal-text" id="modalBio"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0;">First Principle Asset Management · An Invictus Collective Company · Chicago, IL</p>
+                <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="/" style="color: #B0B0B0; text-decoration: none;">Home</a>
+                    <a href="/about.html" style="color: #B0B0B0; text-decoration: none;">About</a>
+                    <a href="/institutional/product.html" style="color: #B0B0B0; text-decoration: none;">Strategy</a>
+                    <a href="/institutional/simulator.html" style="color: #B0B0B0; text-decoration: none;">Simulator</a>
+                    <a href="/resources.html" style="color: #B0B0B0; text-decoration: none;">Resources</a>
+                    <a href="/contact.html" style="color: #B0B0B0; text-decoration: none;">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Team bios data
+        const teamBios = {
+            habitz: {
+                name: 'Christian N. Habitz',
+                role: 'Founder | Managing Partner',
+                bio: 'Christian Habitz founded The Invictus Collective in 2021. Christian has over 25 years of diverse financial markets and investing experience, which has led to his passion for investing and job creation. This is evident by his early-stage private investments in a number of companies, including Trumid, Appspace, Cresco Labs, Defense Logistics, Creditspring UK, Timedoc Health, and SentryCard Technologies. As a testament to his client\'s personal success, Christian has been recognized by Forbes as one of the Top 125 Wealth Advisors in America and No. 4 in the state of Illinois.1\n\nPrior to founding The Invictus Collective, Christian was a Managing Director for five years with J.P. Morgan. His experience also includes working with Credit Suisse\'s Private Banking Group and Morgan Stanley\'s Private Client Group.\n\nEarly in his career, he managed a hedge fund for Geneva Securities, LLC, where he was a derivatives trader and risk manager. Christian\'s first professional position was with Financial Investments Corporation, the private multibillion-dollar, multi-family office of former LaSalle Bank Chairman, Harrison Steans. This early experience was his inspiration for The Invictus Collective.\n\nChristian graduated from the University of Chicago, where he received a BA in Economics and was a varsity letterman in basketball and football. He is active with various charities through his family foundation, which focuses on enhancing educational opportunities for underprivileged youth and criminal justice reform.'
+            },
+            bower: {
+                name: 'Robert D. Bower, CFA, CAIA',
+                role: 'Chief Investment Officer',
+                bio: 'Robert Bower is the Chief Investment Officer for The Invictus Collective. Robert has over 20 years of diverse financial markets and institutional investment experience. His responsibilities include portfolio analysis and construction, performance attribution, investment due diligence, and overseeing the firm\'s trading activities. Robert also chairs the Investment Committee of The Invictus Collective.\n\nBefore joining The Invictus Collective, Robert was a Senior Portfolio Manager and Co-Head of the Private Markets group at Healthcare Services Corporation. He was responsible for developing investment strategy and allocating assets for the firm\'s $25 billion corporate portfolio. In addition, he built and led the firm\'s private equity and credit programs. Robert\'s experience includes working with the multi-family office at Promus Capital and running his own derivatives trading company at the Chicago Mercantile Exchange.\n\nRobert holds an MBA from the University of Chicago Booth School of Business and a BBA in Finance from the University of Iowa. He has been awarded the Chartered Financial Analyst (CFA) designation and the Chartered Alternative Investment Analyst (CAIA) designation. He is very active with community and charitable organizations. He lives in Park Ridge, Illinois, with his wife, Christine, and their three daughters.'
+            },
+            mckenna: {
+                name: 'Colleen T. McKenna',
+                role: 'Director of Operations and Client Services',
+                bio: 'Colleen McKenna brings 20+ years of financial operations and client service experience, supporting ultra-high-networth individuals and multigenerational families. She leads operational strategy and client engagement for The Invictus Collective, ensuring seamless processes and a consistently elevated service experience.\n\nPreviously, Colleen was a Managing Director at Taiber Kosmala & Associates, where she drove operational improvements and enhanced client service across high-networth and institutional portfolios. Her career reflects a commitment to combining sophisticated financial execution with highly personalized client care.\n\nColleen holds a BS in Industrial–Organizational Psychology from DePaul University. She lives in La Grange, Illinois, and is an avid traveler with her daughter.'
+            },
+        };
+
+        // Modal elements
+        const modal = document.getElementById('bioModal');
+        const modalName = document.getElementById('modalName');
+        const modalRole = document.getElementById('modalRole');
+        const modalBio = document.getElementById('modalBio');
+        const modalClose = document.querySelector('.bio-modal-close');
+        const modalOverlay = document.querySelector('.bio-modal-overlay');
+
+        // Open modal
+        function openModal(bioKey) {
+            const bio = teamBios[bioKey];
+            modalName.textContent = bio.name;
+            modalRole.textContent = bio.role;
+            modalBio.textContent = bio.bio;
+            modal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        document.querySelectorAll('.team-panel-clickable').forEach(panel => {
+            panel.addEventListener('click', () => {
+                const bioKey = panel.getAttribute('data-bio');
+                openModal(bioKey);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Infrastructure dropdown functionality
+        document.querySelectorAll('.infrastructure-item-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.closest('.infrastructure-item');
+                item.classList.toggle('is-open');
+            });
+        });
+    </script>
+    <script src="js/investor-type.js"></script>
+    <script>
+        // Update navigation links based on investor type
+        document.addEventListener('DOMContentLoaded', function() {
+            const userType = window.FPInvestorType.getUserType();
+            const basePath = userType === 'institutional' ? 'institutional/' : 'retail/';
+            
+            // Update strategy links
+            document.getElementById('strategy-link').href = basePath + 'product.html';
+            document.getElementById('strategy-link-core').href = basePath + 'product.html#core-strategies';
+            document.getElementById('strategy-link-opt').href = basePath + 'product.html#portfolio-optimization';
+            document.getElementById('strategy-link-framework').href = basePath + 'product.html#first-principle-framework';
+            document.getElementById('strategy-link-behavior').href = basePath + 'product.html#behavior-across-markets';
+            document.getElementById('strategy-link-impl').href = basePath + 'product.html#implementation-for-advisors';
+            document.getElementById('simulator-link').href = basePath + 'simulator.html';
+            
+            // Set up investor type toggle
+            const toggle = document.getElementById('investor-type-indicator');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    window.FPInvestorType.handleInvestorTypeToggle();
+                });
+            }
+            
+            // Update indicator
+            window.FPInvestorType.updateInvestorTypeIndicator();
+        });
+    </script>
+</body>
+</html>
