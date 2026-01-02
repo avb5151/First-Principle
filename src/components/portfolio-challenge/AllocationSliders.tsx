@@ -59,84 +59,47 @@ export default function AllocationSliders({ allocation, onChange }: AllocationSl
     onChange(newAllocation);
   };
 
-  const Slider = ({ label, value, onChange: handleChange, color }: { label: string; value: number; onChange: (v: number) => void; color: string }) => {
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-      handleChange(parseFloat(e.target.value));
-    };
-
-    return (
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-white/80">{label}</span>
-          <span className="text-sm tabular-nums text-white/60">{(value * 100).toFixed(0)}%</span>
-        </div>
-        <div className="relative">
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={value}
-            onInput={handleInput}
-            onChange={handleInput}
-            className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-grab active:cursor-grabbing slider"
-            style={{
-              background: `linear-gradient(to right, ${color} 0%, ${color} ${value * 100}%, rgba(255,255,255,0.1) ${value * 100}%, rgba(255,255,255,0.1) 100%)`,
-            }}
-          />
-          <style jsx>{`
-            .slider {
-              -webkit-appearance: none;
-              appearance: none;
-              outline: none;
-            }
-            .slider::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              appearance: none;
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              background: white;
-              cursor: grab;
-              border: 2px solid ${color};
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-              transition: transform 0.1s ease;
-            }
-            .slider::-webkit-slider-thumb:active {
-              cursor: grabbing;
-              transform: scale(1.2);
-            }
-            .slider::-moz-range-thumb {
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              background: white;
-              cursor: grab;
-              border: 2px solid ${color};
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-              transition: transform 0.1s ease;
-            }
-            .slider::-moz-range-thumb:active {
-              cursor: grabbing;
-              transform: scale(1.2);
-            }
-            .slider::-webkit-slider-runnable-track {
-              width: 100%;
-              height: 8px;
-              cursor: pointer;
-              border-radius: 4px;
-            }
-            .slider::-moz-range-track {
-              width: 100%;
-              height: 8px;
-              cursor: pointer;
-              border-radius: 4px;
-            }
-          `}</style>
-        </div>
+  const Slider = ({ label, value, onChange: handleChange, color }: { label: string; value: number; onChange: (v: number) => void; color: string }) => (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-white/80">{label}</span>
+        <span className="text-sm tabular-nums text-white/60">{(value * 100).toFixed(0)}%</span>
       </div>
-    );
-  };
+      <div className="relative">
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={value}
+          onChange={(e) => handleChange(parseFloat(e.target.value))}
+          className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer slider"
+          style={{
+            background: `linear-gradient(to right, ${color} 0%, ${color} ${value * 100}%, rgba(255,255,255,0.1) ${value * 100}%, rgba(255,255,255,0.1) 100%)`,
+          }}
+        />
+        <style jsx>{`
+          .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 2px solid #000;
+          }
+          .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 2px solid #000;
+          }
+        `}</style>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
