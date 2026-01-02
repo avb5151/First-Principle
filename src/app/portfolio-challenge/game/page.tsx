@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { LEVELS } from "@/lib/portfolio-challenge/levels";
 import { useGameStore } from "@/store/gameStore";
 import AllocationSliders from "@/components/portfolio-challenge/AllocationSliders";
-import StructuredToggles from "@/components/portfolio-challenge/StructuredToggles";
+import StructuredProfilePanel from "@/components/portfolio-challenge/StructuredProfilePanel";
 import PayoffPreview from "@/components/portfolio-challenge/PayoffPreview";
 import TimerBar from "@/components/portfolio-challenge/TimerBar";
 import { motion } from "framer-motion";
@@ -64,14 +64,14 @@ export default function GamePage() {
             <AllocationSliders allocation={allocation} onChange={setAllocation} />
           </motion.div>
 
-          {/* Right Column: Structured Terms */}
+          {/* Right Column: Structured Strategy */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
             className="lg:col-span-5 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-8"
           >
-            <StructuredToggles allocation={allocation} onChange={setAllocation} />
+            <StructuredProfilePanel allocation={allocation} onChange={setAllocation} />
           </motion.div>
 
           {/* Full Width: Payoff Preview */}

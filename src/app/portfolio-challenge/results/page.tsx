@@ -192,7 +192,7 @@ function ResultsContent() {
           ) : (
             <>
               <Link
-                href="/portfolio-challenge/dashboard"
+                href="/portfolio-challenge/reveal"
                 className="flex-1 rounded-xl bg-white text-black px-8 py-4 font-medium hover:bg-white/90 transition-colors text-center"
               >
                 See the Reveal
