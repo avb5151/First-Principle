@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow serving static HTML files from public directory
-  output: 'standalone',
+  // Vercel handles output automatically, no need to specify
+  // Keep static HTML files accessible alongside Next.js routes
 }
 
 module.exports = nextConfig
