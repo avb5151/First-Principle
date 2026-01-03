@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { LevelId, LEVELS } from "@/lib/portfolio-challenge/levels";
-import { Allocation, portfolioOutcomeScenario } from "@/lib/portfolio-challenge/payoff";
+import { Allocation, portfolioOutcome, portfolioOutcomeScenario } from "@/lib/portfolio-challenge/payoff";
 import { findOptimal } from "@/lib/portfolio-challenge/optimizer";
 import { generateScenarios } from "@/lib/portfolio-challenge/scenarios";
 import { computeObjective } from "@/lib/portfolio-challenge/objective";
