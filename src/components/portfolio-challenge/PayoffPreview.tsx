@@ -42,7 +42,9 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
     // Calculate Y-axis domain with padding
     const minReturn = Math.min(...portfolioReturns);
     const maxReturn = Math.max(...portfolioReturns);
-    const padding = Math.max(5, (maxReturn - minReturn) * 0.1);
+    const padding = compact 
+      ? Math.max(2, (maxReturn - minReturn) * 0.06)
+      : Math.max(5, (maxReturn - minReturn) * 0.1);
     const yMin = Math.floor(minReturn - padding);
     const yMax = Math.ceil(maxReturn + padding);
     
@@ -50,7 +52,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
       data: scenarios,
       yDomain: [yMin, yMax],
     };
-  }, [allocation]);
+  }, [allocation, compact]);
 
   const currentOutcome = currentEnvironment ? portfolioOutcome(currentEnvironment, allocation) : null;
 
@@ -65,19 +67,23 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
         )}
       </div>
 
-      <div className={compact ? "flex-1 w-full bg-black/40 rounded-xl border border-white/5 p-0" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
+      <div className={compact ? "flex-1 w-full h-full bg-black/30 rounded-lg" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={compact ? { top: 8, right: 12, bottom: 12, left: 12 } : { top: 12, right: 18, bottom: 16, left: 18 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+          <LineChart data={data} margin={compact ? { top: 6, right: 6, bottom: 6, left: 6 } : { top: 12, right: 18, bottom: 16, left: 18 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={compact ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)"} />
             <XAxis
               dataKey="equityReturn"
               type="number"
               domain={[-40, 20]}
               ticks={compact ? [-40, -20, 0, 20] : [-40, -30, -20, -10, 0, 10, 20]}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
-              tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
-              axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
+              tick={compact 
+                ? { fill: "rgba(255,255,255,0.5)", fontSize: 9, dy: 10 }
+                : { fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+              tickMargin={compact ? 0 : undefined}
+              tickSize={compact ? 0 : undefined}
+              tickLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
+              axisLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => `${value}%`}
               label={compact ? undefined : { 
                 value: "Equity Return (%)", 
@@ -91,9 +97,13 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
               type="number"
               domain={yDomain}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
-              tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
-              axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
+              tick={compact 
+                ? { fill: "rgba(255,255,255,0.5)", fontSize: 9, dx: -10 }
+                : { fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+              tickMargin={compact ? 0 : undefined}
+              tickSize={compact ? 0 : undefined}
+              tickLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
+              axisLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => {
                 // Format with no decimals for whole numbers, one decimal otherwise
                 if (value % 1 === 0) return `${value}%`;
@@ -125,8 +135,8 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 return `Equity: ${formatted}%`;
               }}
             />
-            <ReferenceLine y={0} stroke="rgba(255,255,255,0.2)" strokeDasharray="2 2" strokeWidth={1} />
-            <ReferenceLine x={0} stroke="rgba(255,255,255,0.2)" strokeDasharray="2 2" strokeWidth={1} />
+            <ReferenceLine y={0} stroke={compact ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.2)"} strokeDasharray="2 2" strokeWidth={compact ? 1.5 : 1} />
+            <ReferenceLine x={0} stroke={compact ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.2)"} strokeDasharray="2 2" strokeWidth={compact ? 1.5 : 1} />
             {currentEnvironment && (
               <ReferenceLine
                 x={currentEnvironment.equityReturn * 100}
