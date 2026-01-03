@@ -42,12 +42,13 @@ function ResultsContent() {
     );
   }
 
-  const { regime, user, userAlloc, optimal, optimalAlloc, displayedOptimalTotalR } = result;
+  const { regime, user, userAlloc, optimal, optimalAlloc, userScore, optimalScore, displayedOptimalScore } = result;
   
-  // Use clamped optimal return for gap calculation (guarantees >= 0)
+  // Use clamped optimal score for gap calculation (guarantees >= 0)
+  // Score gap represents the difference in risk-adjusted performance
   const EPS = 1e-6;
-  const gap = displayedOptimalTotalR - user.totalR;
-  const isMatched = gap <= 0.0005; // 0.05% epsilon for "matched" threshold
+  const gap = displayedOptimalScore - userScore;
+  const isMatched = gap <= 0.5; // Small epsilon for "matched" threshold (scores are larger numbers)
   const nextLevel = level < 3 ? (level + 1) as 1 | 2 | 3 : null;
 
   return (
@@ -72,16 +73,16 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
           >
-            <div className="text-white/60 text-sm mb-3">Your Portfolio Outcome</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center ${user.totalR >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatPercent(user.totalR)}
+            <div className="text-white/70 text-lg font-medium mb-4">Your Portfolio Outcome</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${userScore >= 0 ? "text-white" : "text-red-400"}`}>
+              {formatScore(userScore)}
             </div>
-            <div className="text-white/70 text-base mt-auto font-medium">
+            <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
               Max Drawdown: {formatPercent(user.maxDD)}
             </div>
-            <div className="text-white/70 text-base font-medium">
+            <div className="text-white/80 text-lg font-semibold">
               Income: {formatPercent(user.income)}
             </div>
           </motion.div>
@@ -90,16 +91,16 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
           >
-            <div className="text-white/60 text-sm mb-3">First Principle-Optimized Outcome</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center ${displayedOptimalTotalR >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatPercent(displayedOptimalTotalR)}
+            <div className="text-white/70 text-lg font-medium mb-4">First Principle-Optimized Outcome</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${displayedOptimalScore >= 0 ? "text-white" : "text-red-400"}`}>
+              {formatScore(displayedOptimalScore)}
             </div>
-            <div className="text-white/70 text-base mt-auto font-medium">
+            <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
               Max Drawdown: {formatPercent(optimal.maxDD)}
             </div>
-            <div className="text-white/70 text-base font-medium">
+            <div className="text-white/80 text-lg font-semibold">
               Income: {formatPercent(optimal.income)}
             </div>
           </motion.div>
@@ -108,13 +109,13 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
           >
-            <div className="text-white/60 text-sm mb-3">Opportunity Cost</div>
-            <div className="text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center text-amber-400">
-              {isMatched ? "Matched" : formatPercentPositive(gap)}
+            <div className="text-white/70 text-lg font-medium mb-4">Opportunity Cost</div>
+            <div className="text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center text-amber-400">
+              {isMatched ? "Matched" : formatScorePositive(gap)}
             </div>
-            <div className="text-white/70 text-base mt-auto font-medium">
+            <div className="text-white/80 text-lg mt-auto font-semibold">
               {isMatched ? "Matched Optimal" : "Performance Gap"}
             </div>
           </motion.div>
@@ -247,6 +248,18 @@ function formatPercentPositive(value: number): string {
   // Always show positive, never negative sign
   const percent = Math.max(0, value * 100);
   return `+${percent.toFixed(1)}%`;
+}
+
+function formatScore(value: number): string {
+  // Score is already in the right units (risk-adjusted metric)
+  const sign = value >= 0 ? "+" : "";
+  return `${sign}${value.toFixed(1)}`;
+}
+
+function formatScorePositive(value: number): string {
+  // Always show positive, never negative sign
+  const score = Math.max(0, value);
+  return `+${score.toFixed(1)}`;
 }
 
 export default function ResultsPage() {

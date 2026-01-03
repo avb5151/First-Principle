@@ -13,9 +13,11 @@ type GameState = {
     regime: typeof LEVELS[0];
     user: ReturnType<typeof portfolioOutcome>;
     userAlloc: Allocation;
+    userScore: number; // User's risk-adjusted score
     optimal: ReturnType<typeof portfolioOutcome>;
     optimalAlloc: Allocation;
-    displayedOptimalTotalR: number; // Clamped optimal return for display
+    optimalScore: number; // Optimal risk-adjusted score
+    displayedOptimalScore: number; // Clamped optimal score for display
   }>;
   startLevel: (id: LevelId) => void;
   tick: () => void;
@@ -68,8 +70,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       income: userMetrics.meanIncome,
     };
     
+    // User's risk-adjusted score (includes diversification penalties)
+    const userScore = userMetrics.score;
+    
     // Find optimal by searching all allocation and term combinations
     // The optimizer searches across all possible structured note terms to find the true optimal
+    // This finds the allocation that MAXIMIZES the score (risk-adjusted with penalties)
     const opt = findOptimal(regime, {
       equityNote: allocation.equityNote, // These are just placeholders, optimizer searches all combinations
       incomeNote: allocation.incomeNote,
@@ -77,18 +83,23 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     // Optimal outcome is already scenario-based mean from optimizer
     const optimalOutcome = opt.outcome;
+    
+    // Optimal score (the mathematically solved optimization)
+    const optimalScore = opt.score;
 
-    // Option A clamping: Ensure displayed optimal return is never less than user return
+    // Option A clamping: Ensure displayed optimal score is never less than user score
     // This is a sales instrument - users should never "outperform" optimal
     const EPS = 1e-6;
-    const displayedOptimalTotalR = Math.max(optimalOutcome.totalR, userOutcome.totalR - EPS);
+    const displayedOptimalScore = Math.max(optimalScore, userScore - EPS);
     
     // Sanity check (console assert in dev)
     if (process.env.NODE_ENV === 'development') {
       console.assert(
-        displayedOptimalTotalR + 1e-9 >= user.totalR,
-        `Optimal must not be beat: displayedOptimal=${displayedOptimalTotalR}, user=${user.totalR}`
+        displayedOptimalScore + 1e-9 >= userScore,
+        `Optimal must not be beat: displayedOptimal=${displayedOptimalScore}, user=${userScore}`
       );
+      console.log(`Level ${level} - User Score: ${userScore.toFixed(2)}, Optimal Score: ${optimalScore.toFixed(2)}, Displayed: ${displayedOptimalScore.toFixed(2)}`);
+      console.log(`Optimal Allocation: FI=${(opt.a.fi * 100).toFixed(0)}%, EQ=${(opt.a.eq * 100).toFixed(0)}%, Struct=${(opt.a.struct * 100).toFixed(0)}%`);
     }
 
     set({
@@ -98,9 +109,11 @@ export const useGameStore = create<GameState>((set, get) => ({
           regime,
           user: userOutcome,
           userAlloc: { ...allocation },
+          userScore,
           optimal: optimalOutcome,
           optimalAlloc: opt.a,
-          displayedOptimalTotalR,
+          optimalScore,
+          displayedOptimalScore,
         },
       },
     });
