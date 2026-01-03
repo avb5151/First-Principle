@@ -56,7 +56,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-2">
         <h3 className="text-base font-semibold text-white">Payoff Profile</h3>
         {currentOutcome && (
           <div className="text-xs tabular-nums text-white/60">
@@ -65,9 +65,9 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
         )}
       </div>
 
-      <div className={compact ? "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-2" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
+      <div className={compact ? "flex-1 min-h-[400px] bg-black/40 rounded-xl border border-white/5 p-3" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={compact ? { top: 10, right: 10, bottom: 30, left: 35 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
+          <LineChart data={data} margin={compact ? { top: 15, right: 15, bottom: 35, left: 40 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
             <XAxis
               dataKey="equityReturn"
@@ -75,23 +75,23 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
               domain={[-40, 20]}
               ticks={[-40, -30, -20, -10, 0, 10, 20]}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 10 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => `${value}%`}
               label={{ 
                 value: "Equity Return (%)", 
                 position: "insideBottom", 
-                offset: compact ? -6 : -8, 
+                offset: compact ? -8 : -8, 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: compact ? "10px" : "12px" }
+                style: { fontSize: compact ? "11px" : "12px" }
               }}
             />
             <YAxis
               type="number"
               domain={yDomain}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 10 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => {
@@ -104,7 +104,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 angle: -90, 
                 position: "insideLeft", 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: compact ? "10px" : "12px" }
+                style: { fontSize: compact ? "11px" : "12px" }
               }}
             />
             <Tooltip
