@@ -1,6 +1,6 @@
 export type LevelId = 1 | 2 | 3;
 
-export type Regime = {
+export type MarketEnvironment = {
   id: LevelId;
   name: string;
   subtitle: string;
@@ -10,7 +10,7 @@ export type Regime = {
   description: string;
 };
 
-export const LEVELS: Regime[] = [
+export const LEVELS: MarketEnvironment[] = [
   {
     id: 1,
     name: "Level 1 — Comfort Zone",
@@ -31,7 +31,7 @@ export const LEVELS: Regime[] = [
   },
   {
     id: 3,
-    name: "Level 3 — Regime Break",
+    name: "Level 3 — Market Stress",
     subtitle: "Market –30%",
     equityReturn: -0.30,
     bondReturn: 0.00,

@@ -1,8 +1,8 @@
 import { Allocation } from "./payoff";
-import { Regime } from "./levels";
+import { MarketEnvironment } from "./levels";
 
 type LevelResult = {
-  regime: Regime;
+  regime: MarketEnvironment;
   user: { totalR: number; maxDD: number; income: number };
   userAlloc: Allocation;
   optimal: { totalR: number; maxDD: number; income: number };
@@ -169,7 +169,7 @@ function diagnosticsLevel2(
   // Default if no specific issues
   if (bullets.length === 0) {
     bullets.push(
-      `Optimal allocation reduced loss by ${(Math.abs(diffs.ddDiff) * 100).toFixed(1)} percentage points through better use of buffer structures and defined-outcome exposure in a mild drawdown regime.`
+      `Optimal allocation reduced loss by ${(Math.abs(diffs.ddDiff) * 100).toFixed(1)} percentage points through better use of buffer structures and defined-outcome exposure in a mild drawdown environment.`
     );
   }
 

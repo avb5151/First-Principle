@@ -1,5 +1,5 @@
 import { Allocation, portfolioOutcomeScenario } from "./payoff";
-import { Regime } from "./levels";
+import { MarketEnvironment } from "./levels";
 import { generateScenarios, Scenario } from "./scenarios";
 import { computeObjective, ObjectiveMetrics, ScenarioOutcome } from "./objective";
 
@@ -12,14 +12,14 @@ export type OptimizerDebugInfo = {
 };
 
 export function findOptimal(
-  regime: Regime,
+  environment: MarketEnvironment,
   base: {
     equityNote: Allocation["equityNote"];
     incomeNote: Allocation["incomeNote"];
   }
 ) {
-  // Generate scenarios for this regime
-  const scenarios = generateScenarios(regime, 50);
+  // Generate scenarios for this market environment
+  const scenarios = generateScenarios(environment, 50);
 
   let best: { a: Allocation; score: number; metrics: ObjectiveMetrics } | null = null;
   const candidates: OptimizerDebugInfo[] = [];
@@ -58,7 +58,7 @@ export function findOptimal(
 
                   // Evaluate across all scenarios
                   const scenarioOutcomes: ScenarioOutcome[] = scenarios.map(scenario =>
-                    portfolioOutcomeScenario(scenario, regime, a)
+                    portfolioOutcomeScenario(scenario, environment, a)
                   );
 
                   // Compute objective metrics (mean, CVaR, penalties, etc.)
@@ -88,9 +88,9 @@ export function findOptimal(
 
   // Debug output
   if (DEBUG_MODE && best) {
-    console.log(`\n=== Level ${regime.id} Optimal Search ===`);
-    console.log(`Regime: ${regime.name} (${regime.subtitle})`);
-    console.log(`Stress: ${regime.stress}`);
+    console.log(`\n=== Level ${environment.id} Optimal Search ===`);
+    console.log(`Market Environment: ${environment.name} (${environment.subtitle})`);
+    console.log(`Stress: ${environment.stress}`);
     console.log(`Scenarios: ${scenarios.length}`);
     console.log(`\nTop 5 Candidates:`);
     candidates
@@ -109,16 +109,16 @@ export function findOptimal(
   }
 
   if (!best) {
-    throw new Error(`No optimal allocation found for regime ${regime.id}`);
+    throw new Error(`No optimal allocation found for market environment ${environment.id}`);
   }
 
   // Return format compatible with existing code (need to compute single-point outcome)
-  // Use the regime anchor point for display purposes
+  // Use the market environment anchor point for display purposes
   const anchorScenario: Scenario = {
-    equityReturn: regime.equityReturn,
-    bondReturn: regime.bondReturn,
+    equityReturn: environment.equityReturn,
+    bondReturn: environment.bondReturn,
   };
-  const anchorOutcome = portfolioOutcomeScenario(anchorScenario, regime, best.a);
+  const anchorOutcome = portfolioOutcomeScenario(anchorScenario, environment, best.a);
 
   return {
     a: best.a,

@@ -53,7 +53,7 @@ export default function DashboardPage() {
           </h1>
           <p className="text-xl text-white/70 max-w-3xl">
             Most portfolios are built by manually adjusting exposures and hoping diversification holds.
-            First Principle uses a systematic, tested approach to optimize for your objectives across regimes.
+            First Principle uses a systematic, tested approach to optimize for your objectives across market environments.
             <a href="/institutional/index.html" className="text-amber-400 hover:text-amber-300 underline ml-2">Learn more →</a>
           </p>
         </motion.div>
@@ -202,7 +202,7 @@ function EdgeContent() {
         <div className="border-t border-white/10 pt-6">
           <h3 className="text-xl font-semibold mb-4">Why Legacy Approaches Fail</h3>
           <p>
-            Capital market assumptions have shifted materially. Forward equity returns are lower, volatility is structurally higher, and traditional diversification is less reliable. The portfolio construction playbook that worked in the Quantitative Easing era requires recalibration for today&apos;s and tomorrow&apos;s regime. When correlations converge—as they did in 2008, 2020, and other regime breaks—60/40 portfolios fail to protect capital. First Principle&apos;s approach anticipates these breakdowns and engineers outcomes that preserve capital while maintaining upside participation.
+            Capital market assumptions have shifted materially. Forward equity returns are lower, volatility is structurally higher, and traditional diversification is less reliable. The portfolio construction playbook that worked in the Quantitative Easing era requires recalibration for today&apos;s and tomorrow&apos;s market environment. When correlations converge—as they did in 2008, 2020, and other market stress events—60/40 portfolios fail to protect capital. First Principle&apos;s approach anticipates these breakdowns and engineers outcomes that preserve capital while maintaining upside participation.
           </p>
         </div>
 
@@ -257,7 +257,7 @@ function StrategyContent() {
           <ol className="list-decimal list-inside space-y-2 text-white/70 ml-2">
             <li><strong className="text-white">Define the Risk Budget:</strong> We begin with portfolio objectives, volatility tolerance, drawdown limits, and income targets.</li>
             <li><strong className="text-white">Engineer the Payoff Library:</strong> We design a menu of allowed payoff types, barriers, tenors, and underlyings for each strategy.</li>
-            <li><strong className="text-white">Optimize Across Regimes:</strong> Our engine evaluates thousands of combinations to optimize for total return, income generation, and drawdown control simultaneously.</li>
+            <li><strong className="text-white">Optimize Across Market Environments:</strong> Our engine evaluates thousands of combinations to optimize for total return, income generation, and drawdown control simultaneously.</li>
           </ol>
         </div>
 
@@ -313,7 +313,7 @@ function ImpactContent({ results }: { results: any }) {
                 <div className="text-white/50 text-xs mt-2">Average per level</div>
               </div>
               <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                <div className="text-white/60 text-sm mb-2">Regimes Tested</div>
+                <div className="text-white/60 text-sm mb-2">Market Environments Tested</div>
                 <div className="text-3xl font-semibold text-white">3</div>
                 <div className="text-white/50 text-xs mt-2">Bull, correction, crash</div>
               </div>
@@ -338,10 +338,10 @@ function ImpactContent({ results }: { results: any }) {
             improvements through:
           </p>
           <ul className="list-disc list-inside space-y-2 mt-4 ml-2">
-            <li>Better downside protection in stress regimes</li>
+            <li>Better downside protection in stress environments</li>
             <li>Optimized income generation without sacrificing growth</li>
             <li>Reduced drawdowns that preserve capital for recovery</li>
-            <li>Systematic rebalancing that adapts to regime changes</li>
+            <li>Systematic rebalancing that adapts to market environment changes</li>
           </ul>
         </div>
 
@@ -373,7 +373,7 @@ function ContactContent() {
           <div className="bg-white/5 rounded-lg p-6 border border-white/10">
             <h3 className="text-xl font-semibold text-white mb-3">Schedule a Call</h3>
             <p className="text-white/70 mb-4">
-              Get a personalized analysis of how First Principle can optimize your current allocation across different market regimes. We provide detailed analytics, scenario analysis, and implementation roadmaps.
+              Get a personalized analysis of how First Principle can optimize your current allocation across different market environments. We provide detailed analytics, scenario analysis, and implementation roadmaps.
             </p>
             <a href="/contact.html" className="inline-block rounded-lg bg-white text-black px-6 py-3 font-medium hover:bg-white/90 transition-colors">
               Schedule a Call →

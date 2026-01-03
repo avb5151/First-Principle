@@ -14,7 +14,7 @@ export default function PortfolioChallengePage() {
         <div className="text-sm uppercase tracking-widest text-white/50 mb-4">First Principle Interactive</div>
         <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6">
           Build a portfolio in 90 seconds.<br />
-          <span className="text-white/80">Survive three regimes.</span>
+          <span className="text-white/80">Survive three market environments.</span>
         </h1>
         <p className="text-lg text-white/70 mb-8 leading-relaxed max-w-2xl">
           Allocate across fixed income, equities, and structured outcomes. Each level reveals what your choices

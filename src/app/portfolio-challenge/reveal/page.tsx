@@ -87,10 +87,10 @@ export default function RevealPage() {
                       {avgGap > 0 ? `+${avgGap.toFixed(1)}%` : `${avgGap.toFixed(1)}%`}
                     </p>
                     <p className="text-white/70 text-lg">
-                      Average performance gap per regime
+                      Average performance gap per market environment
                     </p>
                     <p className="text-white/50 text-sm mt-4">
-                      Across all three market regimes, a First Principle-optimized approach would have delivered better risk-adjusted returns.
+                      Across all three market environments, a First Principle-optimized approach would have delivered better risk-adjusted returns.
                     </p>
                   </div>
                 </motion.div>
@@ -98,7 +98,7 @@ export default function RevealPage() {
               
               <p className="text-xl text-white/60 max-w-3xl mx-auto mb-12 leading-relaxed">
                 Using our proprietary data-driven and tested approach, we optimize your unique portfolio
-                across market regimes. No manual toggling. No reactive guessing. Just systematic outcome engineering.
+                across market environments. No manual toggling. No reactive guessing. Just systematic outcome engineering.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

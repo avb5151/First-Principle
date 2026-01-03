@@ -1,4 +1,4 @@
-import { Regime } from "./levels";
+import { MarketEnvironment } from "./levels";
 
 export type Scenario = {
   equityReturn: number;
@@ -28,9 +28,9 @@ class SeededRNG {
   }
 }
 
-export function generateScenarios(regime: Regime, nScenarios: number = 50): Scenario[] {
+export function generateScenarios(environment: MarketEnvironment, nScenarios: number = 50): Scenario[] {
   // Fixed seed per level for determinism
-  const seed = 12345 + regime.id * 1000;
+  const seed = 12345 + environment.id * 1000;
   const rng = new SeededRNG(seed);
 
   const scenarios: Scenario[] = [];
@@ -42,20 +42,20 @@ export function generateScenarios(regime: Regime, nScenarios: number = 50): Scen
     3: 0.16,  // Level 3: higher volatility around -30%
   };
 
-  const sigma = sigmaByLevel[regime.id];
+  const sigma = sigmaByLevel[environment.id];
 
   for (let i = 0; i < nScenarios; i++) {
-    // Generate equity return: Normal(mu=regime.equityReturn, sigma) truncated to [-0.6, +0.3]
-    let rEq = regime.equityReturn + rng.normal(0, sigma);
+    // Generate equity return: Normal(mu=environment.equityReturn, sigma) truncated to [-0.6, +0.3]
+    let rEq = environment.equityReturn + rng.normal(0, sigma);
     
     // Truncate to realistic bounds
     rEq = Math.max(-0.60, Math.min(0.30, rEq));
 
     // Generate bond return with correlation and correlation-break
     // Base return plus noise, but in stress (high stress), bonds suffer when equity crashes
-    const baseBondReturn = regime.bondReturn;
+    const baseBondReturn = environment.bondReturn;
     const bondNoise = rng.normal(0, 0.01); // Small noise
-    const correlationBreakTerm = regime.stress * 0.25 * Math.min(0, rEq); // Negative when equity crashes
+    const correlationBreakTerm = environment.stress * 0.25 * Math.min(0, rEq); // Negative when equity crashes
     
     let rFi = baseBondReturn + bondNoise + correlationBreakTerm;
     // Bond returns typically bounded: can't go too negative, but can have small negative in stress

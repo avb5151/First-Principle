@@ -2,22 +2,23 @@
 import { useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { Allocation, portfolioOutcome } from "@/lib/portfolio-challenge/payoff";
-import { Regime, LEVELS } from "@/lib/portfolio-challenge/levels";
+import { MarketEnvironment, LEVELS } from "@/lib/portfolio-challenge/levels";
 
 interface PayoffPreviewProps {
   allocation: Allocation;
-  currentRegime?: Regime;
+  currentEnvironment?: MarketEnvironment;
+  compact?: boolean;
 }
 
-export default function PayoffPreview({ allocation, currentRegime }: PayoffPreviewProps) {
+export default function PayoffPreview({ allocation, currentEnvironment, compact = false }: PayoffPreviewProps) {
   // Generate payoff curve data for different equity return scenarios
   const { data, yDomain } = useMemo(() => {
     const scenarios = [];
     const portfolioReturns: number[] = [];
     
     for (let eqReturn = -0.40; eqReturn <= 0.20; eqReturn += 0.02) {
-      // Create a synthetic regime for this scenario
-      const syntheticRegime: Regime = {
+      // Create a synthetic market environment for this scenario
+      const syntheticEnvironment: MarketEnvironment = {
         id: 1,
         name: "Synthetic",
         subtitle: "",
@@ -27,7 +28,7 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
         description: "",
       };
 
-      const outcome = portfolioOutcome(syntheticRegime, allocation);
+      const outcome = portfolioOutcome(syntheticEnvironment, allocation);
       const portfolioReturn = outcome.totalR * 100;
       portfolioReturns.push(portfolioReturn);
       
@@ -51,22 +52,22 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
     };
   }, [allocation]);
 
-  const currentOutcome = currentRegime ? portfolioOutcome(currentRegime, allocation) : null;
+  const currentOutcome = currentEnvironment ? portfolioOutcome(currentEnvironment, allocation) : null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">Payoff Profile</h3>
+        <h3 className="text-base font-semibold text-white">Payoff Profile</h3>
         {currentOutcome && (
-          <div className="text-sm tabular-nums text-white/60">
+          <div className="text-xs tabular-nums text-white/60">
             Current: <span className="text-white font-medium">{(currentOutcome.totalR * 100).toFixed(1)}%</span>
           </div>
         )}
       </div>
 
-      <div className="h-72 bg-black/40 rounded-xl border border-white/5 p-6">
+      <div className={compact ? "h-64 bg-black/40 rounded-xl border border-white/5 p-4" : "h-72 bg-black/40 rounded-xl border border-white/5 p-6"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 10, right: 20, bottom: 30, left: 50 }}>
+          <LineChart data={data} margin={compact ? { top: 5, right: 15, bottom: 25, left: 40 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
             <XAxis
               dataKey="equityReturn"
@@ -74,23 +75,23 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
               domain={[-40, 20]}
               ticks={[-40, -30, -20, -10, 0, 10, 20]}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => `${value}%`}
               label={{ 
                 value: "Equity Return (%)", 
                 position: "insideBottom", 
-                offset: -8, 
+                offset: compact ? -6 : -8, 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: "12px" }
+                style: { fontSize: compact ? "10px" : "12px" }
               }}
             />
             <YAxis
               type="number"
               domain={yDomain}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => {
@@ -103,7 +104,7 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
                 angle: -90, 
                 position: "insideLeft", 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: "12px" }
+                style: { fontSize: compact ? "10px" : "12px" }
               }}
             />
             <Tooltip
@@ -126,14 +127,14 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
             />
             <ReferenceLine y={0} stroke="rgba(255,255,255,0.2)" strokeDasharray="2 2" strokeWidth={1} />
             <ReferenceLine x={0} stroke="rgba(255,255,255,0.2)" strokeDasharray="2 2" strokeWidth={1} />
-            {currentRegime && (
+            {currentEnvironment && (
               <ReferenceLine
-                x={currentRegime.equityReturn * 100}
+                x={currentEnvironment.equityReturn * 100}
                 stroke="rgba(255,255,255,0.4)"
                 strokeWidth={1.5}
                 strokeDasharray="3 3"
                 label={{ 
-                  value: "Current Regime", 
+                  value: "Current Environment", 
                   position: "top", 
                   fill: "rgba(255,255,255,0.7)",
                   style: { fontSize: "11px" }
@@ -151,22 +152,32 @@ export default function PayoffPreview({ allocation, currentRegime }: PayoffPrevi
           </LineChart>
         </ResponsiveContainer>
       </div>
+    </div>
+  );
+}
 
-      <div className="grid grid-cols-3 gap-4">
+// Separate component for metrics to be displayed on the right
+export function PayoffMetrics({ allocation, currentEnvironment }: { allocation: Allocation; currentEnvironment?: MarketEnvironment }) {
+  const currentOutcome = currentEnvironment ? portfolioOutcome(currentEnvironment, allocation) : null;
+
+  return (
+    <div className="space-y-4">
+      <h3 className="text-base font-semibold text-white mb-4">Current Outcome</h3>
+      <div className="space-y-3">
         <div className="bg-white/5 rounded-lg border border-white/5 p-4">
-          <div className="text-white/50 text-xs uppercase tracking-wider mb-1.5">Expected Return</div>
+          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Expected Return</div>
           <div className={`text-2xl font-semibold tabular-nums ${currentOutcome && currentOutcome.totalR >= 0 ? "text-white" : "text-red-400"}`}>
             {currentOutcome ? `${(currentOutcome.totalR * 100).toFixed(2)}%` : "—"}
           </div>
         </div>
         <div className="bg-white/5 rounded-lg border border-white/5 p-4">
-          <div className="text-white/50 text-xs uppercase tracking-wider mb-1.5">Max Drawdown</div>
+          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Max Drawdown</div>
           <div className="text-2xl font-semibold tabular-nums text-white">
             {currentOutcome ? `${(currentOutcome.maxDD * 100).toFixed(2)}%` : "—"}
           </div>
         </div>
         <div className="bg-white/5 rounded-lg border border-white/5 p-4">
-          <div className="text-white/50 text-xs uppercase tracking-wider mb-1.5">Income Generated</div>
+          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Income Generated</div>
           <div className="text-2xl font-semibold tabular-nums text-white">
             {currentOutcome ? `${(currentOutcome.income * 100).toFixed(2)}%` : "—"}
           </div>

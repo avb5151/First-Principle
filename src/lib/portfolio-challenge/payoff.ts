@@ -1,4 +1,4 @@
-import { Regime } from "./levels";
+import { MarketEnvironment } from "./levels";
 import { Scenario } from "./scenarios";
 
 export type EquityNoteTerms = {
@@ -33,10 +33,10 @@ export function equityNoteReturn(rEq: number, t: EquityNoteTerms): number {
   return rEq + t.buffer;
 }
 
-export function incomeNoteReturn(rEq: number, regime: Regime, t: IncomeNoteTerms): { total: number; income: number; principalHit: number } {
+export function incomeNoteReturn(rEq: number, environment: MarketEnvironment, t: IncomeNoteTerms): { total: number; income: number; principalHit: number } {
   // Coupon gates: pay ONLY if NOT in severe stress and equity not below trigger
-  // Stricter than before: regime.stress < 0.7 AND rEq > -0.18
-  const couponPays = regime.stress < 0.7 && rEq > -0.18;
+  // Stricter than before: environment.stress < 0.7 AND rEq > -0.18
+  const couponPays = environment.stress < 0.7 && rEq > -0.18;
   const income = couponPays ? t.coupon * 0.25 : 0; // quarterly proxy
 
   // Principal behavior: if equity return breaches barrier, principal takes hit
@@ -65,24 +65,24 @@ export function incomeNoteReturn(rEq: number, regime: Regime, t: IncomeNoteTerms
 }
 
 // Evaluate portfolio outcome for a single scenario (used in optimizer)
-export function portfolioOutcomeScenario(scenario: Scenario, regime: Regime, a: Allocation) {
+export function portfolioOutcomeScenario(scenario: Scenario, environment: MarketEnvironment, a: Allocation) {
   const rEq = scenario.equityReturn;
   const rFi = scenario.bondReturn;
 
   const rEN = equityNoteReturn(rEq, a.equityNote);
-  const inc = incomeNoteReturn(rEq, regime, a.incomeNote);
+  const inc = incomeNoteReturn(rEq, environment, a.incomeNote);
 
   const structR =
     a.structSplitEquityNote * rEN +
     (1 - a.structSplitEquityNote) * inc.total;
 
   // Structured drag: base drag + stress-dependent credit spread
-  // Per requirements: 0.002 base + regime.stress * 0.004
-  const structDrag = 0.002 + regime.stress * 0.004;
+  // Per requirements: 0.002 base + environment.stress * 0.004
+  const structDrag = 0.002 + environment.stress * 0.004;
   const structRNet = structR - structDrag;
 
   // Correlation break penalty: naïve EQ+FI diversification degrades in stress
-  const naivePenalty = regime.stress * 0.15 * (a.eq * a.fi);
+  const naivePenalty = environment.stress * 0.15 * (a.eq * a.fi);
 
   const totalR = a.fi * rFi + a.eq * rEq + a.struct * structRNet - naivePenalty;
 
@@ -103,11 +103,11 @@ export function portfolioOutcomeScenario(scenario: Scenario, regime: Regime, a: 
 }
 
 // Legacy function for single-point evaluation (keep for compatibility)
-export function portfolioOutcome(regime: Regime, a: Allocation) {
+export function portfolioOutcome(environment: MarketEnvironment, a: Allocation) {
   const scenario: Scenario = {
-    equityReturn: regime.equityReturn,
-    bondReturn: regime.bondReturn,
+    equityReturn: environment.equityReturn,
+    bondReturn: environment.bondReturn,
   };
-  return portfolioOutcomeScenario(scenario, regime, a);
+  return portfolioOutcomeScenario(scenario, environment, a);
 }
 
