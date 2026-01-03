@@ -17,13 +17,12 @@ export default function PortfolioChallengePage() {
           <span className="text-white/80">Survive three market environments.</span>
         </h1>
         <p className="text-lg text-white/70 mb-8 leading-relaxed max-w-2xl">
-          Allocate across fixed income, equities, and structured outcomes. Each level reveals what your choices
-          delivered versus what an optimized approach could have achieved.
+          Allocate across fixed income, equities, and structured outcomes.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            href="/portfolio-challenge/game"
+            href="/portfolio-challenge/briefing"
             className="inline-flex items-center justify-center rounded-xl bg-white text-black px-8 py-4 font-medium hover:bg-white/90 transition-colors text-lg"
           >
             Start the Challenge

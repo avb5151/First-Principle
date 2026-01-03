@@ -12,8 +12,16 @@
       "static/chunks/fd9d1056-9ca14472084c9c1e.js",
       "static/chunks/117-4e38cd7680bb84db.js",
       "static/chunks/main-app-9ed85aa933217725.js",
-      "static/css/3a05fdc1b4c5509b.css",
+      "static/css/60c0624282313743.css",
       "static/chunks/app/layout-507905e6f35fca5c.js"
+    ],
+    "/portfolio-challenge/briefing/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/app/portfolio-challenge/briefing/page-a4c85c65a8bf1c99.js"
     ],
     "/portfolio-challenge/dashboard/page": [
       "static/chunks/webpack-e08da262b32814b6.js",
@@ -21,9 +29,9 @@
       "static/chunks/117-4e38cd7680bb84db.js",
       "static/chunks/main-app-9ed85aa933217725.js",
       "static/chunks/521-96f9cdb8ab09b339.js",
-      "static/chunks/628-188111a4f179d681.js",
-      "static/chunks/898-0d6f752b6b431ea6.js",
-      "static/chunks/app/portfolio-challenge/dashboard/page-92ba9be28213a512.js"
+      "static/chunks/882-46edc3d2b8a86f08.js",
+      "static/chunks/898-86c5b661e9cc10c0.js",
+      "static/chunks/app/portfolio-challenge/dashboard/page-c57026537f0dcb64.js"
     ],
     "/portfolio-challenge/game/page": [
       "static/chunks/webpack-e08da262b32814b6.js",
@@ -32,8 +40,8 @@
       "static/chunks/main-app-9ed85aa933217725.js",
       "static/chunks/521-96f9cdb8ab09b339.js",
       "static/chunks/861-38002517fe45235b.js",
-      "static/chunks/898-0d6f752b6b431ea6.js",
-      "static/chunks/app/portfolio-challenge/game/page-04cc32e2102cb557.js"
+      "static/chunks/898-86c5b661e9cc10c0.js",
+      "static/chunks/app/portfolio-challenge/game/page-09802e34d2205dd1.js"
     ],
     "/portfolio-challenge/page": [
       "static/chunks/webpack-e08da262b32814b6.js",
@@ -42,7 +50,7 @@
       "static/chunks/main-app-9ed85aa933217725.js",
       "static/chunks/521-96f9cdb8ab09b339.js",
       "static/chunks/648-feda354feba0cb91.js",
-      "static/chunks/app/portfolio-challenge/page-a06975e74eb31650.js"
+      "static/chunks/app/portfolio-challenge/page-8b40ea9292fc33a7.js"
     ],
     "/portfolio-challenge/results/page": [
       "static/chunks/webpack-e08da262b32814b6.js",
@@ -51,7 +59,7 @@
       "static/chunks/main-app-9ed85aa933217725.js",
       "static/chunks/521-96f9cdb8ab09b339.js",
       "static/chunks/648-feda354feba0cb91.js",
-      "static/chunks/898-0d6f752b6b431ea6.js",
+      "static/chunks/898-86c5b661e9cc10c0.js",
       "static/chunks/app/portfolio-challenge/results/page-fdc67ce10ebc9d94.js"
     ],
     "/portfolio-challenge/reveal/page": [
@@ -61,8 +69,8 @@
       "static/chunks/main-app-9ed85aa933217725.js",
       "static/chunks/521-96f9cdb8ab09b339.js",
       "static/chunks/648-feda354feba0cb91.js",
-      "static/chunks/628-188111a4f179d681.js",
-      "static/chunks/898-0d6f752b6b431ea6.js",
+      "static/chunks/628-dd266053e18ea0ad.js",
+      "static/chunks/898-86c5b661e9cc10c0.js",
       "static/chunks/app/portfolio-challenge/reveal/page-7cf2bf2c8545f469.js"
     ]
   }

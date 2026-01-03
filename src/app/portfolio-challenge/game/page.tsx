@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { LEVELS } from "@/lib/portfolio-challenge/levels";
 import { useGameStore } from "@/store/gameStore";
@@ -12,13 +12,18 @@ import { motion } from "framer-motion";
 export default function GamePage() {
   const router = useRouter();
   const { level, timeLeft, allocation, tick, finishLevel, startLevel, setAllocation } = useGameStore();
+  const hasStartedRef = useRef(false);
 
   const environment = LEVELS.find(l => l.id === level)!;
 
+  // Use a ref to ensure startLevel is only called once per mount (prevents React StrictMode double-invocation)
   useEffect(() => {
-    startLevel(level);
+    if (!hasStartedRef.current) {
+      hasStartedRef.current = true;
+      startLevel(level);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // Empty deps - only run on mount
 
   useEffect(() => {
     if (timeLeft <= 0) {

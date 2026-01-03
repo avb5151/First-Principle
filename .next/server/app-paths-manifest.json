@@ -1,5 +1,6 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/portfolio-challenge/briefing/page": "app/portfolio-challenge/briefing/page.js",
   "/portfolio-challenge/dashboard/page": "app/portfolio-challenge/dashboard/page.js",
   "/portfolio-challenge/game/page": "app/portfolio-challenge/game/page.js",
   "/portfolio-challenge/page": "app/portfolio-challenge/page.js",

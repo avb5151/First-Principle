@@ -190,10 +190,10 @@ export function PayoffMetrics({ allocation, currentEnvironment }: { allocation: 
 
   return (
     <div className="space-y-4">
-      <h3 className="text-base font-semibold text-white mb-4">Current Outcome</h3>
+      <h3 className="text-base font-semibold text-white mb-4">Live Metrics</h3>
       <div className="space-y-3">
         <div className="bg-white/5 rounded-lg border border-white/5 p-4">
-          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Portfolio Outcome</div>
+          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Portfolio Return</div>
           <div className={`text-2xl font-semibold tabular-nums ${currentOutcome && currentOutcome.totalR >= 0 ? "text-white" : "text-red-400"}`}>
             {currentOutcome ? `${(currentOutcome.totalR * 100).toFixed(2)}%` : "—"}
           </div>

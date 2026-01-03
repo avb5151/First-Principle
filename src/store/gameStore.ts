@@ -19,6 +19,7 @@ type GameState = {
     optimalPortfolioOutcomeScore: number; // Optimal Portfolio Outcome Score (risk-adjusted)
     displayedOptimalPortfolioOutcomeScore: number; // Clamped optimal Portfolio Outcome Score for display
   }>;
+  currentLevelId: LevelId | null; // Track which level is currently active to prevent double-start
   startLevel: (id: LevelId) => void;
   tick: () => void;
   setAllocation: (patch: Partial<Allocation>) => void;
@@ -40,8 +41,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   timeLeft: 30,
   allocation: defaultAllocation,
   results: {},
+  currentLevelId: null,
 
-  startLevel: (id) => set({ level: id, timeLeft: 30 }),
+  startLevel: (id) => {
+    // Make idempotent: if already started for this level, don't restart
+    const current = get().currentLevelId;
+    if (current === id) {
+      return; // Already started this level
+    }
+    set({ level: id, timeLeft: 30, currentLevelId: id });
+  },
 
   tick: () => {
     const t = get().timeLeft;
@@ -53,6 +62,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   finishLevel: () => {
     const { level, allocation, results } = get();
+    // Clear currentLevelId when finishing so next level can start
+    set({ currentLevelId: null });
     const regime = LEVELS.find(l => l.id === level)!;
 
     // Evaluate user allocation across scenarios (same as optimizer does)
@@ -119,6 +130,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
-  reset: () => set({ level: 1, timeLeft: 30, allocation: defaultAllocation, results: {} }),
+  reset: () => set({ level: 1, timeLeft: 30, allocation: defaultAllocation, results: {}, currentLevelId: null }),
 }));
 
