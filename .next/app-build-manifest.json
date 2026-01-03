@@ -1,0 +1,69 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/app/_not-found/page-be72e9832d1af864.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/css/3a05fdc1b4c5509b.css",
+      "static/chunks/app/layout-507905e6f35fca5c.js"
+    ],
+    "/portfolio-challenge/dashboard/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/628-188111a4f179d681.js",
+      "static/chunks/898-3374038118c78b11.js",
+      "static/chunks/app/portfolio-challenge/dashboard/page-92ba9be28213a512.js"
+    ],
+    "/portfolio-challenge/game/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/861-38002517fe45235b.js",
+      "static/chunks/898-3374038118c78b11.js",
+      "static/chunks/app/portfolio-challenge/game/page-04cc32e2102cb557.js"
+    ],
+    "/portfolio-challenge/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/648-feda354feba0cb91.js",
+      "static/chunks/app/portfolio-challenge/page-a06975e74eb31650.js"
+    ],
+    "/portfolio-challenge/reveal/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/648-feda354feba0cb91.js",
+      "static/chunks/628-188111a4f179d681.js",
+      "static/chunks/898-3374038118c78b11.js",
+      "static/chunks/app/portfolio-challenge/reveal/page-e2592e426502752d.js"
+    ],
+    "/portfolio-challenge/results/page": [
+      "static/chunks/webpack-e08da262b32814b6.js",
+      "static/chunks/fd9d1056-9ca14472084c9c1e.js",
+      "static/chunks/117-4e38cd7680bb84db.js",
+      "static/chunks/main-app-9ed85aa933217725.js",
+      "static/chunks/521-96f9cdb8ab09b339.js",
+      "static/chunks/648-feda354feba0cb91.js",
+      "static/chunks/898-3374038118c78b11.js",
+      "static/chunks/app/portfolio-challenge/results/page-17f7534a8b33b73c.js"
+    ]
+  }
+}
