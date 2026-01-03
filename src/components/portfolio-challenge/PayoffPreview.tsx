@@ -65,33 +65,33 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
         )}
       </div>
 
-      <div className={compact ? "flex-1 w-full bg-black/40 rounded-xl border border-white/5 p-2 overflow-hidden" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
+      <div className={compact ? "flex-1 w-full bg-black/40 rounded-xl border border-white/5 p-0" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={compact ? { top: 10, right: 10, bottom: 30, left: 35 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
+          <LineChart data={data} margin={compact ? { top: 8, right: 12, bottom: 12, left: 12 } : { top: 12, right: 18, bottom: 16, left: 18 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
             <XAxis
               dataKey="equityReturn"
               type="number"
               domain={[-40, 20]}
-              ticks={[-40, -30, -20, -10, 0, 10, 20]}
+              ticks={compact ? [-40, -20, 0, 20] : [-40, -30, -20, -10, 0, 10, 20]}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 10 : 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => `${value}%`}
-              label={{ 
+              label={compact ? undefined : { 
                 value: "Equity Return (%)", 
                 position: "insideBottom", 
-                offset: compact ? -8 : -8, 
+                offset: -8, 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: compact ? "11px" : "12px" }
+                style: { fontSize: "12px" }
               }}
             />
             <YAxis
               type="number"
               domain={yDomain}
               stroke="rgba(255,255,255,0.3)"
-              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 10 : 11 }}
+              tick={{ fill: "rgba(255,255,255,0.5)", fontSize: compact ? 9 : 11 }}
               tickLine={{ stroke: "rgba(255,255,255,0.2)" }}
               axisLine={{ stroke: "rgba(255,255,255,0.2)" }}
               tickFormatter={(value) => {
@@ -99,12 +99,12 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 if (value % 1 === 0) return `${value}%`;
                 return `${value.toFixed(1)}%`;
               }}
-              label={{ 
+              label={compact ? undefined : { 
                 value: "Portfolio Outcome (%)", 
                 angle: -90, 
                 position: "insideLeft", 
                 fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: compact ? "11px" : "12px" }
+                style: { fontSize: "12px" }
               }}
             />
             <Tooltip
@@ -133,7 +133,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 stroke="rgba(255,255,255,0.4)"
                 strokeWidth={1.5}
                 strokeDasharray="3 3"
-                label={{ 
+                label={compact ? undefined : { 
                   value: "Current Environment", 
                   position: "top", 
                   fill: "rgba(255,255,255,0.7)",
