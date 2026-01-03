@@ -2,12 +2,31 @@
 import { useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { Allocation, portfolioOutcome } from "@/lib/portfolio-challenge/payoff";
-import { MarketEnvironment, LEVELS } from "@/lib/portfolio-challenge/levels";
+import { MarketEnvironment } from "@/lib/portfolio-challenge/levels";
 
 interface PayoffPreviewProps {
   allocation: Allocation;
   currentEnvironment?: MarketEnvironment;
   compact?: boolean;
+}
+
+// Custom tick component for compact mode XAxis
+type TickProps = { x?: number; y?: number; payload?: { value: number } };
+function CustomXAxisTick({ x = 0, y = 0, payload }: TickProps) {
+  const v = payload?.value ?? 0;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={12}
+        textAnchor="middle"
+        fill="rgba(255,255,255,0.45)"
+        fontSize={10}
+      >
+        {v}%
+      </text>
+    </g>
+  );
 }
 
 export default function PayoffPreview({ allocation, currentEnvironment, compact = false }: PayoffPreviewProps) {
@@ -69,22 +88,21 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
 
       <div className={compact ? "flex-1 w-full h-full bg-black/30 rounded-lg" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={compact ? { top: 6, right: 6, bottom: 6, left: 6 } : { top: 12, right: 18, bottom: 16, left: 18 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={compact ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)"} />
+          <LineChart data={data} margin={compact ? { top: 6, right: 6, bottom: 0, left: 0 } : { top: 12, right: 18, bottom: 16, left: 18 }}>
+            {!compact && <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />}
             <XAxis
               dataKey="equityReturn"
               type="number"
               domain={[-40, 20]}
               ticks={compact ? [-40, -20, 0, 20] : [-40, -30, -20, -10, 0, 10, 20]}
               stroke="rgba(255,255,255,0.3)"
-              tick={compact 
-                ? { fill: "rgba(255,255,255,0.5)", fontSize: 9, dy: 10 }
-                : { fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
-              tickMargin={compact ? 0 : undefined}
-              tickSize={compact ? 0 : undefined}
-              tickLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
-              axisLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
-              tickFormatter={(value) => `${value}%`}
+              height={compact ? 18 : undefined}
+              tick={compact ? CustomXAxisTick : { fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+              tickMargin={compact ? -6 : 8}
+              tickSize={0}
+              tickLine={!compact}
+              axisLine={!compact}
+              tickFormatter={compact ? undefined : (value: number) => `${value}%`}
               label={compact ? undefined : { 
                 value: "Equity Return (%)", 
                 position: "insideBottom", 
@@ -93,30 +111,30 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 style: { fontSize: "12px" }
               }}
             />
-            <YAxis
-              type="number"
-              domain={yDomain}
-              stroke="rgba(255,255,255,0.3)"
-              tick={compact 
-                ? { fill: "rgba(255,255,255,0.5)", fontSize: 9, dx: -10 }
-                : { fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
-              tickMargin={compact ? 0 : undefined}
-              tickSize={compact ? 0 : undefined}
-              tickLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
-              axisLine={compact ? false : { stroke: "rgba(255,255,255,0.2)" }}
-              tickFormatter={(value) => {
-                // Format with no decimals for whole numbers, one decimal otherwise
-                if (value % 1 === 0) return `${value}%`;
-                return `${value.toFixed(1)}%`;
-              }}
-              label={compact ? undefined : { 
-                value: "Portfolio Outcome (%)", 
-                angle: -90, 
-                position: "insideLeft", 
-                fill: "rgba(255,255,255,0.5)",
-                style: { fontSize: "12px" }
-              }}
-            />
+            {!compact && (
+              <YAxis
+                type="number"
+                domain={yDomain}
+                stroke="rgba(255,255,255,0.3)"
+                tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+                tickMargin={8}
+                tickSize={0}
+                tickLine={true}
+                axisLine={true}
+                tickFormatter={(value) => {
+                  // Format with no decimals for whole numbers, one decimal otherwise
+                  if (value % 1 === 0) return `${value}%`;
+                  return `${value.toFixed(1)}%`;
+                }}
+                label={{ 
+                  value: "Portfolio Outcome (%)", 
+                  angle: -90, 
+                  position: "insideLeft", 
+                  fill: "rgba(255,255,255,0.5)",
+                  style: { fontSize: "12px" }
+                }}
+              />
+            )}
             <Tooltip
               contentStyle={{
                 backgroundColor: "rgba(0,0,0,0.95)",
