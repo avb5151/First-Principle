@@ -17,12 +17,18 @@ export default function RevealPage() {
     };
   }, []);
 
-  // Calculate total opportunity missed
+  // Calculate total opportunity missed using clamped values
   const hasResults = Object.keys(results).length > 0;
   const totalGap = hasResults
-    ? Object.values(results).reduce((sum: number, r: any) => sum + (r.optimal.totalR - r.user.totalR), 0)
+    ? Object.values(results).reduce((sum: number, r: any) => {
+        // Use displayedOptimalTotalR (clamped) if available, otherwise fall back to optimal.totalR
+        const displayedOptimal = r.displayedOptimalTotalR !== undefined 
+          ? r.displayedOptimalTotalR 
+          : r.optimal.totalR;
+        return sum + (displayedOptimal - r.user.totalR);
+      }, 0)
     : 0;
-  const avgGap = hasResults ? (totalGap / Object.keys(results).length) * 100 : 0;
+  const avgGap = hasResults ? Math.max(0, (totalGap / Object.keys(results).length) * 100) : 0;
 
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
@@ -84,7 +90,7 @@ export default function RevealPage() {
                   <div className="bg-white/5 rounded-2xl border border-white/10 p-8 max-w-2xl mx-auto">
                     <p className="text-white/60 text-sm uppercase tracking-wider mb-4">What You Missed</p>
                     <p className="text-4xl md:text-5xl font-semibold text-amber-400 mb-2">
-                      {avgGap > 0 ? `+${avgGap.toFixed(1)}%` : `${avgGap.toFixed(1)}%`}
+                      {avgGap > 0.05 ? `+${avgGap.toFixed(1)}%` : "Matched"}
                     </p>
                     <p className="text-white/70 text-lg">
                       Average performance gap per market environment

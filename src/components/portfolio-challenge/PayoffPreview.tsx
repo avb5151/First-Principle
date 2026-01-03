@@ -100,7 +100,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
                 return `${value.toFixed(1)}%`;
               }}
               label={{ 
-                value: "Portfolio Return (%)", 
+                value: "Portfolio Outcome (%)", 
                 angle: -90, 
                 position: "insideLeft", 
                 fill: "rgba(255,255,255,0.5)",
@@ -117,7 +117,7 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
               }}
               formatter={(value: number) => {
                 const formatted = value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
-                return [`${formatted}%`, "Portfolio Return"];
+                return [`${formatted}%`, "Portfolio Outcome"];
               }}
               labelFormatter={(label) => {
                 const equityVal = parseFloat(label);
@@ -165,7 +165,7 @@ export function PayoffMetrics({ allocation, currentEnvironment }: { allocation: 
       <h3 className="text-base font-semibold text-white mb-4">Current Outcome</h3>
       <div className="space-y-3">
         <div className="bg-white/5 rounded-lg border border-white/5 p-4">
-          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Expected Return</div>
+          <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Portfolio Outcome</div>
           <div className={`text-2xl font-semibold tabular-nums ${currentOutcome && currentOutcome.totalR >= 0 ? "text-white" : "text-red-400"}`}>
             {currentOutcome ? `${(currentOutcome.totalR * 100).toFixed(2)}%` : "—"}
           </div>
@@ -182,6 +182,9 @@ export function PayoffMetrics({ allocation, currentEnvironment }: { allocation: 
             {currentOutcome ? `${(currentOutcome.income * 100).toFixed(2)}%` : "—"}
           </div>
         </div>
+      </div>
+      <div className="text-white/30 text-xs mt-2 italic">
+        Evaluated across a range of outcomes consistent with this market environment.
       </div>
     </div>
   );

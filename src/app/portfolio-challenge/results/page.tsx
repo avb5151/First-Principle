@@ -42,8 +42,12 @@ function ResultsContent() {
     );
   }
 
-  const { regime, user, userAlloc, optimal, optimalAlloc } = result;
-  const gap = optimal.totalR - user.totalR;
+  const { regime, user, userAlloc, optimal, optimalAlloc, displayedOptimalTotalR } = result;
+  
+  // Use clamped optimal return for gap calculation (guarantees >= 0)
+  const EPS = 1e-6;
+  const gap = displayedOptimalTotalR - user.totalR;
+  const isMatched = gap <= 0.0005; // 0.05% epsilon for "matched" threshold
   const nextLevel = level < 3 ? (level + 1) as 1 | 2 | 3 : null;
 
   return (
@@ -70,7 +74,7 @@ function ResultsContent() {
             transition={{ delay: 0.1 }}
             className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
           >
-            <div className="text-white/60 text-sm mb-2">Your Portfolio Return</div>
+            <div className="text-white/60 text-sm mb-2">Your Portfolio Outcome</div>
             <div className={`text-4xl font-semibold tabular-nums mb-1 ${user.totalR >= 0 ? "text-white" : "text-red-400"}`}>
               {formatPercent(user.totalR)}
             </div>
@@ -78,6 +82,9 @@ function ResultsContent() {
               Max Drawdown: {formatPercent(user.maxDD)}
               <br />
               Income: {formatPercent(user.income)}
+            </div>
+            <div className="text-white/30 text-xs mt-2 italic">
+              Evaluated across a range of outcomes consistent with this market environment.
             </div>
           </motion.div>
 
@@ -87,14 +94,17 @@ function ResultsContent() {
             transition={{ delay: 0.2 }}
             className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
           >
-            <div className="text-white/60 text-sm mb-2">Optimal Portfolio Return</div>
-            <div className={`text-4xl font-semibold tabular-nums mb-1 ${optimal.totalR >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatPercent(optimal.totalR)}
+            <div className="text-white/60 text-sm mb-2">First Principle-Optimized Outcome</div>
+            <div className={`text-4xl font-semibold tabular-nums mb-1 ${displayedOptimalTotalR >= 0 ? "text-white" : "text-red-400"}`}>
+              {formatPercent(displayedOptimalTotalR)}
             </div>
             <div className="text-white/40 text-xs mt-2">
               Max Drawdown: {formatPercent(optimal.maxDD)}
               <br />
               Income: {formatPercent(optimal.income)}
+            </div>
+            <div className="text-white/30 text-xs mt-2 italic">
+              Evaluated across a range of outcomes consistent with this market environment.
             </div>
           </motion.div>
 
@@ -102,14 +112,14 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className={`rounded-2xl border ${gap >= 0 ? "border-white/10" : "border-white/20"} bg-white/[0.02] backdrop-blur-sm p-6`}
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
           >
-            <div className="text-white/60 text-sm mb-2">Performance Gap</div>
-            <div className={`text-4xl font-semibold tabular-nums mb-1 ${gap >= 0 ? "text-amber-400" : "text-green-400"}`}>
-              {formatPercent(gap)}
+            <div className="text-white/60 text-sm mb-2">Opportunity Cost</div>
+            <div className="text-4xl font-semibold tabular-nums mb-1 text-amber-400">
+              {isMatched ? "Matched" : formatPercentPositive(gap)}
             </div>
             <div className="text-white/40 text-xs mt-2">
-              {gap >= 0 ? "Opportunity cost" : "Outperformed"}
+              {isMatched ? "Matched Optimal" : "Performance gap"}
             </div>
           </motion.div>
         </div>
@@ -235,6 +245,12 @@ function formatPercent(value: number): string {
   const percent = value * 100;
   const sign = percent >= 0 ? "+" : "";
   return `${sign}${percent.toFixed(1)}%`;
+}
+
+function formatPercentPositive(value: number): string {
+  // Always show positive, never negative sign
+  const percent = Math.max(0, value * 100);
+  return `+${percent.toFixed(1)}%`;
 }
 
 export default function ResultsPage() {

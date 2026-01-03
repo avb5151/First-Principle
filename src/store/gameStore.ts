@@ -13,6 +13,7 @@ type GameState = {
     userAlloc: Allocation;
     optimal: ReturnType<typeof portfolioOutcome>;
     optimalAlloc: Allocation;
+    displayedOptimalTotalR: number; // Clamped optimal return for display
   }>;
   startLevel: (id: LevelId) => void;
   tick: () => void;
@@ -62,6 +63,19 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Recompute optimal outcome to ensure consistency
     const optimalOutcome = portfolioOutcome(regime, opt.a);
 
+    // Option A clamping: Ensure displayed optimal return is never less than user return
+    // This is a sales instrument - users should never "outperform" optimal
+    const EPS = 1e-6;
+    const displayedOptimalTotalR = Math.max(optimalOutcome.totalR, user.totalR - EPS);
+    
+    // Sanity check (console assert in dev)
+    if (process.env.NODE_ENV === 'development') {
+      console.assert(
+        displayedOptimalTotalR + 1e-9 >= user.totalR,
+        `Optimal must not be beat: displayedOptimal=${displayedOptimalTotalR}, user=${user.totalR}`
+      );
+    }
+
     set({
       results: {
         ...results,
@@ -71,6 +85,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           userAlloc: { ...allocation },
           optimal: optimalOutcome,
           optimalAlloc: opt.a,
+          displayedOptimalTotalR,
         },
       },
     });
