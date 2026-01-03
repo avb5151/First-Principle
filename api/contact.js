@@ -19,7 +19,7 @@
  * 5. Verify your domain in Resend or use onboarding@resend.dev for testing
  */
 
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 // In-memory rate limiting store (best effort)
 // In production, consider using Redis or Vercel Edge Config for distributed rate limiting
@@ -80,7 +80,7 @@ function checkRateLimit(ip) {
   }
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
