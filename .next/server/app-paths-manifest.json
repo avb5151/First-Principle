@@ -1,9 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/portfolio-challenge/briefing/page": "app/portfolio-challenge/briefing/page.js",
-  "/portfolio-challenge/dashboard/page": "app/portfolio-challenge/dashboard/page.js",
-  "/portfolio-challenge/game/page": "app/portfolio-challenge/game/page.js",
-  "/portfolio-challenge/page": "app/portfolio-challenge/page.js",
-  "/portfolio-challenge/results/page": "app/portfolio-challenge/results/page.js",
-  "/portfolio-challenge/reveal/page": "app/portfolio-challenge/reveal/page.js"
-}
