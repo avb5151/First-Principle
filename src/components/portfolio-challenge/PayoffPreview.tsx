@@ -183,9 +183,6 @@ export function PayoffMetrics({ allocation, currentEnvironment }: { allocation: 
           </div>
         </div>
       </div>
-      <div className="text-white/30 text-xs mt-2 italic">
-        Evaluated across a range of outcomes consistent with this market environment.
-      </div>
     </div>
   );
 }

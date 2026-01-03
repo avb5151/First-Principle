@@ -72,19 +72,17 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
           >
-            <div className="text-white/60 text-sm mb-2">Your Portfolio Outcome</div>
-            <div className={`text-4xl font-semibold tabular-nums mb-1 ${user.totalR >= 0 ? "text-white" : "text-red-400"}`}>
+            <div className="text-white/60 text-sm mb-3">Your Portfolio Outcome</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center ${user.totalR >= 0 ? "text-white" : "text-red-400"}`}>
               {formatPercent(user.totalR)}
             </div>
-            <div className="text-white/40 text-xs mt-2">
+            <div className="text-white/70 text-base mt-auto font-medium">
               Max Drawdown: {formatPercent(user.maxDD)}
-              <br />
-              Income: {formatPercent(user.income)}
             </div>
-            <div className="text-white/30 text-xs mt-2 italic">
-              Evaluated across a range of outcomes consistent with this market environment.
+            <div className="text-white/70 text-base font-medium">
+              Income: {formatPercent(user.income)}
             </div>
           </motion.div>
 
@@ -92,19 +90,17 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
           >
-            <div className="text-white/60 text-sm mb-2">First Principle-Optimized Outcome</div>
-            <div className={`text-4xl font-semibold tabular-nums mb-1 ${displayedOptimalTotalR >= 0 ? "text-white" : "text-red-400"}`}>
+            <div className="text-white/60 text-sm mb-3">First Principle-Optimized Outcome</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center ${displayedOptimalTotalR >= 0 ? "text-white" : "text-red-400"}`}>
               {formatPercent(displayedOptimalTotalR)}
             </div>
-            <div className="text-white/40 text-xs mt-2">
+            <div className="text-white/70 text-base mt-auto font-medium">
               Max Drawdown: {formatPercent(optimal.maxDD)}
-              <br />
-              Income: {formatPercent(optimal.income)}
             </div>
-            <div className="text-white/30 text-xs mt-2 italic">
-              Evaluated across a range of outcomes consistent with this market environment.
+            <div className="text-white/70 text-base font-medium">
+              Income: {formatPercent(optimal.income)}
             </div>
           </motion.div>
 
@@ -112,14 +108,14 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
+            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
           >
-            <div className="text-white/60 text-sm mb-2">Opportunity Cost</div>
-            <div className="text-4xl font-semibold tabular-nums mb-1 text-amber-400">
+            <div className="text-white/60 text-sm mb-3">Opportunity Cost</div>
+            <div className="text-5xl md:text-6xl font-semibold tabular-nums mb-6 flex-grow flex items-center text-amber-400">
               {isMatched ? "Matched" : formatPercentPositive(gap)}
             </div>
-            <div className="text-white/40 text-xs mt-2">
-              {isMatched ? "Matched Optimal" : "Performance gap"}
+            <div className="text-white/70 text-base mt-auto font-medium">
+              {isMatched ? "Matched Optimal" : "Performance Gap"}
             </div>
           </motion.div>
         </div>

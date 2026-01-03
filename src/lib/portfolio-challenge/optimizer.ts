@@ -112,18 +112,20 @@ export function findOptimal(
     throw new Error(`No optimal allocation found for market environment ${environment.id}`);
   }
 
-  // Return format compatible with existing code (need to compute single-point outcome)
-  // Use the market environment anchor point for display purposes
-  const anchorScenario: Scenario = {
-    equityReturn: environment.equityReturn,
-    bondReturn: environment.bondReturn,
+  // Return format compatible with existing code
+  // Use MEAN return from scenario-based evaluation (not anchor point)
+  // This ensures displayed outcome reflects diversification benefits/penalties
+  const meanOutcome: ScenarioOutcome = {
+    totalR: best.metrics.meanR,
+    maxDD: best.metrics.meanDD,
+    income: best.metrics.meanIncome,
   };
-  const anchorOutcome = portfolioOutcomeScenario(anchorScenario, environment, best.a);
 
   return {
     a: best.a,
     score: best.score,
-    outcome: anchorOutcome,
+    outcome: meanOutcome,
+    metrics: best.metrics, // Include full metrics for potential future use
   };
 }
 

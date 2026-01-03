@@ -38,24 +38,39 @@ export function computeObjective(
   const meanDD = drawdowns.reduce((sum, dd) => sum + dd, 0) / drawdowns.length;
   const meanIncome = incomes.reduce((sum, inc) => sum + inc, 0) / incomes.length;
 
-  // Diversification regularization: penalize concentration
-  // L2 penalty on weights: makes 100% weights expensive
+  // Diversification regularization: STRONG penalties for concentration
+  // Heavily penalize lack of diversification (100% in any single asset class)
+  // L2 penalty on weights: makes concentrated portfolios expensive
   const l2 = allocation.fi ** 2 + allocation.eq ** 2 + allocation.struct ** 2;
-  const penaltyDiv = 25 * l2;
+  // Increased from 25 to 150 - much stronger penalty
+  const penaltyDiv = 150 * l2;
 
-  // Soft constraints: penalize weights > 80% or structured > 60%
+  // Strong constraints: heavily penalize weights > 70%
   let penaltyConstraints = 0;
-  if (allocation.fi > 0.80) {
-    penaltyConstraints += 200 * (allocation.fi - 0.80) ** 2;
+  if (allocation.fi > 0.70) {
+    // Quadratic penalty that grows quickly
+    penaltyConstraints += 500 * (allocation.fi - 0.70) ** 2;
   }
-  if (allocation.eq > 0.80) {
-    penaltyConstraints += 200 * (allocation.eq - 0.80) ** 2;
+  if (allocation.eq > 0.70) {
+    // Very strong penalty for >70% equities (prevents 100% equity gaming)
+    penaltyConstraints += 800 * (allocation.eq - 0.70) ** 2;
+  }
+  if (allocation.eq > 0.85) {
+    // Even stronger penalty for >85% equities
+    penaltyConstraints += 1500 * (allocation.eq - 0.85) ** 2;
   }
   if (allocation.struct > 0.60) {
-    penaltyConstraints += 150 * (allocation.struct - 0.60) ** 2;
+    penaltyConstraints += 300 * (allocation.struct - 0.60) ** 2;
   }
   if (allocation.struct > 0.80) {
-    penaltyConstraints += 200 * (allocation.struct - 0.80) ** 2;
+    penaltyConstraints += 500 * (allocation.struct - 0.80) ** 2;
+  }
+  
+  // Additional penalty for extreme concentration
+  // Penalize if any single asset class is > 90%
+  if (allocation.fi > 0.90 || allocation.eq > 0.90 || allocation.struct > 0.90) {
+    const maxWeight = Math.max(allocation.fi, allocation.eq, allocation.struct);
+    penaltyConstraints += 2000 * (maxWeight - 0.90) ** 2;
   }
 
   // Score function:

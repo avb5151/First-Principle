@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { LevelId, LEVELS } from "@/lib/portfolio-challenge/levels";
-import { Allocation, portfolioOutcome } from "@/lib/portfolio-challenge/payoff";
+import { Allocation, portfolioOutcomeScenario } from "@/lib/portfolio-challenge/payoff";
 import { findOptimal } from "@/lib/portfolio-challenge/optimizer";
+import { generateScenarios } from "@/lib/portfolio-challenge/scenarios";
+import { computeObjective } from "@/lib/portfolio-challenge/objective";
 
 type GameState = {
   level: LevelId;
@@ -51,7 +53,20 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { level, allocation, results } = get();
     const regime = LEVELS.find(l => l.id === level)!;
 
-    const user = portfolioOutcome(regime, allocation);
+    // Evaluate user allocation across scenarios (same as optimizer does)
+    // This ensures fair comparison - user outcome also reflects scenario-based evaluation
+    const scenarios = generateScenarios(regime, 50);
+    const userScenarioOutcomes = scenarios.map(scenario =>
+      portfolioOutcomeScenario(scenario, regime, allocation)
+    );
+    const userMetrics = computeObjective(userScenarioOutcomes, allocation);
+    
+    // User outcome uses mean from scenarios (consistent with optimal)
+    const userOutcome = {
+      totalR: userMetrics.meanR,
+      maxDD: userMetrics.meanDD,
+      income: userMetrics.meanIncome,
+    };
     
     // Find optimal by searching all allocation and term combinations
     // The optimizer searches across all possible structured note terms to find the true optimal
@@ -60,13 +75,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       incomeNote: allocation.incomeNote,
     });
 
-    // Recompute optimal outcome to ensure consistency
-    const optimalOutcome = portfolioOutcome(regime, opt.a);
+    // Optimal outcome is already scenario-based mean from optimizer
+    const optimalOutcome = opt.outcome;
 
     // Option A clamping: Ensure displayed optimal return is never less than user return
     // This is a sales instrument - users should never "outperform" optimal
     const EPS = 1e-6;
-    const displayedOptimalTotalR = Math.max(optimalOutcome.totalR, user.totalR - EPS);
+    const displayedOptimalTotalR = Math.max(optimalOutcome.totalR, userOutcome.totalR - EPS);
     
     // Sanity check (console assert in dev)
     if (process.env.NODE_ENV === 'development') {
@@ -81,7 +96,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         ...results,
         [level]: {
           regime,
-          user,
+          user: userOutcome,
           userAlloc: { ...allocation },
           optimal: optimalOutcome,
           optimalAlloc: opt.a,
