@@ -78,7 +78,7 @@ export default function GamePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="lg:col-span-8 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6"
+            className="lg:col-span-8 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col"
           >
             <PayoffPreview 
               allocation={allocation} 
