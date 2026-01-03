@@ -13,11 +13,11 @@ type GameState = {
     regime: typeof LEVELS[0];
     user: ReturnType<typeof portfolioOutcome>;
     userAlloc: Allocation;
-    userScore: number; // User's risk-adjusted score
+    userPortfolioOutcomeScore: number; // User's Portfolio Outcome Score (risk-adjusted)
     optimal: ReturnType<typeof portfolioOutcome>;
     optimalAlloc: Allocation;
-    optimalScore: number; // Optimal risk-adjusted score
-    displayedOptimalScore: number; // Clamped optimal score for display
+    optimalPortfolioOutcomeScore: number; // Optimal Portfolio Outcome Score (risk-adjusted)
+    displayedOptimalPortfolioOutcomeScore: number; // Clamped optimal Portfolio Outcome Score for display
   }>;
   startLevel: (id: LevelId) => void;
   tick: () => void;
@@ -70,12 +70,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       income: userMetrics.meanIncome,
     };
     
-    // User's risk-adjusted score (includes diversification penalties)
-    const userScore = userMetrics.score;
+    // User's Portfolio Outcome Score (risk-adjusted, includes diversification penalties)
+    const userPortfolioOutcomeScore = userMetrics.portfolioOutcomeScore;
     
     // Find optimal by searching all allocation and term combinations
     // The optimizer searches across all possible structured note terms to find the true optimal
-    // This finds the allocation that MAXIMIZES the score (risk-adjusted with penalties)
+    // This finds the allocation that MAXIMIZES the Portfolio Outcome Score (risk-adjusted with penalties)
     const opt = findOptimal(regime, {
       equityNote: allocation.equityNote, // These are just placeholders, optimizer searches all combinations
       incomeNote: allocation.incomeNote,
@@ -84,21 +84,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Optimal outcome is already scenario-based mean from optimizer
     const optimalOutcome = opt.outcome;
     
-    // Optimal score (the mathematically solved optimization)
-    const optimalScore = opt.score;
+    // Optimal Portfolio Outcome Score (the mathematically solved optimization)
+    const optimalPortfolioOutcomeScore = opt.portfolioOutcomeScore;
 
-    // Option A clamping: Ensure displayed optimal score is never less than user score
+    // Option A clamping: Ensure displayed optimal Portfolio Outcome Score is never less than user score
     // This is a sales instrument - users should never "outperform" optimal
     const EPS = 1e-6;
-    const displayedOptimalScore = Math.max(optimalScore, userScore - EPS);
+    const displayedOptimalPortfolioOutcomeScore = Math.max(optimalPortfolioOutcomeScore, userPortfolioOutcomeScore - EPS);
     
     // Sanity check (console assert in dev)
     if (process.env.NODE_ENV === 'development') {
       console.assert(
-        displayedOptimalScore + 1e-9 >= userScore,
-        `Optimal must not be beat: displayedOptimal=${displayedOptimalScore}, user=${userScore}`
+        displayedOptimalPortfolioOutcomeScore + 1e-9 >= userPortfolioOutcomeScore,
+        `Optimal must not be beat: displayedOptimal=${displayedOptimalPortfolioOutcomeScore}, user=${userPortfolioOutcomeScore}`
       );
-      console.log(`Level ${level} - User Score: ${userScore.toFixed(2)}, Optimal Score: ${optimalScore.toFixed(2)}, Displayed: ${displayedOptimalScore.toFixed(2)}`);
+      console.log(`Level ${level} - User Portfolio Outcome Score: ${userPortfolioOutcomeScore.toFixed(2)}, Optimal: ${optimalPortfolioOutcomeScore.toFixed(2)}, Displayed: ${displayedOptimalPortfolioOutcomeScore.toFixed(2)}`);
       console.log(`Optimal Allocation: FI=${(opt.a.fi * 100).toFixed(0)}%, EQ=${(opt.a.eq * 100).toFixed(0)}%, Struct=${(opt.a.struct * 100).toFixed(0)}%`);
     }
 
@@ -109,11 +109,11 @@ export const useGameStore = create<GameState>((set, get) => ({
           regime,
           user: userOutcome,
           userAlloc: { ...allocation },
-          userScore,
+          userPortfolioOutcomeScore,
           optimal: optimalOutcome,
           optimalAlloc: opt.a,
-          optimalScore,
-          displayedOptimalScore,
+          optimalPortfolioOutcomeScore,
+          displayedOptimalPortfolioOutcomeScore,
         },
       },
     });

@@ -42,12 +42,12 @@ function ResultsContent() {
     );
   }
 
-  const { regime, user, userAlloc, optimal, optimalAlloc, userScore, optimalScore, displayedOptimalScore } = result;
+  const { regime, user, userAlloc, optimal, optimalAlloc, userPortfolioOutcomeScore, optimalPortfolioOutcomeScore, displayedOptimalPortfolioOutcomeScore } = result;
   
-  // Use clamped optimal score for gap calculation (guarantees >= 0)
+  // Use clamped optimal Portfolio Outcome Score for gap calculation (guarantees >= 0)
   // Score gap represents the difference in risk-adjusted performance
   const EPS = 1e-6;
-  const gap = displayedOptimalScore - userScore;
+  const gap = displayedOptimalPortfolioOutcomeScore - userPortfolioOutcomeScore;
   const isMatched = gap <= 0.5; // Small epsilon for "matched" threshold (scores are larger numbers)
   const nextLevel = level < 3 ? (level + 1) as 1 | 2 | 3 : null;
 
@@ -75,9 +75,9 @@ function ResultsContent() {
             transition={{ delay: 0.1 }}
             className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
           >
-            <div className="text-white/70 text-lg font-medium mb-4">Your Portfolio Outcome</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${userScore >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatScore(userScore)}
+            <div className="text-white/70 text-lg font-medium mb-4">Your Portfolio Outcome Score</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${userPortfolioOutcomeScore >= 0 ? "text-white" : "text-red-400"}`}>
+              {formatScore(userPortfolioOutcomeScore)}
             </div>
             <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
               Max Drawdown: {formatPercent(user.maxDD)}
@@ -93,9 +93,9 @@ function ResultsContent() {
             transition={{ delay: 0.2 }}
             className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
           >
-            <div className="text-white/70 text-lg font-medium mb-4">First Principle-Optimized Outcome</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${displayedOptimalScore >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatScore(displayedOptimalScore)}
+            <div className="text-white/70 text-lg font-medium mb-4">First Principle-Optimized Portfolio Outcome Score</div>
+            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${displayedOptimalPortfolioOutcomeScore >= 0 ? "text-white" : "text-red-400"}`}>
+              {formatScore(displayedOptimalPortfolioOutcomeScore)}
             </div>
             <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
               Max Drawdown: {formatPercent(optimal.maxDD)}

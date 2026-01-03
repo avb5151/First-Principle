@@ -17,16 +17,16 @@ export default function RevealPage() {
     };
   }, []);
 
-  // Calculate total opportunity missed using clamped score values
+  // Calculate total opportunity missed using clamped Portfolio Outcome Score values
   const hasResults = Object.keys(results).length > 0;
   const totalGap = hasResults
     ? Object.values(results).reduce((sum: number, r: any) => {
-        // Use displayedOptimalScore (clamped) if available, otherwise fall back to optimalScore
-        const displayedOptimal = r.displayedOptimalScore !== undefined 
-          ? r.displayedOptimalScore 
-          : (r.optimalScore !== undefined ? r.optimalScore : r.optimal.totalR);
-        const userScore = r.userScore !== undefined ? r.userScore : r.user.totalR;
-        return sum + (displayedOptimal - userScore);
+        // Use displayedOptimalPortfolioOutcomeScore (clamped) if available, otherwise fall back to optimalPortfolioOutcomeScore
+        const displayedOptimal = r.displayedOptimalPortfolioOutcomeScore !== undefined 
+          ? r.displayedOptimalPortfolioOutcomeScore 
+          : (r.optimalPortfolioOutcomeScore !== undefined ? r.optimalPortfolioOutcomeScore : r.optimal.totalR);
+        const userPortfolioOutcomeScore = r.userPortfolioOutcomeScore !== undefined ? r.userPortfolioOutcomeScore : r.user.totalR;
+        return sum + (displayedOptimal - userPortfolioOutcomeScore);
       }, 0)
     : 0;
   const avgGap = hasResults ? Math.max(0, totalGap / Object.keys(results).length) : 0;

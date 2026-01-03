@@ -7,7 +7,7 @@ const DEBUG_MODE = false; // Set to true to see top candidates
 
 export type OptimizerDebugInfo = {
   allocation: Allocation;
-  score: number;
+  portfolioOutcomeScore: number;
   metrics: ObjectiveMetrics;
 };
 
@@ -21,7 +21,7 @@ export function findOptimal(
   // Generate scenarios for this market environment
   const scenarios = generateScenarios(environment, 50);
 
-  let best: { a: Allocation; score: number; metrics: ObjectiveMetrics } | null = null;
+  let best: { a: Allocation; portfolioOutcomeScore: number; metrics: ObjectiveMetrics } | null = null;
   const candidates: OptimizerDebugInfo[] = [];
 
   // Finer grid: 5% steps (0, 5, 10, ..., 100)
@@ -63,19 +63,19 @@ export function findOptimal(
 
                   // Compute objective metrics (mean, CVaR, penalties, etc.)
                   const metrics = computeObjective(scenarioOutcomes, a);
-                  const s = metrics.score;
+                  const portfolioOutcomeScore = metrics.portfolioOutcomeScore;
 
                   // Store for debug
                   if (DEBUG_MODE && candidates.length < 5) {
                     candidates.push({
                       allocation: a,
-                      score: s,
+                      portfolioOutcomeScore,
                       metrics,
                     });
                   }
 
-                  if (!best || s > best.score) {
-                    best = { a, score: s, metrics };
+                  if (!best || portfolioOutcomeScore > best.portfolioOutcomeScore) {
+                    best = { a, portfolioOutcomeScore, metrics };
                   }
                 }
               }
@@ -94,16 +94,16 @@ export function findOptimal(
     console.log(`Scenarios: ${scenarios.length}`);
     console.log(`\nTop 5 Candidates:`);
     candidates
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => b.portfolioOutcomeScore - a.portfolioOutcomeScore)
       .slice(0, 5)
       .forEach((c, i) => {
-        console.log(`\n${i + 1}. Score: ${c.score.toFixed(2)}`);
+        console.log(`\n${i + 1}. Portfolio Outcome Score: ${c.portfolioOutcomeScore.toFixed(2)}`);
         console.log(`   Allocation: FI=${(c.allocation.fi * 100).toFixed(0)}%, EQ=${(c.allocation.eq * 100).toFixed(0)}%, Struct=${(c.allocation.struct * 100).toFixed(0)}%`);
         console.log(`   meanR: ${(c.metrics.meanR * 100).toFixed(2)}%, CVaR10: ${(c.metrics.cvar10 * 100).toFixed(2)}%, meanDD: ${(c.metrics.meanDD * 100).toFixed(2)}%`);
         console.log(`   meanIncome: ${(c.metrics.meanIncome * 100).toFixed(2)}%`);
         console.log(`   penaltyDiv: ${c.metrics.penaltyDiv.toFixed(2)}, penaltyConstraints: ${c.metrics.penaltyConstraints.toFixed(2)}`);
       });
-    console.log(`\nBest: Score=${best.score.toFixed(2)}`);
+    console.log(`\nBest: Portfolio Outcome Score=${best.portfolioOutcomeScore.toFixed(2)}`);
     console.log(`Allocation: FI=${(best.a.fi * 100).toFixed(0)}%, EQ=${(best.a.eq * 100).toFixed(0)}%, Struct=${(best.a.struct * 100).toFixed(0)}%`);
     console.log(`meanR: ${(best.metrics.meanR * 100).toFixed(2)}%, CVaR10: ${(best.metrics.cvar10 * 100).toFixed(2)}%, meanDD: ${(best.metrics.meanDD * 100).toFixed(2)}%\n`);
   }
@@ -123,7 +123,7 @@ export function findOptimal(
 
   return {
     a: best.a,
-    score: best.score,
+    portfolioOutcomeScore: best.portfolioOutcomeScore,
     outcome: meanOutcome,
     metrics: best.metrics, // Include full metrics for potential future use
   };

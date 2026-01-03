@@ -1,3 +1,21 @@
+/**
+ * Portfolio Outcome Score Objective
+ * 
+ * The objective is to construct portfolios with the best risk-adjusted returns,
+ * as measured by the Portfolio Outcome Score. This score evaluates portfolios
+ * across multiple dimensions:
+ * 
+ * - Total Return (meanR): Rewards higher expected returns
+ * - Income Generation (meanIncome): Rewards consistent income streams
+ * - Risk Management: Penalizes drawdowns (meanDD) and tail risk (CVaR10)
+ * - Diversification: Strongly penalizes concentrated portfolios
+ * - Constraints: Enforces reasonable allocation limits
+ * 
+ * The Portfolio Outcome Score is designed to be positive for well-constructed
+ * portfolios, with higher scores indicating better risk-adjusted performance.
+ * The optimizer searches for allocations that maximize this score.
+ */
+
 import { Allocation } from "./payoff";
 import { Scenario } from "./scenarios";
 
@@ -14,8 +32,15 @@ export type ObjectiveMetrics = {
   meanIncome: number;
   penaltyDiv: number;
   penaltyConstraints: number;
-  score: number;
+  portfolioOutcomeScore: number; // Risk-adjusted portfolio performance score
 };
+
+/**
+ * Constant offset to ensure Portfolio Outcome Scores are positive.
+ * This makes scores more interpretable - higher is better, and optimal
+ * portfolios will have positive scores.
+ */
+const PORTFOLIO_OUTCOME_SCORE_OFFSET = 400;
 
 // Compute CVaR (average of worst 10% of outcomes)
 function computeCVaR10(values: number[]): number {
@@ -73,13 +98,15 @@ export function computeObjective(
     penaltyConstraints += 2000 * (maxWeight - 0.90) ** 2;
   }
 
-  // Score function:
+  // Portfolio Outcome Score calculation:
   // - meanR * 100: reward return
   // - meanIncome * 15: reward income (reduced weight)
   // - cvar10 * 120: penalize tail loss (CVaR is negative, so this is a penalty)
   // - meanDD * 60: penalize drawdown
   // - penalties: subtract diversification and constraint penalties
-  const score =
+  // - PORTFOLIO_OUTCOME_SCORE_OFFSET: shift scale to ensure positive scores
+  const portfolioOutcomeScore =
+    PORTFOLIO_OUTCOME_SCORE_OFFSET +
     meanR * 100 +
     meanIncome * 15 -
     meanDD * 60 +
@@ -94,7 +121,7 @@ export function computeObjective(
     meanIncome,
     penaltyDiv,
     penaltyConstraints,
-    score,
+    portfolioOutcomeScore,
   };
 }
 
