@@ -55,8 +55,8 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
   const currentOutcome = currentEnvironment ? portfolioOutcome(currentEnvironment, allocation) : null;
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-2">
+    <div className="flex flex-col h-full w-full">
+      <div className="flex items-center justify-between mb-2 flex-shrink-0">
         <h3 className="text-base font-semibold text-white">Payoff Profile</h3>
         {currentOutcome && (
           <div className="text-xs tabular-nums text-white/60">
@@ -65,9 +65,9 @@ export default function PayoffPreview({ allocation, currentEnvironment, compact 
         )}
       </div>
 
-      <div className={compact ? "flex-1 min-h-[400px] bg-black/40 rounded-xl border border-white/5 p-3" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
+      <div className={compact ? "flex-1 w-full bg-black/40 rounded-xl border border-white/5 p-2 overflow-hidden" : "flex-1 min-h-0 bg-black/40 rounded-xl border border-white/5 p-4"}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={compact ? { top: 15, right: 15, bottom: 35, left: 40 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
+          <LineChart data={data} margin={compact ? { top: 10, right: 10, bottom: 30, left: 35 } : { top: 10, right: 20, bottom: 30, left: 50 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
             <XAxis
               dataKey="equityReturn"
