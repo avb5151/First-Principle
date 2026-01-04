@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useGameStore } from "@/store/gameStore";
 import { makeDiagnostics } from "@/lib/portfolio-challenge/diagnostics";
 import { motion } from "framer-motion";
+import ResultTile from "@/components/portfolio-challenge/ResultTile";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
@@ -49,6 +50,10 @@ function ResultsContent() {
   const EPS = 1e-6;
   const gap = displayedOptimalPortfolioOutcomeScore - userPortfolioOutcomeScore;
   const isMatched = gap <= 0.5; // Small epsilon for "matched" threshold (scores are larger numbers)
+  const opportunityCost = gap;
+  const OPPORTUNITY_COST_THRESHOLD = 5;
+  const isHighOpportunityCost = opportunityCost > OPPORTUNITY_COST_THRESHOLD;
+  const isLowOpportunityCost = opportunityCost <= OPPORTUNITY_COST_THRESHOLD;
   const nextLevel = level < 3 ? (level + 1) as 1 | 2 | 3 : null;
 
   return (
@@ -69,56 +74,35 @@ function ResultsContent() {
 
         {/* Comparison Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
-          >
-            <div className="text-white/70 text-lg font-medium mb-4">Your Portfolio Outcome Score</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${userPortfolioOutcomeScore >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatScore(userPortfolioOutcomeScore)}
-            </div>
-            <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
-              Max Drawdown: {formatPercent(user.maxDD)}
-            </div>
-            <div className="text-white/80 text-lg font-semibold">
-              Income: {formatPercent(user.income)}
-            </div>
-          </motion.div>
+          <ResultTile
+            title="Your Portfolio Outcome Score"
+            value={userPortfolioOutcomeScore}
+            subtitle={`Max Drawdown: ${formatPercent(user.maxDD)}`}
+            subtitle2={`Income: ${formatPercent(user.income)}`}
+            accent="neutral"
+            delay={0.1}
+          />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
-          >
-            <div className="text-white/70 text-lg font-medium mb-4">First Principle-Optimized Portfolio Outcome Score</div>
-            <div className={`text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center ${displayedOptimalPortfolioOutcomeScore >= 0 ? "text-white" : "text-red-400"}`}>
-              {formatScore(displayedOptimalPortfolioOutcomeScore)}
-            </div>
-            <div className="text-white/80 text-lg mt-auto font-semibold mb-2">
-              Max Drawdown: {formatPercent(optimal.maxDD)}
-            </div>
-            <div className="text-white/80 text-lg font-semibold">
-              Income: {formatPercent(optimal.income)}
-            </div>
-          </motion.div>
+          <ResultTile
+            title="First Principle-Optimized Portfolio Outcome Score"
+            value={displayedOptimalPortfolioOutcomeScore}
+            subtitle={`Max Drawdown: ${formatPercent(optimal.maxDD)}`}
+            subtitle2={`Income: ${formatPercent(optimal.income)}`}
+            accent={isLowOpportunityCost ? "green" : "neutral"}
+            delay={0.2}
+            showPulse={isLowOpportunityCost}
+          />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 flex flex-col items-center text-center"
-          >
-            <div className="text-white/70 text-lg font-medium mb-4">Opportunity Cost</div>
-            <div className="text-5xl md:text-6xl font-semibold tabular-nums mb-8 flex-grow flex items-center justify-center text-amber-400">
-              {isMatched ? "Matched" : formatScorePositive(gap)}
-            </div>
-            <div className="text-white/80 text-lg mt-auto font-semibold">
-              {isMatched ? "Matched Optimal" : "Performance Gap"}
-            </div>
-          </motion.div>
+          <ResultTile
+            title="Opportunity Cost"
+            value={isMatched ? "Matched" : opportunityCost}
+            subtitle={isMatched ? "Matched Optimal" : "Performance Gap"}
+            accent={isMatched ? "neutral" : isHighOpportunityCost ? "red" : "amber"}
+            delay={0.35}
+            animateCountUp={!isMatched}
+            showPop={isHighOpportunityCost}
+            showSnap={isHighOpportunityCost}
+          />
         </div>
 
         {/* Allocation Comparison */}

@@ -35,6 +35,11 @@ export default function GamePage() {
     return () => clearInterval(id);
   }, [timeLeft, tick, finishLevel, router, level]);
 
+  const handleSkipLevel = () => {
+    finishLevel();
+    router.push(`/portfolio-challenge/results?level=${level}`);
+  };
+
   return (
     <main className="min-h-screen bg-black text-white px-6 py-8">
       <div className="max-w-7xl mx-auto">
@@ -52,7 +57,13 @@ export default function GamePage() {
             <div className="text-lg text-white/70">{environment.subtitle}</div>
             <p className="text-white/50 mt-1 text-sm max-w-2xl">{environment.description}</p>
           </div>
-          <div className="text-right">
+          <div className="text-right flex flex-col items-end gap-3">
+            <button
+              onClick={handleSkipLevel}
+              className="text-white/60 hover:text-white text-sm font-medium transition-colors px-4 py-2 rounded-lg border border-white/20 hover:border-white/40 hover:bg-white/5"
+            >
+              Skip to Results →
+            </button>
             <TimerBar timeLeft={timeLeft} totalTime={30} />
           </div>
         </motion.div>
