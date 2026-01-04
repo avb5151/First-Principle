@@ -47,13 +47,14 @@ function ResultsContent() {
   
   // Use clamped optimal Portfolio Outcome Score for gap calculation (guarantees >= 0)
   // Score gap represents the difference in risk-adjusted performance
+  // Performance gap is negative (what you missed)
   const EPS = 1e-6;
   const gap = displayedOptimalPortfolioOutcomeScore - userPortfolioOutcomeScore;
   const isMatched = gap <= 0.5; // Small epsilon for "matched" threshold (scores are larger numbers)
-  const opportunityCost = gap;
+  const performanceGap = -gap; // Negative: what you missed
   const OPPORTUNITY_COST_THRESHOLD = 5;
-  const isHighOpportunityCost = opportunityCost > OPPORTUNITY_COST_THRESHOLD;
-  const isLowOpportunityCost = opportunityCost <= OPPORTUNITY_COST_THRESHOLD;
+  const isHighOpportunityCost = gap > OPPORTUNITY_COST_THRESHOLD;
+  const isLowOpportunityCost = gap <= OPPORTUNITY_COST_THRESHOLD;
   const nextLevel = level < 3 ? (level + 1) as 1 | 2 | 3 : null;
 
   return (
@@ -88,18 +89,18 @@ function ResultsContent() {
             value={displayedOptimalPortfolioOutcomeScore}
             subtitle={`Max Drawdown: ${formatPercent(optimal.maxDD)}`}
             subtitle2={`Income: ${formatPercent(optimal.income)}`}
-            accent={isLowOpportunityCost ? "green" : "neutral"}
+            accent="green"
             delay={0.2}
             showPulse={isLowOpportunityCost}
           />
 
           <ResultTile
             title="Opportunity Cost"
-            value={isMatched ? "Matched" : opportunityCost}
+            value={isMatched ? "Matched" : performanceGap}
             subtitle={isMatched ? "Matched Optimal" : "Performance Gap"}
             accent={isMatched ? "neutral" : isHighOpportunityCost ? "red" : "amber"}
-            delay={0.35}
-            animateCountUp={!isMatched}
+            delay={0.5}
+            animateCountDown={!isMatched}
             showPop={isHighOpportunityCost}
             showSnap={isHighOpportunityCost}
           />

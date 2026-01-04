@@ -12,6 +12,7 @@ interface ResultTileProps {
   accent?: AccentVariant;
   delay?: number;
   animateCountUp?: boolean;
+  animateCountDown?: boolean;
   countUpDuration?: number;
   showPop?: boolean;
   showPulse?: boolean;
@@ -26,6 +27,7 @@ export default function ResultTile({
   accent = "neutral",
   delay = 0,
   animateCountUp = false,
+  animateCountDown = false,
   countUpDuration = 800,
   showPop = false,
   showPulse = false,
@@ -33,12 +35,12 @@ export default function ResultTile({
 }: ResultTileProps) {
   const prefersReducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState(
-    animateCountUp && typeof value === "number" ? 0 : value
+    (animateCountUp || animateCountDown) && typeof value === "number" ? 0 : value
   );
 
-  // Count-up animation
+  // Count-up or count-down animation
   useEffect(() => {
-    if (!animateCountUp || typeof value !== "number" || prefersReducedMotion) {
+    if ((!animateCountUp && !animateCountDown) || typeof value !== "number" || prefersReducedMotion) {
       setDisplayValue(value);
       return;
     }
@@ -46,10 +48,11 @@ export default function ResultTile({
     const startTime = Date.now();
     const startValue = 0;
     const endValue = value;
+    const duration = animateCountDown ? countUpDuration * 1.5 : countUpDuration; // Slower for count-down
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / countUpDuration, 1);
+      const progress = Math.min(elapsed / duration, 1);
       
       // Ease-out function for smooth deceleration
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -65,12 +68,12 @@ export default function ResultTile({
     };
 
     requestAnimationFrame(animate);
-  }, [value, animateCountUp, countUpDuration, prefersReducedMotion]);
+  }, [value, animateCountUp, animateCountDown, countUpDuration, prefersReducedMotion]);
 
   // Determine accent colors
   const accentColors = {
     neutral: "text-white",
-    green: "text-green-400",
+    green: "text-green-500", // Faint green for optimal score
     amber: "text-amber-400",
     red: "text-red-400",
   };
