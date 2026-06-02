@@ -4303,8 +4303,8 @@ form.hs-form {
         margin-left: auto;
     }
 
-    /* Hide nav links and right-side CTA on mobile by default */
-    .nav-links {
+    /* Only hide nav-links on pages that have the hamburger */
+    body:has(.mobile-menu-toggle) .nav-links {
         display: none;
         position: absolute;
         top: 100%;
@@ -4318,13 +4318,12 @@ form.hs-form {
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    /* Show menu when 'is-open' class is added */
-    .nav-links.is-open {
+    body:has(.mobile-menu-toggle) .nav-links.is-open {
         display: flex;
     }
 
     /* Hide CTA button on mobile to save space; menu items handle navigation */
-    .nav-right {
+    body:has(.mobile-menu-toggle) .nav-right {
         display: none;
     }
 
