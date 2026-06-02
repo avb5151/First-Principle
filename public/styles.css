@@ -4367,4 +4367,15 @@ form.hs-form {
         display: none;
     }
 }
-
+/* Pin hamburger to a fixed position on mobile so it's always visible */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1200;
+        background-color: rgba(26, 37, 50, 0.9);
+        border-radius: 4px;
+        padding: 0.75rem;
+    }
+}
