@@ -4262,3 +4262,108 @@ form.hs-form {
         margin-bottom: 2rem;
     }
 }
+/* ============================================
+   MOBILE HAMBURGER MENU
+   ============================================ */
+
+/* Hide hamburger by default (desktop) */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1100;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background-color: #C8A678;
+    margin: 6px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Mobile breakpoint: 768px and below */
+@media (max-width: 768px) {
+    /* Compact header layout */
+    .nav {
+        flex-wrap: nowrap;
+        padding: 0.75rem 1.25rem;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Show the hamburger button */
+    .mobile-menu-toggle {
+        display: block;
+        order: 3;
+        margin-left: auto;
+    }
+
+    /* Hide nav links and right-side CTA on mobile by default */
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1A2532;
+        flex-direction: column;
+        padding: 1rem 1.5rem 2rem;
+        gap: 1.25rem;
+        border-bottom: 1px solid rgba(200, 166, 120, 0.2);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Show menu when 'is-open' class is added */
+    .nav-links.is-open {
+        display: flex;
+    }
+
+    /* Hide CTA button on mobile to save space; menu items handle navigation */
+    .nav-right {
+        display: none;
+    }
+
+    /* Style nav items for vertical layout */
+    .nav-links a {
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+    }
+
+    /* Hamburger transforms into X when open */
+    .mobile-menu-toggle.is-open span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .mobile-menu-toggle.is-open span:nth-child(2) {
+        opacity: 0;
+    }
+    .mobile-menu-toggle.is-open span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Show dropdown items as flat list on mobile (not as hover popup) */
+    .nav-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        margin: 0.5rem 0 0 1rem;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .nav-dropdown a {
+        padding: 0.4rem 0;
+        font-size: 0.95rem;
+    }
+
+    .nav-item-with-dropdown > a::after {
+        display: none;
+    }
+}
